@@ -1,7 +1,10 @@
 <div align="center">
+  <image />
   <h1>宝可梦中文图鉴</h1>
   <p>快速查询，随时了解你的宝可梦伙伴！</p>
 </div>
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b122183c-78bc-410d-81d0-674b0b993989/deploy-status)](https://app.netlify.com/sites/pokedex-zh/deploys)
 
 ## 说明
 
@@ -47,4 +50,6 @@
 - TailwindCSS
 - ShadcnUI
 
-本应用所有数据采集自神奇宝贝百科，数据仓库：
+本应用所有数据采集自[神奇宝贝百科](https://wiki.52poke.com/wiki/主页)。
+
+数据仓库：https://github.com/42arch/pokemon-dataset-zh
