@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/react'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import { cn } from '@/lib/utils'
 import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
 import './globals.css'
-import Head from 'next/head'
 
 export const fontInter = localFont({
   src: [
@@ -48,19 +48,9 @@ export default async function RootLayout({
   params: { locale: string }
 }) {
   const cloudflareToken = process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN
-
+  const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
   return (
     <html lang='zh_CN'>
-      <Head>
-        {cloudflareToken && (
-          <script
-            defer
-            src='https://static.cloudflareinsights.com/beacon.min.js'
-            data-cf-beacon={`{"token": "${cloudflareToken}"`}
-          ></script>
-        )}
-      </Head>
-
       <body
         className={cn(
           fontInter.variable,
@@ -77,7 +67,13 @@ export default async function RootLayout({
           </div>
         </div>
         <Analytics />
-        <GoogleAnalytics gaId='G-PR3FVZ4V3P' />
+        <GoogleAnalytics gaId={gaId || ''} />
+        <Script
+          defer
+          src='https://static.cloudflareinsights.com/beacon.min.js'
+          data-cf-beacon={`{"token": "${cloudflareToken}"`}
+          strategy='afterInteractive'
+        />
       </body>
     </html>
   )
