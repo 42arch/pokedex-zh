@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { Analytics } from '@vercel/analytics/react'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { cn } from '@/lib/utils'
 import { Sidebar } from '@/components/sidebar'
 import { Header } from '@/components/header'
@@ -47,7 +48,6 @@ export default async function RootLayout({
   params: { locale: string }
 }) {
   const cloudflareToken = process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN
-  const gaTrackingId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
 
   return (
     <html lang='zh_CN'>
@@ -58,27 +58,6 @@ export default async function RootLayout({
             src='https://static.cloudflareinsights.com/beacon.min.js'
             data-cf-beacon={`{"token": "${cloudflareToken}"`}
           ></script>
-        )}
-        {gaTrackingId && (
-          <>
-            <script
-              async
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
-            />
-
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  window.dataLayer = window.dataLayer || [];
-                  function gtag(){dataLayer.push(arguments);}
-                  gtag('js', new Date());
-                  gtag('config', '${gaTrackingId}', {
-                    page_path: window.location.pathname,
-                  });
-                `
-              }}
-            />
-          </>
         )}
       </Head>
 
@@ -98,6 +77,7 @@ export default async function RootLayout({
           </div>
         </div>
         <Analytics />
+        <GoogleAnalytics gaId='G-PR3FVZ4V3P' />
       </body>
     </html>
   )

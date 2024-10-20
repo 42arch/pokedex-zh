@@ -1,12 +1,12 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function IndexPage() {
   return (
     <main className='flex min-h-[calc(100vh-65px)] flex-col items-center px-5 pb-8 pt-2 md:px-8'>
-      <div className='mt-10'>
-        {/* logo */}
-        {/* <Image src='/favicon.png' alt='logo' width={80} height={80} /> */}
-        <h1 className='text-4xl font-bold leading-tight tracking-tighter'>
+      <div className='mt-10 flex flex-col items-center justify-center text-center'>
+        <Image src='/logo.png' alt='logo' width={80} height={80} />
+        <h1 className='mt-6 text-4xl font-bold leading-tight tracking-tighter'>
           宝可梦中文图鉴
         </h1>
         <h2 className='mt-2 text-lg font-light text-foreground'>
