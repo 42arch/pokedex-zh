@@ -8,10 +8,11 @@ import StatChart from './stat-chart'
 import SpriteImage from './sprite-image'
 import FlavorText from './flavor-text'
 import PokemonMove from './pokemon-move'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, ReactNode } from 'react'
 import { Separator } from '@/components/ui/separator'
 import EvolutionChain from './evolution-chain'
 import Ability from './ability'
+import { GenderFemale, GenderMale } from '@phosphor-icons/react/dist/ssr'
 
 interface Props {
   className?: string
@@ -63,26 +64,68 @@ function PokemonDetail({ className, data }: Props) {
                   {form.genus}
                 </span>
 
-                <section className='grid grid-cols-2 gap-x-4 gap-y-2'>
+                <section className='grid grid-cols-2 gap-x-4 gap-y-2 lg:gap-x-8'>
                   <InfoCell title='高度' value={form.height} />
                   <InfoCell title='重量' value={form.weight} />
                   <InfoCell title='体型' value={form.shape} />
                   <InfoCell
                     title='经验值'
-                    value={`${form.experience.number}（${form.experience.speed}）`}
+                    value={
+                      <span>
+                        {form.experience.number}
+                        <span className='text-xs'>
+                          （{form.experience.speed}）
+                        </span>
+                      </span>
+                    }
                   />
                   <InfoCell title='蛋群' value={form.egg_groups.join(',')} />
                   <InfoCell title='图鉴颜色' value={form.color} />
                   <InfoCell
                     title='捕获率'
-                    value={`${form.catch_rate.number}（${form.catch_rate.rate}）`}
+                    value={
+                      <span>
+                        {form.catch_rate.number}
+                        <span className='text-xs'>
+                          （{form.catch_rate.rate}）
+                        </span>
+                      </span>
+                    }
                   />
                   <InfoCell
                     title='性别比例'
                     value={
-                      form.gender_rate
-                        ? `雄性：${form.gender_rate?.male}；雌性: ${form.gender_rate?.female}`
-                        : '无性别'
+                      form.gender_rate ? (
+                        <div className='flex items-center justify-center gap-2'>
+                          {form.gender_rate.male ? (
+                            <div className='flex items-end justify-end gap-1'>
+                              <GenderMale
+                                size={16}
+                                color='#60a5fa'
+                                weight='bold'
+                              />
+                              <span className='text-xs'>
+                                {form.gender_rate.male}
+                              </span>
+                            </div>
+                          ) : null}
+
+                          {form.gender_rate.female ? (
+                            <div className='flex items-end justify-end gap-1'>
+                              <GenderFemale
+                                size={16}
+                                color='#f87171'
+                                weight='bold'
+                              />
+                              <span className='text-xs'>
+                                {form.gender_rate.female}
+                              </span>
+                            </div>
+                          ) : null}
+                        </div>
+                      ) : (
+                        '无性别'
+                      )
                     }
                   />
                 </section>
@@ -136,8 +179,6 @@ function PokemonDetail({ className, data }: Props) {
           <FlavorText data={data.flavor_texts} />
         </section>
 
-        {/* <EvolutionChain chains={data.evolution_chains} /> */}
-
         <SectionTitle>招式列表（通过提升等级）</SectionTitle>
         <section>
           <PokemonMove data={data.moves.learned} type='learned' />
@@ -153,11 +194,13 @@ function PokemonDetail({ className, data }: Props) {
 
 export default PokemonDetail
 
-function InfoCell({ title, value }: { title: string; value: string }) {
+function InfoCell({ title, value }: { title: string; value: ReactNode }) {
   return (
-    <div className='flex items-center rounded-lg bg-gray-100 px-2 py-2 dark:bg-gray-800 lg:px-4'>
-      <div className='w-16 text-sm text-muted-foreground'>{title}</div>
-      <span className='text-sm font-medium '>{value}</span>
+    <div className='flex flex-col items-center justify-between rounded-lg bg-gray-100 px-4 py-2 lg:px-6'>
+      <div className='w-16 text-center text-sm text-muted-foreground'>
+        {title}
+      </div>
+      <span className='text-center text-sm font-medium'>{value}</span>
     </div>
   )
 }
