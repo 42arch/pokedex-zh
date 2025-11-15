@@ -1496,17 +1496,17 @@
     },
     {
         "index": "097",
-        "name": "花舞鸟",
+        "name": "花舞鸟-啪滋啪滋风格",
         "name_jp": "オドリドリ",
         "name_en": "Oricorio",
         "generation": "第七世代",
         "types": [
-            "火",
+            "电",
             "飞行"
         ],
         "meta": {
             "filter": "",
-            "icon_position": "-168px -1568px"
+            "icon_position": "-224px -1568px"
         },
         "national_index": "0741"
     },
@@ -2307,7 +2307,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-1064px -784px"
         },
         "national_index": "0373"

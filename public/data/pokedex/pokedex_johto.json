@@ -3408,7 +3408,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-56px -560px"
         },
         "national_index": "0233"
     },
@@ -3826,7 +3826,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-728px -336px"
         },
         "national_index": "0149"
@@ -3874,7 +3874,7 @@
             "恶"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-896px -560px"
         },
         "national_index": "0248"

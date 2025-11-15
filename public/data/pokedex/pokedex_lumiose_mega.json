@@ -6,7 +6,8 @@
         "name_en": "Meganium",
         "generation": "第二世代",
         "types": [
-            "草"
+            "草",
+            "妖精"
         ],
         "meta": {
             "filter": "初:超",
@@ -37,7 +38,8 @@
         "name_en": "Feraligatr",
         "generation": "第二世代",
         "types": [
-            "水"
+            "水",
+            "龙"
         ],
         "meta": {
             "filter": "初:超",
@@ -57,7 +59,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1512px 0px"
+            "icon_position": "-1568px 0"
         },
         "national_index": "020"
     },
@@ -73,7 +75,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1736px 0px"
+            "icon_position": "-1792px 0"
         },
         "national_index": "023"
     },
@@ -84,11 +86,12 @@
         "name_en": "Ampharos",
         "generation": "第二世代",
         "types": [
-            "电"
+            "电",
+            "龙"
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-728px -392px"
+            "icon_position": "-784px -392px"
         },
         "national_index": "026"
     },
@@ -100,11 +103,11 @@
         "generation": "第一世代",
         "types": [
             "水",
-            "飞行"
+            "恶"
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1288px -280px"
+            "icon_position": "-1400px -280px"
         },
         "national_index": "033"
     },
@@ -116,7 +119,7 @@
         "generation": "第六世代",
         "types": [
             "岩石",
-            "水"
+            "格斗"
         ],
         "meta": {
             "filter": "超",
@@ -178,7 +181,8 @@
         "name_en": "Clefable",
         "generation": "第一世代",
         "types": [
-            "妖精"
+            "妖精",
+            "飞行"
         ],
         "meta": {
             "filter": "超",
@@ -197,7 +201,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "0px -168px"
+            "icon_position": "-112px -168px"
         },
         "national_index": "064"
     },
@@ -213,7 +217,7 @@
         ],
         "meta": {
             "filter": "超:极",
-            "icon_position": "-280px -224px"
+            "icon_position": "-336px -224px"
         },
         "national_index": "067"
     },
@@ -261,7 +265,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-784px -672px"
+            "icon_position": "-896px -672px"
         },
         "national_index": "084"
     },
@@ -276,7 +280,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1008px -672px"
+            "icon_position": "-1064px -672px"
         },
         "national_index": "086"
     },
@@ -292,7 +296,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1288px -616px"
+            "icon_position": "-1344px -616px"
         },
         "national_index": "089"
     },
@@ -308,7 +312,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-728px -1008px"
+            "icon_position": "-784px -1008px"
         },
         "national_index": "090"
     },
@@ -324,7 +328,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1904px -504px"
+            "icon_position": "-2016px -504px"
         },
         "national_index": "092"
     },
@@ -336,11 +340,11 @@
         "generation": "第三世代",
         "types": [
             "龙",
-            "飞行"
+            "妖精"
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-616px -728px"
+            "icon_position": "-672px -728px"
         },
         "national_index": "094"
     },
@@ -351,11 +355,12 @@
         "name_en": "Audino",
         "generation": "第五世代",
         "types": [
-            "一般"
+            "一般",
+            "妖精"
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1008px -1120px"
+            "icon_position": "-1064px -1120px"
         },
         "national_index": "095"
     },
@@ -366,11 +371,12 @@
         "name_en": "Lopunny",
         "generation": "第四世代",
         "types": [
-            "一般"
+            "一般",
+            "格斗"
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1512px -896px"
+            "icon_position": "-1568px -896px"
         },
         "national_index": "110"
     },
@@ -385,7 +391,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-2016px -728px"
+            "icon_position": "-2072px -728px"
         },
         "national_index": "112"
     },
@@ -401,7 +407,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-2072px -672px"
+            "icon_position": "-2184px -672px"
         },
         "national_index": "117"
     },
@@ -432,8 +438,8 @@
             "地面"
         ],
         "meta": {
-            "filter": "超:準",
-            "icon_position": "-392px -952px"
+            "filter": "超:准",
+            "icon_position": "-504px -952px"
         },
         "national_index": "130"
     },
@@ -449,7 +455,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-224px -672px"
+            "icon_position": "-280px -672px"
         },
         "national_index": "132"
     },
@@ -465,7 +471,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-336px -672px"
+            "icon_position": "-392px -672px"
         },
         "national_index": "133"
     },
@@ -480,7 +486,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-112px -784px"
+            "icon_position": "-168px -784px"
         },
         "national_index": "134"
     },
@@ -496,7 +502,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-672px -952px"
+            "icon_position": "-728px -952px"
         },
         "national_index": "136"
     },
@@ -512,7 +518,7 @@
         ],
         "meta": {
             "filter": "超:地",
-            "icon_position": "-1344px -168px"
+            "icon_position": "-1400px -168px"
         },
         "national_index": "138"
     },
@@ -528,7 +534,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1736px -672px"
+            "icon_position": "-1792px -672px"
         },
         "national_index": "141"
     },
@@ -558,7 +564,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-728px -336px"
         },
         "national_index": "147"
@@ -575,7 +581,7 @@
         ],
         "meta": {
             "filter": "超:极:初",
-            "icon_position": "-280px 0px"
+            "icon_position": "-392px 0"
         },
         "national_index": "150"
     },
@@ -587,11 +593,11 @@
         "generation": "第一世代",
         "types": [
             "火",
-            "飞行"
+            "龙"
         ],
         "meta": {
             "filter": "超:极:初",
-            "icon_position": "-616px 0px"
+            "icon_position": "-672px 0"
         },
         "national_index": "153"
     },
@@ -607,7 +613,7 @@
         ],
         "meta": {
             "filter": "超:极:初",
-            "icon_position": "-616px 0px"
+            "icon_position": "-728px 0"
         },
         "national_index": "038"
     },
@@ -622,7 +628,7 @@
         ],
         "meta": {
             "filter": "超:极:初",
-            "icon_position": "-952px 0px"
+            "icon_position": "-1008px 0"
         },
         "national_index": "156"
     },
@@ -669,7 +675,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-336px -784px"
+            "icon_position": "-392px -784px"
         },
         "national_index": "170"
     },
@@ -701,7 +707,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-1792px -952px"
+            "icon_position": "-1904px -952px"
         },
         "national_index": "173"
     },
@@ -717,7 +723,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-336px -504px"
+            "icon_position": "-448px -504px"
         },
         "national_index": "177"
     },
@@ -728,11 +734,12 @@
         "name_en": "Pinsir",
         "generation": "第一世代",
         "types": [
-            "虫"
+            "虫",
+            "飞行"
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-840px -280px"
+            "icon_position": "-896px -280px"
         },
         "national_index": "178"
     },
@@ -748,7 +755,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-560px -504px"
+            "icon_position": "-672px -504px"
         },
         "national_index": "179"
     },
@@ -812,7 +819,7 @@
         ],
         "meta": {
             "filter": "超:石",
-            "icon_position": "-56px -336px"
+            "icon_position": "-112px -336px"
         },
         "national_index": "192"
     },
@@ -828,7 +835,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-2184px -448px"
+            "icon_position": "-56px -504px"
         },
         "national_index": "198"
     },
@@ -839,12 +846,11 @@
         "name_en": "Aggron",
         "generation": "第三世代",
         "types": [
-            "钢",
-            "岩石"
+            "钢"
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-560px -672px"
+            "icon_position": "-616px -672px"
         },
         "national_index": "201"
     },
@@ -859,8 +865,8 @@
             "恶"
         ],
         "meta": {
-            "filter": "超:準",
-            "icon_position": "-896px -560px"
+            "filter": "超:准",
+            "icon_position": "-952px -560px"
         },
         "national_index": "208"
     },
@@ -954,8 +960,8 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
-            "icon_position": "-1064px -784px"
+            "filter": "超:准",
+            "icon_position": "-1120px -784px"
         },
         "national_index": "222"
     },
@@ -970,7 +976,7 @@
         ],
         "meta": {
             "filter": "超",
-            "icon_position": "-2128px -224px"
+            "icon_position": "-2184px -224px"
         },
         "national_index": "223"
     },
@@ -1001,8 +1007,8 @@
             "超能力"
         ],
         "meta": {
-            "filter": "超:準",
-            "icon_position": "-1288px -784px"
+            "filter": "超:准",
+            "icon_position": "-1344px -784px"
         },
         "national_index": "227"
     },
@@ -1034,7 +1040,7 @@
         ],
         "meta": {
             "filter": "幻:超",
-            "icon_position": "-1008px -1512px"
+            "icon_position": "-1064px -1512px"
         },
         "national_index": "231"
     },
@@ -1045,11 +1051,12 @@
         "name_en": "Mewtwo",
         "generation": "第一世代",
         "types": [
-            "超能力"
+            "超能力",
+            "格斗"
         ],
         "meta": {
             "filter": "传:超",
-            "icon_position": "-784px -336px"
+            "icon_position": "-840px -336px"
         },
         "national_index": "232"
     },
@@ -1064,7 +1071,7 @@
         ],
         "meta": {
             "filter": "传:超",
-            "icon_position": "-784px -336px"
+            "icon_position": "-896px -336px"
         },
         "national_index": "067"
     }

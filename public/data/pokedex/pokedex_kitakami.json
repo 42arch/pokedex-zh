@@ -1768,17 +1768,17 @@
     },
     {
         "index": "115",
-        "name": "花舞鸟",
+        "name": "花舞鸟-轻盈轻盈风格",
         "name_jp": "オドリドリ",
         "name_en": "Oricorio",
         "generation": "第七世代",
         "types": [
-            "火",
+            "幽灵",
             "飞行"
         ],
         "meta": {
             "filter": "",
-            "icon_position": "-168px -1568px"
+            "icon_position": "-336px -1568px"
         },
         "national_index": "0741"
     },
@@ -2058,7 +2058,7 @@
             "格斗"
         ],
         "meta": {
-            "filter": "Z:準",
+            "filter": "Z:准",
             "icon_position": "-2072px -1624px"
         },
         "national_index": "0784"
@@ -2569,7 +2569,7 @@
             "地面"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-392px -952px"
         },
         "national_index": "0445"
@@ -2785,7 +2785,7 @@
             "龙"
         ],
         "meta": {
-            "filter": "地:準",
+            "filter": "地:准",
             "icon_position": "-1848px -1456px"
         },
         "national_index": "0706"
@@ -2999,7 +2999,7 @@
     },
     {
         "index": "194",
-        "name": "野蛮鲈鱼",
+        "name": "野蛮鲈鱼-白条纹的样子",
         "name_jp": "バスラオ",
         "name_en": "Basculin",
         "generation": "第五世代",
@@ -3008,7 +3008,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": "0px -1176px"
+            "icon_position": "-112px -1176px"
         },
         "national_index": "0550"
     },
@@ -3030,7 +3030,7 @@
     },
     {
         "index": "196",
-        "name": "月月熊",
+        "name": "月月熊-赫月",
         "name_jp": "ガチグマ",
         "name_en": "Ursaluna",
         "generation": "第八世代",
@@ -3040,7 +3040,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": "-784px -1960px"
+            "icon_position": "-840px -1960px"
         },
         "national_index": "0901"
     },

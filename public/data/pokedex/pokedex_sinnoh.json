@@ -1713,7 +1713,7 @@
             "地面"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-392px -952px"
         },
         "national_index": "0445"
@@ -2990,7 +2990,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-56px -560px"
         },
         "national_index": "0233"
     },
@@ -3005,7 +3005,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-672px -1008px"
         },
         "national_index": "0474"
     },

@@ -1806,7 +1806,7 @@
             "龙"
         ],
         "meta": {
-            "filter": "地:準",
+            "filter": "地:准",
             "icon_position": "-1904px -1456px"
         },
         "national_index": "0706"
@@ -2070,7 +2070,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-56px -560px"
         },
         "national_index": "0233"
     },
@@ -2085,7 +2085,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-672px -1008px"
         },
         "national_index": "0474"
     },
@@ -2558,7 +2558,7 @@
     },
     {
         "index": "166",
-        "name": "野蛮鲈鱼",
+        "name": "野蛮鲈鱼-白条纹的样子",
         "name_jp": "バスラオ",
         "name_en": "Basculin",
         "generation": "第五世代",
@@ -2567,7 +2567,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": "0px -1176px"
+            "icon_position": "-112px -1176px"
         },
         "national_index": "0550"
     },
@@ -2955,7 +2955,7 @@
             "地面"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-392px -952px"
         },
         "national_index": "0445"

@@ -624,17 +624,17 @@
     },
     {
         "index": "041",
-        "name": "花舞鸟",
+        "name": "花舞鸟-轻盈轻盈风格",
         "name_jp": "オドリドリ",
         "name_en": "Oricorio",
         "generation": "第七世代",
         "types": [
-            "火",
+            "幽灵",
             "飞行"
         ],
         "meta": {
             "filter": "",
-            "icon_position": "-168px -1568px"
+            "icon_position": "-336px -1568px"
         },
         "national_index": "042"
     },
@@ -1246,7 +1246,7 @@
             "龙"
         ],
         "meta": {
-            "filter": "地:準",
+            "filter": "地:准",
             "icon_position": "-1848px -1456px"
         },
         "national_index": "083"
@@ -1346,7 +1346,7 @@
     },
     {
         "index": "088",
-        "name": "无壳海兔",
+        "name": "无壳海兔-东海",
         "name_jp": "カラナクシ",
         "name_en": "Shellos",
         "generation": "第四世代",
@@ -1355,13 +1355,13 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": "-1008px -896px"
+            "icon_position": "-1064px -896px"
         },
         "national_index": "0422"
     },
     {
         "index": "089",
-        "name": "海兔兽",
+        "name": "海兔兽-东海",
         "name_jp": "トリトドン",
         "name_en": "Gastrodon",
         "generation": "第四世代",
@@ -1371,7 +1371,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": "-1120px -896px"
+            "icon_position": "-1176px -896px"
         },
         "national_index": "0423"
     },
@@ -1698,7 +1698,7 @@
             "格斗"
         ],
         "meta": {
-            "filter": "Z:準",
+            "filter": "Z:准",
             "icon_position": "-2072px -1624px"
         },
         "national_index": "0784"
@@ -1976,7 +1976,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-728px -336px"
         },
         "national_index": "0149"

@@ -1142,17 +1142,17 @@
     },
     {
         "index": "074",
-        "name": "花舞鸟",
+        "name": "花舞鸟-呼拉呼拉风格",
         "name_jp": "オドリドリ",
         "name_en": "Oricorio",
         "generation": "第七世代",
         "types": [
-            "火",
+            "超能力",
             "飞行"
         ],
         "meta": {
             "filter": "",
-            "icon_position": "-168px -1568px"
+            "icon_position": "-280px -1568px"
         },
         "national_index": "0741"
     },
@@ -1323,7 +1323,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-1232px -1232px"
         },
         "national_index": "0594"
     },
@@ -2022,7 +2022,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-56px -560px"
         },
         "national_index": "0233"
     },
@@ -2037,7 +2037,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-672px -1008px"
         },
         "national_index": "0474"
     },
@@ -2161,7 +2161,7 @@
             "超能力"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-1288px -784px"
         },
         "national_index": "0376"

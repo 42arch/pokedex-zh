@@ -956,7 +956,7 @@
             "龙"
         ],
         "meta": {
-            "filter": "地:準",
+            "filter": "地:准",
             "icon_position": "-1848px -1456px"
         },
         "national_index": "0706"
@@ -1548,7 +1548,7 @@
     },
     {
         "index": "101",
-        "name": "武道熊师",
+        "name": "武道熊师-一击流",
         "name_jp": "ウーラオス",
         "name_en": "Urshifu",
         "generation": "第八世代",
@@ -1564,17 +1564,17 @@
     },
     {
         "index": "101",
-        "name": "武道熊师",
+        "name": "武道熊师-连击流",
         "name_jp": "ウーラオス",
         "name_en": "Urshifu",
         "generation": "第八世代",
         "types": [
             "格斗",
-            "恶"
+            "水"
         ],
         "meta": {
             "filter": "传:极",
-            "icon_position": "-2128px -1904px"
+            "icon_position": "-2184px -1904px"
         },
         "national_index": "101"
     },
@@ -2602,7 +2602,7 @@
             "格斗"
         ],
         "meta": {
-            "filter": "Z:準",
+            "filter": "Z:准",
             "icon_position": "-2072px -1624px"
         },
         "national_index": "0784"
@@ -3256,7 +3256,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-56px -560px"
         },
         "national_index": "0233"
     },
@@ -3271,7 +3271,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-672px -1008px"
         },
         "national_index": "0474"
     },

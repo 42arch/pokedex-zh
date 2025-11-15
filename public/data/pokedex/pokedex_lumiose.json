@@ -2001,7 +2001,7 @@
             "地面"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-392px -952px"
         },
         "national_index": "0445"
@@ -2266,7 +2266,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-728px -336px"
         },
         "national_index": "0149"
@@ -2575,7 +2575,7 @@
             "龙"
         ],
         "meta": {
-            "filter": "地:準",
+            "filter": "地:准",
             "icon_position": "-1848px -1456px"
         },
         "national_index": "0706"
@@ -3226,7 +3226,7 @@
             "恶"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-896px -560px"
         },
         "national_index": "0248"
@@ -3441,7 +3441,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-1064px -784px"
         },
         "national_index": "0373"
@@ -3520,7 +3520,7 @@
             "超能力"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-1288px -784px"
         },
         "national_index": "0376"

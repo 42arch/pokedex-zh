@@ -14,7 +14,7 @@ export default function IndexPage() {
         </h2>
       </div>
       <div className='mt-8 flex w-full flex-col items-center justify-evenly gap-4 lg:gap-6'>
-        <NavItem title='全国图鉴' href='/pokemon' />
+        <NavItem title='图鉴' href='/pokemon' />
         <NavItem title='特性' href='/ability' />
         <NavItem title='招式' href='/move' />
         <NavItem title='道具' href='/item' />

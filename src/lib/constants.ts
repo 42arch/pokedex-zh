@@ -103,15 +103,15 @@ export const POKEDEX_LIST = [
   },
   {
     value: "kalos_coastal",
-    label: "卡洛斯海岸地区",
+    label: "卡洛斯-海岸地区",
   },
   {
     value: "kalos_central",
-    label: "卡洛斯中央地区",
+    label: "卡洛斯-中央地区",
   },
   {
     value: "kalos_mountain",
-    label: "卡洛斯山岳地区",
+    label: "卡洛斯-山岳地区",
   },
   {
     value: "alola",

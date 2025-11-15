@@ -241,7 +241,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-1064px -784px"
         },
         "national_index": "0373"
@@ -2308,7 +2308,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-1232px -1232px"
         },
         "national_index": "0594"
     },

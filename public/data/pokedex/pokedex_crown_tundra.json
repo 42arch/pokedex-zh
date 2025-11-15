@@ -1728,7 +1728,7 @@
             "幽灵"
         ],
         "meta": {
-            "filter": "準",
+            "filter": "准",
             "icon_position": "-1680px -1904px"
         },
         "national_index": "0887"
@@ -1774,7 +1774,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-1064px -784px"
         },
         "national_index": "0373"
@@ -1822,7 +1822,7 @@
             "地面"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-392px -952px"
         },
         "national_index": "0445"
@@ -2027,7 +2027,7 @@
             "超能力"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-1288px -784px"
         },
         "national_index": "0376"
@@ -2136,7 +2136,7 @@
             "龙"
         ],
         "meta": {
-            "filter": "準",
+            "filter": "准",
             "icon_position": "-1400px -1288px"
         },
         "national_index": "0635"
@@ -2184,7 +2184,7 @@
             "恶"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-896px -560px"
         },
         "national_index": "0248"
@@ -3048,7 +3048,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-728px -336px"
         },
         "national_index": "0149"

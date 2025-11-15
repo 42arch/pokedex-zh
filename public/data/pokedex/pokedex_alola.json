@@ -2307,7 +2307,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-1064px -784px"
         },
         "national_index": "149"
@@ -2950,7 +2950,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-1232px -1232px"
         },
         "national_index": "092"
     },
@@ -3382,7 +3382,7 @@
             "龙"
         ],
         "meta": {
-            "filter": "地:準",
+            "filter": "地:准",
             "icon_position": "-1848px -1456px"
         },
         "national_index": "081"
@@ -3858,7 +3858,7 @@
             "恶"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-896px -560px"
         },
         "national_index": "150"
@@ -4338,7 +4338,7 @@
             "超能力"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-1288px -784px"
         },
         "national_index": "101"
@@ -4369,7 +4369,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-56px -560px"
         },
         "national_index": "103"
     },
@@ -4384,7 +4384,7 @@
         ],
         "meta": {
             "filter": "",
-            "icon_position": ""
+            "icon_position": "-672px -1008px"
         },
         "national_index": "104"
     },
@@ -4790,7 +4790,7 @@
             "地面"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-392px -952px"
         },
         "national_index": "130"
@@ -5282,7 +5282,7 @@
     },
     {
         "index": "341",
-        "name": "无壳海兔",
+        "name": "无壳海兔-西海",
         "name_jp": "カラナクシ",
         "name_en": "Shellos",
         "generation": "第四世代",
@@ -5297,7 +5297,7 @@
     },
     {
         "index": "342",
-        "name": "海兔兽",
+        "name": "海兔兽-西海",
         "name_jp": "トリトドン",
         "name_en": "Gastrodon",
         "generation": "第四世代",
@@ -5634,7 +5634,7 @@
             "格斗"
         ],
         "meta": {
-            "filter": "Z:準",
+            "filter": "Z:准",
             "icon_position": "-2072px -1624px"
         },
         "national_index": "110"
@@ -5912,7 +5912,7 @@
             "飞行"
         ],
         "meta": {
-            "filter": "超:準",
+            "filter": "超:准",
             "icon_position": "-728px -336px"
         },
         "national_index": "128"
