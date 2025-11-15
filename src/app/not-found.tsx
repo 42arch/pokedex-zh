@@ -13,9 +13,14 @@ export default function NotFound() {
         alt='皮卡丘'
       />
       <p className='my-5'>当前页面没有找到，去看看别的吧！</p>
-      <Link href='/' prefetch={false}>
-        <Button variant='outline'>回到主页</Button>
-      </Link>
+      <div className='flex gap-2'>
+        <Link href='/' prefetch={false}>
+          <Button variant='outline'>回到主页</Button>
+        </Link>
+        {/* <Link href=':-1' prefetch={false}>
+          <Button variant='outline'>回到上一页</Button>
+        </Link> */}
+      </div>
     </div>
   )
 }

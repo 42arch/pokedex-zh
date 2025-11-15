@@ -19,7 +19,7 @@ const getDetailData = async (name: string) => {
     const file = await findFile(name, 'ability')
     if (file) {
       const data = await readFile<AbilityDetailType>(`ability/${file}`)
-      const pokemonList = await readFile<PokemonList>('pokemon_full_list.json')
+      const pokemonList = await readFile<PokemonList>('/pokedex/pokedex_national.json')
       data.pokemon.forEach((poke) => {
         const detail = pokemonList.find((p) => p.name === poke.name)
         poke.meta = detail ? detail.meta : null
