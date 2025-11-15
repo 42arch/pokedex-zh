@@ -12,16 +12,19 @@ export async function GET(request: Request) {
   const type2 = searchParams.get('type2') || ''
   const generation = searchParams.get('generation') || ''
   const order = (searchParams.get('order') || 'asc') as Order
+  const pokedex = searchParams.get('pokedex') || 'national'
+
+  // const pokedex_url = `pokedex_${pokedex}.json`
 
   try {
-    const allData = await readFile<PokemonList>('pokemon_full_list.json')
-    console.log('poke full', allData)
-    const filteredData = allData
+    const fullData = await readFile<PokemonList>(`/pokedex/pokedex_${pokedex}.json`)
+
+    const filteredData = fullData
       .filter(
         (p) =>
-          p.name.startsWith(name) ||
-          p.name_en.toLowerCase().startsWith(name) ||
-          p.name_jp.startsWith(name)
+          p.name.includes(name) ||
+          p.name_en.toLowerCase().includes(name) ||
+          p.name_jp.includes(name)
       )
       .filter((p) => {
         if (generation) {
@@ -51,7 +54,7 @@ export async function GET(request: Request) {
       pageSize: pageSize,
       contents: data
     })
-    cache(res)
+    // cache(res)
     return res
   } catch (error) {
     return NextResponse.error()

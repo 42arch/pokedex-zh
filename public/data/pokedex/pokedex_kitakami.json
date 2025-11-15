@@ -1,0 +1,3110 @@
+[
+    {
+        "index": "001",
+        "name": "圆丝蛛",
+        "name_jp": "イトマル",
+        "name_en": "Spinarak",
+        "generation": "第二世代",
+        "types": [
+            "虫",
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2072px -336px"
+        },
+        "national_index": "0167"
+    },
+    {
+        "index": "002",
+        "name": "阿利多斯",
+        "name_jp": "アリアドス",
+        "name_en": "Ariados",
+        "generation": "第二世代",
+        "types": [
+            "虫",
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2128px -336px"
+        },
+        "national_index": "0168"
+    },
+    {
+        "index": "003",
+        "name": "蜻蜻蜓",
+        "name_jp": "ヤンヤンマ",
+        "name_en": "Yanma",
+        "generation": "第二世代",
+        "types": [
+            "虫",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1624px -392px"
+        },
+        "national_index": "0193"
+    },
+    {
+        "index": "004",
+        "name": "远古巨蜓",
+        "name_jp": "メガヤンマ",
+        "name_en": "Yanmega",
+        "generation": "第四世代",
+        "types": [
+            "虫",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-336px -1008px"
+        },
+        "national_index": "0469"
+    },
+    {
+        "index": "005",
+        "name": "乌波",
+        "name_jp": "ウパー",
+        "name_en": "Wooper",
+        "generation": "第二世代",
+        "types": [
+            "水",
+            "地面"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-1680px -392px"
+        },
+        "national_index": "0194"
+    },
+    {
+        "index": "006",
+        "name": "沼王",
+        "name_jp": "ヌオー",
+        "name_en": "Quagsire",
+        "generation": "第二世代",
+        "types": [
+            "水",
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1848px -392px"
+        },
+        "national_index": "0195"
+    },
+    {
+        "index": "007",
+        "name": "土狼犬",
+        "name_jp": "ポチエナ",
+        "name_en": "Poochyena",
+        "generation": "第三世代",
+        "types": [
+            "恶"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1960px -560px"
+        },
+        "national_index": "0261"
+    },
+    {
+        "index": "008",
+        "name": "大狼犬",
+        "name_jp": "グラエナ",
+        "name_en": "Mightyena",
+        "generation": "第三世代",
+        "types": [
+            "恶"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2016px -560px"
+        },
+        "national_index": "0262"
+    },
+    {
+        "index": "009",
+        "name": "电萤虫",
+        "name_jp": "バルビート",
+        "name_en": "Volbeat",
+        "generation": "第三世代",
+        "types": [
+            "虫"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1232px -672px"
+        },
+        "national_index": "0313"
+    },
+    {
+        "index": "010",
+        "name": "甜甜萤",
+        "name_jp": "イルミーゼ",
+        "name_en": "Illumise",
+        "generation": "第三世代",
+        "types": [
+            "虫"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1288px -672px"
+        },
+        "national_index": "0314"
+    },
+    {
+        "index": "011",
+        "name": "龙虾小兵",
+        "name_jp": "ヘイガニ",
+        "name_en": "Corphish",
+        "generation": "第三世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1064px -728px"
+        },
+        "national_index": "0341"
+    },
+    {
+        "index": "012",
+        "name": "铁螯龙虾",
+        "name_jp": "シザリガー",
+        "name_en": "Crawdaunt",
+        "generation": "第三世代",
+        "types": [
+            "水",
+            "恶"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1120px -728px"
+        },
+        "national_index": "0342"
+    },
+    {
+        "index": "013",
+        "name": "虫宝包",
+        "name_jp": "クルミル",
+        "name_en": "Sewaddle",
+        "generation": "第五世代",
+        "types": [
+            "虫",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1568px -1120px"
+        },
+        "national_index": "0540"
+    },
+    {
+        "index": "014",
+        "name": "宝包茧",
+        "name_jp": "クルマユ",
+        "name_en": "Swadloon",
+        "generation": "第五世代",
+        "types": [
+            "虫",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1624px -1120px"
+        },
+        "national_index": "0541"
+    },
+    {
+        "index": "015",
+        "name": "保姆虫",
+        "name_jp": "ハハコモリ",
+        "name_en": "Leavanny",
+        "generation": "第五世代",
+        "types": [
+            "虫",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1680px -1120px"
+        },
+        "national_index": "0542"
+    },
+    {
+        "index": "016",
+        "name": "萌虻",
+        "name_jp": "アブリー",
+        "name_en": "Cutiefly",
+        "generation": "第七世代",
+        "types": [
+            "虫",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-392px -1568px"
+        },
+        "national_index": "0742"
+    },
+    {
+        "index": "017",
+        "name": "蝶结萌虻",
+        "name_jp": "アブリボン",
+        "name_en": "Ribombee",
+        "generation": "第七世代",
+        "types": [
+            "虫",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-448px -1568px"
+        },
+        "national_index": "0743"
+    },
+    {
+        "index": "018",
+        "name": "阿柏蛇",
+        "name_jp": "アーボ",
+        "name_en": "Ekans",
+        "generation": "第一世代",
+        "types": [
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-56px -56px"
+        },
+        "national_index": "0023"
+    },
+    {
+        "index": "019",
+        "name": "阿柏怪",
+        "name_jp": "アーボック",
+        "name_en": "Arbok",
+        "generation": "第一世代",
+        "types": [
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-112px -56px"
+        },
+        "national_index": "0024"
+    },
+    {
+        "index": "020",
+        "name": "皮丘",
+        "name_jp": "ピチュー",
+        "name_en": "Pichu",
+        "generation": "第二世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "鼠",
+            "icon_position": "-112px -392px"
+        },
+        "national_index": "0172"
+    },
+    {
+        "index": "021",
+        "name": "皮卡丘",
+        "name_jp": "ピカチュウ",
+        "name_en": "Pikachu",
+        "generation": "第一世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "极:初:Z:鼠",
+            "icon_position": "-168px -56px"
+        },
+        "national_index": "0025"
+    },
+    {
+        "index": "022",
+        "name": "雷丘",
+        "name_jp": "ライチュウ",
+        "name_en": "Raichu",
+        "generation": "第一世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "地:鼠:超",
+            "icon_position": "-1176px -56px"
+        },
+        "national_index": "0026"
+    },
+    {
+        "index": "023",
+        "name": "喇叭芽",
+        "name_jp": "マダツボミ",
+        "name_en": "Bellsprout",
+        "generation": "第一世代",
+        "types": [
+            "草",
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-392px -168px"
+        },
+        "national_index": "0069"
+    },
+    {
+        "index": "024",
+        "name": "口呆花",
+        "name_jp": "ウツドン",
+        "name_en": "Weepinbell",
+        "generation": "第一世代",
+        "types": [
+            "草",
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-448px -168px"
+        },
+        "national_index": "0070"
+    },
+    {
+        "index": "025",
+        "name": "大食花",
+        "name_jp": "ウツボット",
+        "name_en": "Victreebel",
+        "generation": "第一世代",
+        "types": [
+            "草",
+            "毒"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-504px -168px"
+        },
+        "national_index": "0071"
+    },
+    {
+        "index": "026",
+        "name": "尾立",
+        "name_jp": "オタチ",
+        "name_en": "Sentret",
+        "generation": "第二世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1624px -336px"
+        },
+        "national_index": "0161"
+    },
+    {
+        "index": "027",
+        "name": "大尾立",
+        "name_jp": "オオタチ",
+        "name_en": "Furret",
+        "generation": "第二世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1680px -336px"
+        },
+        "national_index": "0162"
+    },
+    {
+        "index": "028",
+        "name": "姆克儿",
+        "name_jp": "ムックル",
+        "name_en": "Starly",
+        "generation": "第四世代",
+        "types": [
+            "一般",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-672px -840px"
+        },
+        "national_index": "0396"
+    },
+    {
+        "index": "029",
+        "name": "姆克鸟",
+        "name_jp": "ムクバード",
+        "name_en": "Staravia",
+        "generation": "第四世代",
+        "types": [
+            "一般",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-784px -840px"
+        },
+        "national_index": "0397"
+    },
+    {
+        "index": "030",
+        "name": "姆克鹰",
+        "name_jp": "ムクホーク",
+        "name_en": "Staraptor",
+        "generation": "第四世代",
+        "types": [
+            "一般",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-896px -840px"
+        },
+        "national_index": "0398"
+    },
+    {
+        "index": "031",
+        "name": "伪螳草",
+        "name_jp": "カリキリ",
+        "name_en": "Fomantis",
+        "generation": "第七世代",
+        "types": [
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1176px -1568px"
+        },
+        "national_index": "0753"
+    },
+    {
+        "index": "032",
+        "name": "兰螳花",
+        "name_jp": "ラランテス",
+        "name_en": "Lurantis",
+        "generation": "第七世代",
+        "types": [
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1232px -1568px"
+        },
+        "national_index": "0754"
+    },
+    {
+        "index": "033",
+        "name": "啃果虫",
+        "name_jp": "カジッチュ",
+        "name_en": "Applin",
+        "generation": "第八世代",
+        "types": [
+            "草",
+            "龙"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1400px -1736px"
+        },
+        "national_index": "0840"
+    },
+    {
+        "index": "034",
+        "name": "苹裹龙",
+        "name_jp": "アップリュー",
+        "name_en": "Flapple",
+        "generation": "第八世代",
+        "types": [
+            "草",
+            "龙"
+        ],
+        "meta": {
+            "filter": "极",
+            "icon_position": "-1456px -1736px"
+        },
+        "national_index": "0841"
+    },
+    {
+        "index": "035",
+        "name": "丰蜜龙",
+        "name_jp": "タルップル",
+        "name_en": "Appletun",
+        "generation": "第八世代",
+        "types": [
+            "草",
+            "龙"
+        ],
+        "meta": {
+            "filter": "极",
+            "icon_position": "-1568px -1736px"
+        },
+        "national_index": "0842"
+    },
+    {
+        "index": "036",
+        "name": "裹蜜虫",
+        "name_jp": "カミッチュ",
+        "name_en": "Dipplin",
+        "generation": "第九世代",
+        "types": [
+            "草",
+            "龙"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1344px -2128px"
+        },
+        "national_index": "1011"
+    },
+    {
+        "index": "037",
+        "name": "六尾",
+        "name_jp": "ロコン",
+        "name_en": "Vulpix",
+        "generation": "第一世代",
+        "types": [
+            "火"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-2016px -56px"
+        },
+        "national_index": "0037"
+    },
+    {
+        "index": "038",
+        "name": "九尾",
+        "name_jp": "キュウコン",
+        "name_en": "Ninetales",
+        "generation": "第一世代",
+        "types": [
+            "火"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-2128px -56px"
+        },
+        "national_index": "0038"
+    },
+    {
+        "index": "039",
+        "name": "蚊香蝌蚪",
+        "name_jp": "ニョロモ",
+        "name_en": "Poliwag",
+        "generation": "第一世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1904px -112px"
+        },
+        "national_index": "0060"
+    },
+    {
+        "index": "040",
+        "name": "蚊香君",
+        "name_jp": "ニョロゾ",
+        "name_en": "Poliwhirl",
+        "generation": "第一世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1960px -112px"
+        },
+        "national_index": "0061"
+    },
+    {
+        "index": "041",
+        "name": "蚊香泳士",
+        "name_jp": "ニョロボン",
+        "name_en": "Poliwrath",
+        "generation": "第一世代",
+        "types": [
+            "水",
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2016px -112px"
+        },
+        "national_index": "0062"
+    },
+    {
+        "index": "042",
+        "name": "蚊香蛙皇",
+        "name_jp": "ニョロトノ",
+        "name_en": "Politoed",
+        "generation": "第二世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1120px -392px"
+        },
+        "national_index": "0186"
+    },
+    {
+        "index": "043",
+        "name": "鲤鱼王",
+        "name_jp": "コイキング",
+        "name_en": "Magikarp",
+        "generation": "第一世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1176px -280px"
+        },
+        "national_index": "0129"
+    },
+    {
+        "index": "044",
+        "name": "暴鲤龙",
+        "name_jp": "ギャラドス",
+        "name_en": "Gyarados",
+        "generation": "第一世代",
+        "types": [
+            "水",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-1288px -280px"
+        },
+        "national_index": "0130"
+    },
+    {
+        "index": "045",
+        "name": "咕咕",
+        "name_jp": "ホーホー",
+        "name_en": "Hoothoot",
+        "generation": "第二世代",
+        "types": [
+            "一般",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1736px -336px"
+        },
+        "national_index": "0163"
+    },
+    {
+        "index": "046",
+        "name": "猫头夜鹰",
+        "name_jp": "ヨルノズク",
+        "name_en": "Noctowl",
+        "generation": "第二世代",
+        "types": [
+            "一般",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1792px -336px"
+        },
+        "national_index": "0164"
+    },
+    {
+        "index": "047",
+        "name": "长尾怪手",
+        "name_jp": "エイパム",
+        "name_en": "Aipom",
+        "generation": "第二世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1400px -392px"
+        },
+        "national_index": "0190"
+    },
+    {
+        "index": "048",
+        "name": "双尾怪手",
+        "name_jp": "エテボース",
+        "name_en": "Ambipom",
+        "generation": "第四世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1232px -896px"
+        },
+        "national_index": "0424"
+    },
+    {
+        "index": "049",
+        "name": "赫拉克罗斯",
+        "name_jp": "ヘラクロス",
+        "name_en": "Heracross",
+        "generation": "第二世代",
+        "types": [
+            "虫",
+            "格斗"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-560px -504px"
+        },
+        "national_index": "0214"
+    },
+    {
+        "index": "050",
+        "name": "小山猪",
+        "name_jp": "ウリムー",
+        "name_en": "Swinub",
+        "generation": "第二世代",
+        "types": [
+            "冰",
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1232px -504px"
+        },
+        "national_index": "0220"
+    },
+    {
+        "index": "051",
+        "name": "长毛猪",
+        "name_jp": "イノムー",
+        "name_en": "Piloswine",
+        "generation": "第二世代",
+        "types": [
+            "冰",
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1288px -504px"
+        },
+        "national_index": "0221"
+    },
+    {
+        "index": "052",
+        "name": "象牙猪",
+        "name_jp": "マンムー",
+        "name_en": "Mamoswine",
+        "generation": "第四世代",
+        "types": [
+            "冰",
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-560px -1008px"
+        },
+        "national_index": "0473"
+    },
+    {
+        "index": "053",
+        "name": "惊角鹿",
+        "name_jp": "オドシシ",
+        "name_en": "Stantler",
+        "generation": "第二世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-112px -560px"
+        },
+        "national_index": "0234"
+    },
+    {
+        "index": "054",
+        "name": "橡实果",
+        "name_jp": "タネボー",
+        "name_en": "Seedot",
+        "generation": "第三世代",
+        "types": [
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-672px -616px"
+        },
+        "national_index": "0273"
+    },
+    {
+        "index": "055",
+        "name": "长鼻叶",
+        "name_jp": "コノハナ",
+        "name_en": "Nuzleaf",
+        "generation": "第三世代",
+        "types": [
+            "草",
+            "恶"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-728px -616px"
+        },
+        "national_index": "0274"
+    },
+    {
+        "index": "056",
+        "name": "狡猾天狗",
+        "name_jp": "ダーテング",
+        "name_en": "Shiftry",
+        "generation": "第三世代",
+        "types": [
+            "草",
+            "恶"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-840px -616px"
+        },
+        "national_index": "0275"
+    },
+    {
+        "index": "057",
+        "name": "拉鲁拉丝",
+        "name_jp": "ラルトス",
+        "name_en": "Ralts",
+        "generation": "第三世代",
+        "types": [
+            "超能力",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1176px -616px"
+        },
+        "national_index": "0280"
+    },
+    {
+        "index": "058",
+        "name": "奇鲁莉安",
+        "name_jp": "キルリア",
+        "name_en": "Kirlia",
+        "generation": "第三世代",
+        "types": [
+            "超能力",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1232px -616px"
+        },
+        "national_index": "0281"
+    },
+    {
+        "index": "059",
+        "name": "沙奈朵",
+        "name_jp": "サーナイト",
+        "name_en": "Gardevoir",
+        "generation": "第三世代",
+        "types": [
+            "超能力",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-1288px -616px"
+        },
+        "national_index": "0282"
+    },
+    {
+        "index": "060",
+        "name": "艾路雷朵",
+        "name_jp": "エルレイド",
+        "name_en": "Gallade",
+        "generation": "第四世代",
+        "types": [
+            "超能力",
+            "格斗"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-728px -1008px"
+        },
+        "national_index": "0475"
+    },
+    {
+        "index": "061",
+        "name": "圆法师",
+        "name_jp": "コロボーシ",
+        "name_en": "Kricketot",
+        "generation": "第四世代",
+        "types": [
+            "虫"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1232px -840px"
+        },
+        "national_index": "0401"
+    },
+    {
+        "index": "062",
+        "name": "音箱蟀",
+        "name_jp": "コロトック",
+        "name_en": "Kricketune",
+        "generation": "第四世代",
+        "types": [
+            "虫"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1344px -840px"
+        },
+        "national_index": "0402"
+    },
+    {
+        "index": "063",
+        "name": "帕奇利兹",
+        "name_jp": "パチリス",
+        "name_en": "Pachirisu",
+        "generation": "第四世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "鼠",
+            "icon_position": "-504px -896px"
+        },
+        "national_index": "0417"
+    },
+    {
+        "index": "064",
+        "name": "利欧路",
+        "name_jp": "リオル",
+        "name_en": "Riolu",
+        "generation": "第四世代",
+        "types": [
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-616px -952px"
+        },
+        "national_index": "0447"
+    },
+    {
+        "index": "065",
+        "name": "路卡利欧",
+        "name_jp": "ルカリオ",
+        "name_en": "Lucario",
+        "generation": "第四世代",
+        "types": [
+            "格斗",
+            "钢"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-672px -952px"
+        },
+        "national_index": "0448"
+    },
+    {
+        "index": "066",
+        "name": "百合根娃娃",
+        "name_jp": "チュリネ",
+        "name_en": "Petilil",
+        "generation": "第五世代",
+        "types": [
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2016px -1120px"
+        },
+        "national_index": "0548"
+    },
+    {
+        "index": "067",
+        "name": "裙儿小姐",
+        "name_jp": "ドレディア",
+        "name_en": "Lilligant",
+        "generation": "第五世代",
+        "types": [
+            "草"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-2072px -1120px"
+        },
+        "national_index": "0549"
+    },
+    {
+        "index": "068",
+        "name": "小木灵",
+        "name_jp": "ボクレー",
+        "name_en": "Phantump",
+        "generation": "第六世代",
+        "types": [
+            "幽灵",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2016px -1456px"
+        },
+        "national_index": "0708"
+    },
+    {
+        "index": "069",
+        "name": "朽木妖",
+        "name_jp": "オーロット",
+        "name_en": "Trevenant",
+        "generation": "第六世代",
+        "types": [
+            "幽灵",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2072px -1456px"
+        },
+        "national_index": "0709"
+    },
+    {
+        "index": "070",
+        "name": "岩狗狗",
+        "name_jp": "イワンコ",
+        "name_en": "Rockruff",
+        "generation": "第七世代",
+        "types": [
+            "岩石"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-504px -1568px"
+        },
+        "national_index": "0744"
+    },
+    {
+        "index": "071",
+        "name": "鬃岩狼人",
+        "name_jp": "ルガルガン",
+        "name_en": "Lycanroc",
+        "generation": "第七世代",
+        "types": [
+            "岩石"
+        ],
+        "meta": {
+            "filter": "Z",
+            "icon_position": "-560px -1568px"
+        },
+        "national_index": "0745"
+    },
+    {
+        "index": "072",
+        "name": "贪心栗鼠",
+        "name_jp": "ホシガリス",
+        "name_en": "Skwovet",
+        "generation": "第八世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "0px -1736px"
+        },
+        "national_index": "0819"
+    },
+    {
+        "index": "073",
+        "name": "藏饱栗鼠",
+        "name_jp": "ヨクバリス",
+        "name_en": "Greedent",
+        "generation": "第八世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-56px -1736px"
+        },
+        "national_index": "0820"
+    },
+    {
+        "index": "074",
+        "name": "原野水母",
+        "name_jp": "ノノクラゲ",
+        "name_en": "Toedscool",
+        "generation": "第九世代",
+        "types": [
+            "地面",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1624px -2016px"
+        },
+        "national_index": "0948"
+    },
+    {
+        "index": "075",
+        "name": "陆地水母",
+        "name_jp": "リククラゲ",
+        "name_en": "Toedscruel",
+        "generation": "第九世代",
+        "types": [
+            "地面",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1680px -2016px"
+        },
+        "national_index": "0949"
+    },
+    {
+        "index": "076",
+        "name": "斯魔茶",
+        "name_jp": "チャデス",
+        "name_en": "Poltchageist",
+        "generation": "第九世代",
+        "types": [
+            "草",
+            "幽灵"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1400px -2128px"
+        },
+        "national_index": "1012"
+    },
+    {
+        "index": "077",
+        "name": "来悲粗茶",
+        "name_jp": "ヤバソチャ",
+        "name_en": "Sinistcha",
+        "generation": "第九世代",
+        "types": [
+            "草",
+            "幽灵"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1456px -2128px"
+        },
+        "national_index": "1013"
+    },
+    {
+        "index": "078",
+        "name": "卡蒂狗",
+        "name_jp": "ガーディ",
+        "name_en": "Growlithe",
+        "generation": "第一世代",
+        "types": [
+            "火"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-1624px -112px"
+        },
+        "national_index": "0058"
+    },
+    {
+        "index": "079",
+        "name": "风速狗",
+        "name_jp": "ウインディ",
+        "name_en": "Arcanine",
+        "generation": "第一世代",
+        "types": [
+            "火"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-1736px -112px"
+        },
+        "national_index": "0059"
+    },
+    {
+        "index": "080",
+        "name": "小拳石",
+        "name_jp": "イシツブテ",
+        "name_en": "Geodude",
+        "generation": "第一世代",
+        "types": [
+            "岩石",
+            "地面"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-672px -168px"
+        },
+        "national_index": "0074"
+    },
+    {
+        "index": "081",
+        "name": "隆隆石",
+        "name_jp": "ゴローン",
+        "name_en": "Graveler",
+        "generation": "第一世代",
+        "types": [
+            "岩石",
+            "地面"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-784px -168px"
+        },
+        "national_index": "0075"
+    },
+    {
+        "index": "082",
+        "name": "隆隆岩",
+        "name_jp": "ゴローニャ",
+        "name_en": "Golem",
+        "generation": "第一世代",
+        "types": [
+            "岩石",
+            "地面"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-896px -168px"
+        },
+        "national_index": "0076"
+    },
+    {
+        "index": "083",
+        "name": "盆才怪",
+        "name_jp": "ウソハチ",
+        "name_en": "Bonsly",
+        "generation": "第四世代",
+        "types": [
+            "岩石"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2128px -896px"
+        },
+        "national_index": "0438"
+    },
+    {
+        "index": "084",
+        "name": "树才怪",
+        "name_jp": "ウソッキー",
+        "name_en": "Sudowoodo",
+        "generation": "第二世代",
+        "types": [
+            "岩石"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1008px -392px"
+        },
+        "national_index": "0185"
+    },
+    {
+        "index": "085",
+        "name": "搬运小匠",
+        "name_jp": "ドッコラー",
+        "name_en": "Timburr",
+        "generation": "第五世代",
+        "types": [
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1120px -1120px"
+        },
+        "national_index": "0532"
+    },
+    {
+        "index": "086",
+        "name": "铁骨土人",
+        "name_jp": "ドテッコツ",
+        "name_en": "Gurdurr",
+        "generation": "第五世代",
+        "types": [
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1176px -1120px"
+        },
+        "national_index": "0533"
+    },
+    {
+        "index": "087",
+        "name": "修建老匠",
+        "name_jp": "ローブシン",
+        "name_en": "Conkeldurr",
+        "generation": "第五世代",
+        "types": [
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1232px -1120px"
+        },
+        "national_index": "0534"
+    },
+    {
+        "index": "088",
+        "name": "嗡蝠",
+        "name_jp": "オンバット",
+        "name_en": "Noibat",
+        "generation": "第六世代",
+        "types": [
+            "飞行",
+            "龙"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-560px -1512px"
+        },
+        "national_index": "0714"
+    },
+    {
+        "index": "089",
+        "name": "音波龙",
+        "name_jp": "オンバーン",
+        "name_en": "Noivern",
+        "generation": "第六世代",
+        "types": [
+            "飞行",
+            "龙"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-616px -1512px"
+        },
+        "national_index": "0715"
+    },
+    {
+        "index": "090",
+        "name": "刺梭鱼",
+        "name_jp": "サシカマス",
+        "name_en": "Arrokuda",
+        "generation": "第八世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2016px -1736px"
+        },
+        "national_index": "0846"
+    },
+    {
+        "index": "091",
+        "name": "戽斗尖梭",
+        "name_jp": "カマスジョー",
+        "name_en": "Barraskewda",
+        "generation": "第八世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2072px -1736px"
+        },
+        "national_index": "0847"
+    },
+    {
+        "index": "092",
+        "name": "迷布莉姆",
+        "name_jp": "ミブリム",
+        "name_en": "Hatenna",
+        "generation": "第八世代",
+        "types": [
+            "超能力"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-504px -1792px"
+        },
+        "national_index": "0856"
+    },
+    {
+        "index": "093",
+        "name": "提布莉姆",
+        "name_jp": "テブリム",
+        "name_en": "Hattrem",
+        "generation": "第八世代",
+        "types": [
+            "超能力"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-560px -1792px"
+        },
+        "national_index": "0857"
+    },
+    {
+        "index": "094",
+        "name": "布莉姆温",
+        "name_jp": "ブリムオン",
+        "name_en": "Hatterene",
+        "generation": "第八世代",
+        "types": [
+            "超能力",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "极",
+            "icon_position": "-616px -1792px"
+        },
+        "national_index": "0858"
+    },
+    {
+        "index": "095",
+        "name": "莫鲁贝可",
+        "name_jp": "モルペコ",
+        "name_en": "Morpeko",
+        "generation": "第八世代",
+        "types": [
+            "电",
+            "恶"
+        ],
+        "meta": {
+            "filter": "鼠",
+            "icon_position": "-952px -1904px"
+        },
+        "national_index": "0877"
+    },
+    {
+        "index": "096",
+        "name": "拖拖蚓",
+        "name_jp": "ミミズズ",
+        "name_en": "Orthworm",
+        "generation": "第九世代",
+        "types": [
+            "钢"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-840px -2072px"
+        },
+        "national_index": "0968"
+    },
+    {
+        "index": "097",
+        "name": "一对鼠",
+        "name_jp": "ワッカネズミ",
+        "name_en": "Tandemaus",
+        "generation": "第九世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-56px -2016px"
+        },
+        "national_index": "0924"
+    },
+    {
+        "index": "098",
+        "name": "一家鼠",
+        "name_jp": "イッカネズミ",
+        "name_en": "Maushold",
+        "generation": "第九世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-112px -2016px"
+        },
+        "national_index": "0925"
+    },
+    {
+        "index": "099",
+        "name": "猴怪",
+        "name_jp": "マンキー",
+        "name_en": "Mankey",
+        "generation": "第一世代",
+        "types": [
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1512px -112px"
+        },
+        "national_index": "0056"
+    },
+    {
+        "index": "100",
+        "name": "火暴猴",
+        "name_jp": "オコリザル",
+        "name_en": "Primeape",
+        "generation": "第一世代",
+        "types": [
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1568px -112px"
+        },
+        "national_index": "0057"
+    },
+    {
+        "index": "101",
+        "name": "弃世猴",
+        "name_jp": "コノヨザル",
+        "name_en": "Annihilape",
+        "generation": "第九世代",
+        "types": [
+            "格斗",
+            "幽灵"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1568px -2072px"
+        },
+        "national_index": "0979"
+    },
+    {
+        "index": "102",
+        "name": "小卡比兽",
+        "name_jp": "ゴンベ",
+        "name_en": "Munchlax",
+        "generation": "第四世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-560px -952px"
+        },
+        "national_index": "0446"
+    },
+    {
+        "index": "103",
+        "name": "卡比兽",
+        "name_jp": "カビゴン",
+        "name_en": "Snorlax",
+        "generation": "第一世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "Z:极",
+            "icon_position": "-168px -336px"
+        },
+        "national_index": "0143"
+    },
+    {
+        "index": "104",
+        "name": "莲叶童子",
+        "name_jp": "ハスボー",
+        "name_en": "Lotad",
+        "generation": "第三世代",
+        "types": [
+            "水",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-448px -616px"
+        },
+        "national_index": "0270"
+    },
+    {
+        "index": "105",
+        "name": "莲帽小童",
+        "name_jp": "ハスブレロ",
+        "name_en": "Lombre",
+        "generation": "第三世代",
+        "types": [
+            "水",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-504px -616px"
+        },
+        "national_index": "0271"
+    },
+    {
+        "index": "106",
+        "name": "乐天河童",
+        "name_jp": "ルンパッパ",
+        "name_en": "Ludicolo",
+        "generation": "第三世代",
+        "types": [
+            "水",
+            "草"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-560px -616px"
+        },
+        "national_index": "0272"
+    },
+    {
+        "index": "107",
+        "name": "朝北鼻",
+        "name_jp": "ノズパス",
+        "name_en": "Nosepass",
+        "generation": "第三世代",
+        "types": [
+            "岩石"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-56px -672px"
+        },
+        "national_index": "0299"
+    },
+    {
+        "index": "108",
+        "name": "大朝北鼻",
+        "name_jp": "ダイノーズ",
+        "name_en": "Probopass",
+        "generation": "第四世代",
+        "types": [
+            "岩石",
+            "钢"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-840px -1008px"
+        },
+        "national_index": "0476"
+    },
+    {
+        "index": "109",
+        "name": "小猫怪",
+        "name_jp": "コリンク",
+        "name_en": "Shinx",
+        "generation": "第四世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1456px -840px"
+        },
+        "national_index": "0403"
+    },
+    {
+        "index": "110",
+        "name": "勒克猫",
+        "name_jp": "ルクシオ",
+        "name_en": "Luxio",
+        "generation": "第四世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1568px -840px"
+        },
+        "national_index": "0404"
+    },
+    {
+        "index": "111",
+        "name": "伦琴猫",
+        "name_jp": "レントラー",
+        "name_en": "Luxray",
+        "generation": "第四世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1680px -840px"
+        },
+        "national_index": "0405"
+    },
+    {
+        "index": "112",
+        "name": "强颚鸡母虫",
+        "name_jp": "アゴジムシ",
+        "name_en": "Grubbin",
+        "generation": "第七世代",
+        "types": [
+            "虫"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2128px -1512px"
+        },
+        "national_index": "0736"
+    },
+    {
+        "index": "113",
+        "name": "虫电宝",
+        "name_jp": "デンヂムシ",
+        "name_en": "Charjabug",
+        "generation": "第七世代",
+        "types": [
+            "虫",
+            "电"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2184px -1512px"
+        },
+        "national_index": "0737"
+    },
+    {
+        "index": "114",
+        "name": "锹农炮虫",
+        "name_jp": "クワガノン",
+        "name_en": "Vikavolt",
+        "generation": "第七世代",
+        "types": [
+            "虫",
+            "电"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "0px -1568px"
+        },
+        "national_index": "0738"
+    },
+    {
+        "index": "115",
+        "name": "花舞鸟",
+        "name_jp": "オドリドリ",
+        "name_en": "Oricorio",
+        "generation": "第七世代",
+        "types": [
+            "火",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-168px -1568px"
+        },
+        "national_index": "0741"
+    },
+    {
+        "index": "116",
+        "name": "穿山鼠",
+        "name_jp": "サンド",
+        "name_en": "Sandshrew",
+        "generation": "第一世代",
+        "types": [
+            "地面"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-1344px -56px"
+        },
+        "national_index": "0027"
+    },
+    {
+        "index": "117",
+        "name": "穿山王",
+        "name_jp": "サンドパン",
+        "name_en": "Sandslash",
+        "generation": "第一世代",
+        "types": [
+            "地面"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-1456px -56px"
+        },
+        "national_index": "0028"
+    },
+    {
+        "index": "118",
+        "name": "鬼斯",
+        "name_jp": "ゴース",
+        "name_en": "Gastly",
+        "generation": "第一世代",
+        "types": [
+            "幽灵",
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-168px -224px"
+        },
+        "national_index": "0092"
+    },
+    {
+        "index": "119",
+        "name": "鬼斯通",
+        "name_jp": "ゴースト",
+        "name_en": "Haunter",
+        "generation": "第一世代",
+        "types": [
+            "幽灵",
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-224px -224px"
+        },
+        "national_index": "0093"
+    },
+    {
+        "index": "120",
+        "name": "耿鬼",
+        "name_jp": "ゲンガー",
+        "name_en": "Gengar",
+        "generation": "第一世代",
+        "types": [
+            "幽灵",
+            "毒"
+        ],
+        "meta": {
+            "filter": "超:极",
+            "icon_position": "-280px -224px"
+        },
+        "national_index": "0094"
+    },
+    {
+        "index": "121",
+        "name": "天蝎",
+        "name_jp": "グライガー",
+        "name_en": "Gligar",
+        "generation": "第二世代",
+        "types": [
+            "地面",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2072px -448px"
+        },
+        "national_index": "0207"
+    },
+    {
+        "index": "122",
+        "name": "天蝎王",
+        "name_jp": "グライオン",
+        "name_en": "Gliscor",
+        "generation": "第四世代",
+        "types": [
+            "地面",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-504px -1008px"
+        },
+        "national_index": "0472"
+    },
+    {
+        "index": "123",
+        "name": "戴鲁比",
+        "name_jp": "デルビル",
+        "name_en": "Houndour",
+        "generation": "第二世代",
+        "types": [
+            "恶",
+            "火"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1848px -504px"
+        },
+        "national_index": "0228"
+    },
+    {
+        "index": "124",
+        "name": "黑鲁加",
+        "name_jp": "ヘルガー",
+        "name_en": "Houndoom",
+        "generation": "第二世代",
+        "types": [
+            "恶",
+            "火"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-1904px -504px"
+        },
+        "national_index": "0229"
+    },
+    {
+        "index": "125",
+        "name": "跳跳猪",
+        "name_jp": "バネブー",
+        "name_en": "Spoink",
+        "generation": "第三世代",
+        "types": [
+            "超能力"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-56px -728px"
+        },
+        "national_index": "0325"
+    },
+    {
+        "index": "126",
+        "name": "噗噗猪",
+        "name_jp": "ブーピッグ",
+        "name_en": "Grumpig",
+        "generation": "第三世代",
+        "types": [
+            "超能力"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-112px -728px"
+        },
+        "national_index": "0326"
+    },
+    {
+        "index": "127",
+        "name": "秃鹰丫头",
+        "name_jp": "バルチャイ",
+        "name_en": "Vullaby",
+        "generation": "第五世代",
+        "types": [
+            "恶",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1064px -1288px"
+        },
+        "national_index": "0629"
+    },
+    {
+        "index": "128",
+        "name": "秃鹰娜",
+        "name_jp": "バルジーナ",
+        "name_en": "Mandibuzz",
+        "generation": "第五世代",
+        "types": [
+            "恶",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1120px -1288px"
+        },
+        "national_index": "0630"
+    },
+    {
+        "index": "129",
+        "name": "泥驴仔",
+        "name_jp": "ドロバンコ",
+        "name_en": "Mudbray",
+        "generation": "第七世代",
+        "types": [
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-952px -1568px"
+        },
+        "national_index": "0749"
+    },
+    {
+        "index": "130",
+        "name": "重泥挽马",
+        "name_jp": "バンバドロ",
+        "name_en": "Mudsdale",
+        "generation": "第七世代",
+        "types": [
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1008px -1568px"
+        },
+        "national_index": "0750"
+    },
+    {
+        "index": "131",
+        "name": "心鳞宝",
+        "name_jp": "ジャラコ",
+        "name_en": "Jangmo-o",
+        "generation": "第七世代",
+        "types": [
+            "龙"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1960px -1624px"
+        },
+        "national_index": "0782"
+    },
+    {
+        "index": "132",
+        "name": "鳞甲龙",
+        "name_jp": "ジャランゴ",
+        "name_en": "Hakamo-o",
+        "generation": "第七世代",
+        "types": [
+            "龙",
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2016px -1624px"
+        },
+        "national_index": "0783"
+    },
+    {
+        "index": "133",
+        "name": "杖尾鳞甲龙",
+        "name_jp": "ジャラランガ",
+        "name_en": "Kommo-o",
+        "generation": "第七世代",
+        "types": [
+            "龙",
+            "格斗"
+        ],
+        "meta": {
+            "filter": "Z:準",
+            "icon_position": "-2072px -1624px"
+        },
+        "national_index": "0784"
+    },
+    {
+        "index": "134",
+        "name": "下石鸟",
+        "name_jp": "オトシドリ",
+        "name_en": "Bombirdier",
+        "generation": "第九世代",
+        "types": [
+            "飞行",
+            "恶"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-168px -2072px"
+        },
+        "national_index": "0962"
+    },
+    {
+        "index": "135",
+        "name": "瓦斯弹",
+        "name_jp": "ドガース",
+        "name_en": "Koffing",
+        "generation": "第一世代",
+        "types": [
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1624px -224px"
+        },
+        "national_index": "0109"
+    },
+    {
+        "index": "136",
+        "name": "双弹瓦斯",
+        "name_jp": "マタドガス",
+        "name_en": "Weezing",
+        "generation": "第一世代",
+        "types": [
+            "毒"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-1680px -224px"
+        },
+        "national_index": "0110"
+    },
+    {
+        "index": "137",
+        "name": "功夫鼬",
+        "name_jp": "コジョフー",
+        "name_en": "Mienfoo",
+        "generation": "第五世代",
+        "types": [
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-448px -1288px"
+        },
+        "national_index": "0619"
+    },
+    {
+        "index": "138",
+        "name": "师父鼬",
+        "name_jp": "コジョンド",
+        "name_en": "Mienshao",
+        "generation": "第五世代",
+        "types": [
+            "格斗"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-504px -1288px"
+        },
+        "national_index": "0620"
+    },
+    {
+        "index": "139",
+        "name": "夜巡灵",
+        "name_jp": "ヨマワル",
+        "name_en": "Duskull",
+        "generation": "第三世代",
+        "types": [
+            "幽灵"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2128px -728px"
+        },
+        "national_index": "0355"
+    },
+    {
+        "index": "140",
+        "name": "彷徨夜灵",
+        "name_jp": "サマヨール",
+        "name_en": "Dusclops",
+        "generation": "第三世代",
+        "types": [
+            "幽灵"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2184px -728px"
+        },
+        "national_index": "0356"
+    },
+    {
+        "index": "141",
+        "name": "黑夜魔灵",
+        "name_jp": "ヨノワール",
+        "name_en": "Dusknoir",
+        "generation": "第四世代",
+        "types": [
+            "幽灵"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-896px -1008px"
+        },
+        "national_index": "0477"
+    },
+    {
+        "index": "142",
+        "name": "铃铛响",
+        "name_jp": "リーシャン",
+        "name_en": "Chingling",
+        "generation": "第四世代",
+        "types": [
+            "超能力"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1848px -896px"
+        },
+        "national_index": "0433"
+    },
+    {
+        "index": "143",
+        "name": "风铃铃",
+        "name_jp": "チリーン",
+        "name_en": "Chimecho",
+        "generation": "第三世代",
+        "types": [
+            "超能力"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-56px -784px"
+        },
+        "national_index": "0358"
+    },
+    {
+        "index": "144",
+        "name": "熔岩虫",
+        "name_jp": "マグマッグ",
+        "name_en": "Slugma",
+        "generation": "第二世代",
+        "types": [
+            "火"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1120px -504px"
+        },
+        "national_index": "0218"
+    },
+    {
+        "index": "145",
+        "name": "熔岩蜗牛",
+        "name_jp": "マグカルゴ",
+        "name_en": "Magcargo",
+        "generation": "第二世代",
+        "types": [
+            "火",
+            "岩石"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1176px -504px"
+        },
+        "national_index": "0219"
+    },
+    {
+        "index": "146",
+        "name": "烛光灵",
+        "name_jp": "ヒトモシ",
+        "name_en": "Litwick",
+        "generation": "第五世代",
+        "types": [
+            "幽灵",
+            "火"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1960px -1232px"
+        },
+        "national_index": "0607"
+    },
+    {
+        "index": "147",
+        "name": "灯火幽灵",
+        "name_jp": "ランプラー",
+        "name_en": "Lampent",
+        "generation": "第五世代",
+        "types": [
+            "幽灵",
+            "火"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2016px -1232px"
+        },
+        "national_index": "0608"
+    },
+    {
+        "index": "148",
+        "name": "水晶灯火灵",
+        "name_jp": "シャンデラ",
+        "name_en": "Chandelure",
+        "generation": "第五世代",
+        "types": [
+            "幽灵",
+            "火"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-2072px -1232px"
+        },
+        "national_index": "0609"
+    },
+    {
+        "index": "149",
+        "name": "溜溜糖球",
+        "name_jp": "アメタマ",
+        "name_en": "Surskit",
+        "generation": "第三世代",
+        "types": [
+            "虫",
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1400px -616px"
+        },
+        "national_index": "0283"
+    },
+    {
+        "index": "150",
+        "name": "雨翅蛾",
+        "name_jp": "アメモース",
+        "name_en": "Masquerain",
+        "generation": "第三世代",
+        "types": [
+            "虫",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1456px -616px"
+        },
+        "national_index": "0284"
+    },
+    {
+        "index": "151",
+        "name": "皮宝宝",
+        "name_jp": "ピィ",
+        "name_en": "Cleffa",
+        "generation": "第二世代",
+        "types": [
+            "妖精"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-224px -392px"
+        },
+        "national_index": "0173"
+    },
+    {
+        "index": "152",
+        "name": "皮皮",
+        "name_jp": "ピッピ",
+        "name_en": "Clefairy",
+        "generation": "第一世代",
+        "types": [
+            "妖精"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1904px -56px"
+        },
+        "national_index": "0035"
+    },
+    {
+        "index": "153",
+        "name": "皮可西",
+        "name_jp": "ピクシー",
+        "name_en": "Clefable",
+        "generation": "第一世代",
+        "types": [
+            "妖精"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-1960px -56px"
+        },
+        "national_index": "0036"
+    },
+    {
+        "index": "154",
+        "name": "铜镜怪",
+        "name_jp": "ドーミラー",
+        "name_en": "Bronzor",
+        "generation": "第四世代",
+        "types": [
+            "钢",
+            "超能力"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2016px -896px"
+        },
+        "national_index": "0436"
+    },
+    {
+        "index": "155",
+        "name": "青铜钟",
+        "name_jp": "ドータクン",
+        "name_en": "Bronzong",
+        "generation": "第四世代",
+        "types": [
+            "钢",
+            "超能力"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2072px -896px"
+        },
+        "national_index": "0437"
+    },
+    {
+        "index": "156",
+        "name": "晶光芽",
+        "name_jp": "キラーメ",
+        "name_en": "Glimmet",
+        "generation": "第九世代",
+        "types": [
+            "岩石",
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-896px -2072px"
+        },
+        "national_index": "0969"
+    },
+    {
+        "index": "157",
+        "name": "晶光花",
+        "name_jp": "キラフロル",
+        "name_en": "Glimmora",
+        "generation": "第九世代",
+        "types": [
+            "岩石",
+            "毒"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-952px -2072px"
+        },
+        "national_index": "0970"
+    },
+    {
+        "index": "158",
+        "name": "丑丑鱼",
+        "name_jp": "ヒンバス",
+        "name_en": "Feebas",
+        "generation": "第三世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1512px -728px"
+        },
+        "national_index": "0349"
+    },
+    {
+        "index": "159",
+        "name": "美纳斯",
+        "name_jp": "ミロカロス",
+        "name_en": "Milotic",
+        "generation": "第三世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1568px -728px"
+        },
+        "national_index": "0350"
+    },
+    {
+        "index": "160",
+        "name": "土龙弟弟",
+        "name_jp": "ノコッチ",
+        "name_en": "Dunsparce",
+        "generation": "第二世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-2016px -448px"
+        },
+        "national_index": "0206"
+    },
+    {
+        "index": "161",
+        "name": "土龙节节",
+        "name_jp": "ノココッチ",
+        "name_en": "Dudunsparce",
+        "generation": "第九世代",
+        "types": [
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1736px -2072px"
+        },
+        "national_index": "0982"
+    },
+    {
+        "index": "162",
+        "name": "泥泥鳅",
+        "name_jp": "ドジョッチ",
+        "name_en": "Barboach",
+        "generation": "第三世代",
+        "types": [
+            "水",
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-952px -728px"
+        },
+        "national_index": "0339"
+    },
+    {
+        "index": "163",
+        "name": "鲶鱼王",
+        "name_jp": "ナマズン",
+        "name_en": "Whiscash",
+        "generation": "第三世代",
+        "types": [
+            "水",
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1008px -728px"
+        },
+        "national_index": "0340"
+    },
+    {
+        "index": "164",
+        "name": "圆陆鲨",
+        "name_jp": "フカマル",
+        "name_en": "Gible",
+        "generation": "第四世代",
+        "types": [
+            "龙",
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-168px -952px"
+        },
+        "national_index": "0443"
+    },
+    {
+        "index": "165",
+        "name": "尖牙陆鲨",
+        "name_jp": "ガバイト",
+        "name_en": "Gabite",
+        "generation": "第四世代",
+        "types": [
+            "龙",
+            "地面"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-280px -952px"
+        },
+        "national_index": "0444"
+    },
+    {
+        "index": "166",
+        "name": "烈咬陆鲨",
+        "name_jp": "ガブリアス",
+        "name_en": "Garchomp",
+        "generation": "第四世代",
+        "types": [
+            "龙",
+            "地面"
+        ],
+        "meta": {
+            "filter": "超:準",
+            "icon_position": "-392px -952px"
+        },
+        "national_index": "0445"
+    },
+    {
+        "index": "167",
+        "name": "小碎钻",
+        "name_jp": "メレシー",
+        "name_en": "Carbink",
+        "generation": "第六世代",
+        "types": [
+            "岩石",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1624px -1456px"
+        },
+        "national_index": "0703"
+    },
+    {
+        "index": "168",
+        "name": "夜盗火蜥",
+        "name_jp": "ヤトウモリ",
+        "name_en": "Salandit",
+        "generation": "第七世代",
+        "types": [
+            "毒",
+            "火"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1400px -1568px"
+        },
+        "national_index": "0757"
+    },
+    {
+        "index": "169",
+        "name": "焰后蜥",
+        "name_jp": "エンニュート",
+        "name_en": "Salazzle",
+        "generation": "第七世代",
+        "types": [
+            "毒",
+            "火"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1456px -1568px"
+        },
+        "national_index": "0758"
+    },
+    {
+        "index": "170",
+        "name": "狃拉",
+        "name_jp": "ニューラ",
+        "name_en": "Sneasel",
+        "generation": "第二世代",
+        "types": [
+            "恶",
+            "冰"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-728px -504px"
+        },
+        "national_index": "0215"
+    },
+    {
+        "index": "171",
+        "name": "玛狃拉",
+        "name_jp": "マニューラ",
+        "name_en": "Weavile",
+        "generation": "第四世代",
+        "types": [
+            "恶",
+            "冰"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1960px -952px"
+        },
+        "national_index": "0461"
+    },
+    {
+        "index": "172",
+        "name": "雪童子",
+        "name_jp": "ユキワラシ",
+        "name_en": "Snorunt",
+        "generation": "第三世代",
+        "types": [
+            "冰"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-280px -784px"
+        },
+        "national_index": "0361"
+    },
+    {
+        "index": "173",
+        "name": "冰鬼护",
+        "name_jp": "オニゴーリ",
+        "name_en": "Glalie",
+        "generation": "第三世代",
+        "types": [
+            "冰"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-336px -784px"
+        },
+        "national_index": "0362"
+    },
+    {
+        "index": "174",
+        "name": "雪妖女",
+        "name_jp": "ユキメノコ",
+        "name_en": "Froslass",
+        "generation": "第四世代",
+        "types": [
+            "冰",
+            "幽灵"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-952px -1008px"
+        },
+        "national_index": "0478"
+    },
+    {
+        "index": "175",
+        "name": "麻麻小鱼",
+        "name_jp": "シビシラス",
+        "name_en": "Tynamo",
+        "generation": "第五世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1680px -1232px"
+        },
+        "national_index": "0602"
+    },
+    {
+        "index": "176",
+        "name": "麻麻鳗",
+        "name_jp": "シビビール",
+        "name_en": "Eelektrik",
+        "generation": "第五世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1736px -1232px"
+        },
+        "national_index": "0603"
+    },
+    {
+        "index": "177",
+        "name": "麻麻鳗鱼王",
+        "name_jp": "シビルドン",
+        "name_en": "Eelektross",
+        "generation": "第五世代",
+        "types": [
+            "电"
+        ],
+        "meta": {
+            "filter": "超",
+            "icon_position": "-1792px -1232px"
+        },
+        "national_index": "0604"
+    },
+    {
+        "index": "178",
+        "name": "黏黏宝",
+        "name_jp": "ヌメラ",
+        "name_en": "Goomy",
+        "generation": "第六世代",
+        "types": [
+            "龙"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1680px -1456px"
+        },
+        "national_index": "0704"
+    },
+    {
+        "index": "179",
+        "name": "黏美儿",
+        "name_jp": "ヌメイル",
+        "name_en": "Sliggoo",
+        "generation": "第六世代",
+        "types": [
+            "龙"
+        ],
+        "meta": {
+            "filter": "地",
+            "icon_position": "-1736px -1456px"
+        },
+        "national_index": "0705"
+    },
+    {
+        "index": "180",
+        "name": "黏美龙",
+        "name_jp": "ヌメルゴン",
+        "name_en": "Goodra",
+        "generation": "第六世代",
+        "types": [
+            "龙"
+        ],
+        "meta": {
+            "filter": "地:準",
+            "icon_position": "-1848px -1456px"
+        },
+        "national_index": "0706"
+    },
+    {
+        "index": "181",
+        "name": "鸭宝宝",
+        "name_jp": "コアルヒー",
+        "name_en": "Ducklett",
+        "generation": "第五世代",
+        "types": [
+            "水",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "0px -1232px"
+        },
+        "national_index": "0580"
+    },
+    {
+        "index": "182",
+        "name": "舞天鹅",
+        "name_jp": "スワンナ",
+        "name_en": "Swanna",
+        "generation": "第五世代",
+        "types": [
+            "水",
+            "飞行"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-56px -1232px"
+        },
+        "national_index": "0581"
+    },
+    {
+        "index": "183",
+        "name": "咬咬龟",
+        "name_jp": "カムカメ",
+        "name_en": "Chewtle",
+        "generation": "第八世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-896px -1736px"
+        },
+        "national_index": "0833"
+    },
+    {
+        "index": "184",
+        "name": "暴噬龟",
+        "name_jp": "カジリガメ",
+        "name_en": "Drednaw",
+        "generation": "第八世代",
+        "types": [
+            "水",
+            "岩石"
+        ],
+        "meta": {
+            "filter": "极",
+            "icon_position": "-952px -1736px"
+        },
+        "national_index": "0834"
+    },
+    {
+        "index": "185",
+        "name": "古月鸟",
+        "name_jp": "ウッウ",
+        "name_en": "Cramorant",
+        "generation": "第八世代",
+        "types": [
+            "飞行",
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1848px -1736px"
+        },
+        "national_index": "0845"
+    },
+    {
+        "index": "186",
+        "name": "驹刀小兵",
+        "name_jp": "コマタナ",
+        "name_en": "Pawniard",
+        "generation": "第五世代",
+        "types": [
+            "恶",
+            "钢"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-728px -1288px"
+        },
+        "national_index": "0624"
+    },
+    {
+        "index": "187",
+        "name": "劈斩司令",
+        "name_jp": "キリキザン",
+        "name_en": "Bisharp",
+        "generation": "第五世代",
+        "types": [
+            "恶",
+            "钢"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-784px -1288px"
+        },
+        "national_index": "0625"
+    },
+    {
+        "index": "188",
+        "name": "仆刀将军",
+        "name_jp": "ドドゲザン",
+        "name_en": "Kingambit",
+        "generation": "第九世代",
+        "types": [
+            "恶",
+            "钢"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-1848px -2072px"
+        },
+        "national_index": "0983"
+    },
+    {
+        "index": "189",
+        "name": "谜拟丘",
+        "name_jp": "ミミッキュ",
+        "name_en": "Mimikyu",
+        "generation": "第七世代",
+        "types": [
+            "幽灵",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "Z",
+            "icon_position": ""
+        },
+        "national_index": "0778"
+    },
+    {
+        "index": "190",
+        "name": "捣蛋小妖",
+        "name_jp": "ベロバー",
+        "name_en": "Impidimp",
+        "generation": "第八世代",
+        "types": [
+            "恶",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-728px -1792px"
+        },
+        "national_index": "0859"
+    },
+    {
+        "index": "191",
+        "name": "诈唬魔",
+        "name_jp": "ギモー",
+        "name_en": "Morgrem",
+        "generation": "第八世代",
+        "types": [
+            "恶",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-784px -1792px"
+        },
+        "national_index": "0860"
+    },
+    {
+        "index": "192",
+        "name": "长毛巨魔",
+        "name_jp": "オーロンゲ",
+        "name_en": "Grimmsnarl",
+        "generation": "第八世代",
+        "types": [
+            "恶",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "极",
+            "icon_position": "-840px -1792px"
+        },
+        "national_index": "0861"
+    },
+    {
+        "index": "193",
+        "name": "爱管侍",
+        "name_jp": "イエッサン",
+        "name_en": "Indeedee",
+        "generation": "第八世代",
+        "types": [
+            "超能力",
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-840px -1904px"
+        },
+        "national_index": "0876"
+    },
+    {
+        "index": "194",
+        "name": "野蛮鲈鱼",
+        "name_jp": "バスラオ",
+        "name_en": "Basculin",
+        "generation": "第五世代",
+        "types": [
+            "水"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "0px -1176px"
+        },
+        "national_index": "0550"
+    },
+    {
+        "index": "195",
+        "name": "幽尾玄鱼",
+        "name_jp": "イダイトウ",
+        "name_en": "Basculegion",
+        "generation": "第八世代",
+        "types": [
+            "水",
+            "幽灵"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-896px -1960px"
+        },
+        "national_index": "0902"
+    },
+    {
+        "index": "196",
+        "name": "月月熊",
+        "name_jp": "ガチグマ",
+        "name_en": "Ursaluna",
+        "generation": "第八世代",
+        "types": [
+            "地面",
+            "一般"
+        ],
+        "meta": {
+            "filter": "",
+            "icon_position": "-784px -1960px"
+        },
+        "national_index": "0901"
+    },
+    {
+        "index": "197",
+        "name": "够赞狗",
+        "name_jp": "イイネイヌ",
+        "name_en": "Okidogi",
+        "generation": "第九世代",
+        "types": [
+            "毒",
+            "格斗"
+        ],
+        "meta": {
+            "filter": "传",
+            "icon_position": "-1512px -2128px"
+        },
+        "national_index": "1014"
+    },
+    {
+        "index": "198",
+        "name": "愿增猿",
+        "name_jp": "マシマシラ",
+        "name_en": "Munkidori",
+        "generation": "第九世代",
+        "types": [
+            "毒",
+            "超能力"
+        ],
+        "meta": {
+            "filter": "传",
+            "icon_position": "-1568px -2128px"
+        },
+        "national_index": "1015"
+    },
+    {
+        "index": "199",
+        "name": "吉雉鸡",
+        "name_jp": "キチキギス",
+        "name_en": "Fezandipiti",
+        "generation": "第九世代",
+        "types": [
+            "毒",
+            "妖精"
+        ],
+        "meta": {
+            "filter": "传",
+            "icon_position": "-1624px -2128px"
+        },
+        "national_index": "1016"
+    },
+    {
+        "index": "200",
+        "name": "厄诡椪",
+        "name_jp": "オーガポン",
+        "name_en": "Ogerpon",
+        "generation": "第九世代",
+        "types": [
+            "草"
+        ],
+        "meta": {
+            "filter": "传",
+            "icon_position": "-1680px -2128px"
+        },
+        "national_index": "1017"
+    }
+]

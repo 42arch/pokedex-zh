@@ -47,7 +47,6 @@ export default async function RootLayout({
   children: React.ReactNode
   params: { locale: string }
 }) {
-  // const cloudflareToken = process.env.NEXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN
   const opClientId = process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID
   const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
   return (
@@ -74,12 +73,6 @@ export default async function RootLayout({
         />
         <Analytics />
         <GoogleAnalytics gaId={gaId || ''} />
-        {/* <Script
-          defer
-          src='https://static.cloudflareinsights.com/beacon.min.js'
-          data-cf-beacon={`{"token": "${cloudflareToken}"}`}
-          strategy='afterInteractive'
-        /> */}
       </body>
     </html>
   )

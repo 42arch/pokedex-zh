@@ -61,6 +61,7 @@ export const pokemonSimpleSchema = z.object({
   generation: z.string(),
   types: z.array(typeSchema),
   meta: z.object({
+    filter: z.string(),
     icon_position: z.string()
   })
 })

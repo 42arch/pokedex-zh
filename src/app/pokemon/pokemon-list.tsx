@@ -28,6 +28,7 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
+import { PokedexSelect } from '@/components/pokedex-select'
 
 const PAGE_SIZE = 50
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
@@ -50,6 +51,7 @@ function AllPokemonList({ initialData, className }: Props) {
   const [fetched, setFetched] = useState(false)
   const [pokemonList, setPokemonList] = useState<PokemonList>(initialData)
   const [name, setName] = useState('')
+  const [pokedex, setPokedex] = useState('national')
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
     type1: null,
     type2: null,
@@ -62,10 +64,14 @@ function AllPokemonList({ initialData, className }: Props) {
     previousPageData: PaginatedResponse<PokemonList> | null
   ): string | null => {
     if (previousPageData && !previousPageData.contents.length) return null
+
+    console.log(22222, pokedex)
+
     const params = new URLSearchParams({
       page: page.toString(),
       pageSize: PAGE_SIZE.toString(),
       name: name,
+      pokedex: pokedex,
       order: filterOptions.order
     })
     if (filterOptions.type1) params.append('type1', filterOptions.type1)
@@ -78,6 +84,8 @@ function AllPokemonList({ initialData, className }: Props) {
   const { data, error, size, setSize } = useSWRInfinite<
     PaginatedResponse<PokemonList>
   >(getKey, fetcher)
+
+  console.log(99991111, data)
 
   const isLoadingInitialData = !data && !error
   const isLoadingMore =
@@ -112,7 +120,7 @@ function AllPokemonList({ initialData, className }: Props) {
   return (
     <div className={cn(className, 'border-r border-r-muted')}>
       <div className='border-b border-b-muted px-4 pb-2 pt-4 font-semibold tracking-tight text-neutral-700 dark:text-neutral-300'>
-        <h1 className='font-bold'>全国图鉴</h1>
+        <PokedexSelect value={pokedex} onChange={(v) => setPokedex(v)} />
       </div>
       <div className='relative h-[calc(100%-3rem-1px)] pl-4 pt-4'>
         <div className='relative pr-4'>
@@ -143,7 +151,7 @@ function AllPokemonList({ initialData, className }: Props) {
               {isLoadingMore
                 ? '加载中...'
                 : isReachingEnd
-                  ? `共${data[0].total}个`
+                  ? `共 ${data[0].total} 种`
                   : '加载更多'}
             </div>
           </ScrollArea>
@@ -310,3 +318,4 @@ function FilterOptions({
     </Accordion>
   )
 }
+

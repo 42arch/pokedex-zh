@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default async function Page({ children }: PropsWithChildren) {
   const data = await fetchData<PaginatedResponse<PokemonListType>>(
-    'pokemon?page=0&pageSize=30'
+    'pokemon?pokedex=national&page=0&pageSize=30'
   )
 
   return (
