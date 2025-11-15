@@ -23,7 +23,7 @@ interface PokedexProps {
   onChange: (value: string) => void
 }
 
-export function PokedexSelect({ value, onChange }: PokedexProps) {
+export default function PokedexSelect({ value, onChange }: PokedexProps) {
   const [open, setOpen] = React.useState(false)
 
   return (

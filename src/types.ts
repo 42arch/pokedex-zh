@@ -4,6 +4,9 @@ export const orderSchema = z.enum(['asc', 'desc'])
 
 export type Order = z.infer<typeof orderSchema>
 
+export const filterSchema = z.enum(['初', '鼠', '石', '准', '地', '超', 'Z', '极', '传', '幻', '究', '悖'])
+export type Filter = z.infer<typeof filterSchema>
+
 export const generationSchema = z.enum([
   '第一世代',
   '第二世代',

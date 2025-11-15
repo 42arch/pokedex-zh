@@ -1,6 +1,8 @@
 import {
   Category,
   categorySchema,
+  Filter,
+  filterSchema,
   generationSchema,
   Order,
   orderSchema,
@@ -8,12 +10,65 @@ import {
   typeSchema
 } from '@/types'
 
+export const PAGE_SIZE = 50
+
 export const ORDERS = orderSchema.options
 
 export const ORDER_LABEL: Record<Order, string> = {
   asc: '顺序',
   desc: '倒序'
 }
+
+export const FILTERS = filterSchema.options
+export const FILTER_LIST: {value: Filter; label: string, color: string}[] = [{
+  value: '初',
+  label: '最初的伙伴',
+  color: '#ffd733',
+}, {
+  value: '鼠',
+  label: '电鼠类宝可梦',
+  color: '#ffcc33',
+}, {
+  value: '石',
+  label: '化石复原宝可梦',
+  color: '#bbaa66',
+}, {
+  value: '准',
+  label: '大器晚成的宝可梦',
+  color: '#7766ee',
+}, {
+  value: '地',
+  label: '有地区形态',
+  color: '#5ac8fa',
+}, {
+  value: '超',
+  label: '有超级进化',
+  color: '#025da6',
+}, {
+  value: 'Z',
+  label: '有专属Z招式',
+  color: '#5ac8fa',
+}, {
+  value: '极',
+  label: '有超级巨化',
+  color: '#ac379e',
+}, {
+  value: '传',
+  label: '传说的宝可梦',
+  color: '#e7b43d',
+},{
+  value: '幻',
+  label: '幻之宝可梦',
+  color: '#e67091',
+},{
+  value: '究',
+  label: '究极异兽',
+  color: '#222222',
+},{
+  value: '悖',
+  label: '悖谬宝可梦',
+  color: '#d45455',
+}]
 
 export const TYPES = typeSchema.options
 

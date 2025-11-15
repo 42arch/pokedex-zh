@@ -3,6 +3,7 @@ import PokemonList from './pokemon-list'
 import { fetchData } from '@/lib/fetch'
 import type { PaginatedResponse, PokemonList as PokemonListType } from '@/types'
 import type { Metadata } from 'next'
+import { PAGE_SIZE } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: '宝可梦中文图鉴 | 全国图鉴列表',
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function Page({ children }: PropsWithChildren) {
   const data = await fetchData<PaginatedResponse<PokemonListType>>(
-    'pokemon?pokedex=national&page=0&pageSize=30'
+    `pokemon?pokedex=national&page=0&pageSize=${PAGE_SIZE}`
   )
 
   return (
