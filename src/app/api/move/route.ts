@@ -1,12 +1,12 @@
+import type { Category, MoveList, Order, Type } from '@/types'
 import { NextResponse } from 'next/server'
-import { Category, MoveList, Order, Type } from '@/types'
-import { readFile } from '@/lib/file'
 import { cache } from '@/lib/cache'
+import { readFile } from '@/lib/file'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const page = parseInt(searchParams.get('page') || '0')
-  const pageSize = parseInt(searchParams.get('pageSize') || '50')
+  const page = Number.parseInt(searchParams.get('page') || '0')
+  const pageSize = Number.parseInt(searchParams.get('pageSize') || '50')
   const type = searchParams.get('type') || ''
   const category = searchParams.get('category') || ''
   const name = searchParams.get('name') || ''
@@ -17,10 +17,10 @@ export async function GET(request: Request) {
     const allData = await readFile<MoveList>('move_list.json')
     const filteredData = allData
       .filter(
-        (p) =>
-          p.name.startsWith(name) ||
-          p.name_en.toLowerCase().startsWith(name) ||
-          p.name_jp.startsWith(name)
+        p =>
+          p.name.startsWith(name)
+          || p.name_en.toLowerCase().startsWith(name)
+          || p.name_jp.startsWith(name),
       )
       .filter((p) => {
         if (type) {
@@ -46,14 +46,15 @@ export async function GET(request: Request) {
 
     const data = filteredData.splice(page * pageSize, pageSize)
     const res = NextResponse.json({
-      total: total,
-      page: page,
-      pageSize: pageSize,
-      contents: data
+      total,
+      page,
+      pageSize,
+      contents: data,
     })
     cache(res)
     return res
-  } catch (error) {
+  }
+  catch {
     return NextResponse.error()
   }
 }

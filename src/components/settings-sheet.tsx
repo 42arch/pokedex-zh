@@ -1,15 +1,11 @@
+import type { PropsWithChildren } from 'react'
 import {
   Sheet,
-  SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from '@/components/ui/sheet'
-import { Label } from '@/components/ui/label'
-import { PropsWithChildren } from 'react'
 
 export function SettingsSheet({ children }: PropsWithChildren) {
   return (

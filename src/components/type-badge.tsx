@@ -1,8 +1,8 @@
 'use client'
 
+import type { Type } from '@/types'
 import { TYPE_COLORS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import { Type } from '@/types'
 
 interface Props {
   type: Type
@@ -19,10 +19,10 @@ function TypeBadge({ type, size, active = true, onClick }: Props) {
       className={cn(
         'flex cursor-pointer items-center justify-center gap-2 rounded px-2 py-0.5',
         active ? 'text-white' : 'bg-muted text-muted-foreground',
-        size === 'normal' ? 'min-w-20' : ''
+        size === 'normal' ? 'min-w-20' : '',
       )}
       style={{
-        backgroundColor: active ? color : ''
+        backgroundColor: active ? color : '',
       }}
       onClick={() => onClick?.(type)}
     >
@@ -30,11 +30,13 @@ function TypeBadge({ type, size, active = true, onClick }: Props) {
         <span className={cn('type', `type-${type}`)}></span>
       )}
 
-      {size === 'normal' ? (
-        <span className='text-center text-sm'>{type}</span>
-      ) : (
-        <span className='text-xs brightness-200'>{type}</span>
-      )}
+      {size === 'normal'
+        ? (
+            <span className="text-center text-sm">{type}</span>
+          )
+        : (
+            <span className="text-xs brightness-200">{type}</span>
+          )}
     </div>
   )
 }

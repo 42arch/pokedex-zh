@@ -1,7 +1,7 @@
+import type { AbilityDetail, PokemonDetail } from '@/types'
+import { NextResponse } from 'next/server'
 import { cache } from '@/lib/cache'
 import { findFile, readFile } from '@/lib/file'
-import { AbilityDetail, PokemonDetail } from '@/types'
-import { NextResponse } from 'next/server'
 
 export async function GET(request: Request, context: any) {
   const { params } = context
@@ -18,16 +18,17 @@ export async function GET(request: Request, context: any) {
               const aFile = await findFile(a.name, 'ability')
               const detail = await readFile<AbilityDetail>(`ability/${aFile}`)
               a.text = detail.text
-            })
+            }),
           )
-        })
+        }),
       )
       const res = NextResponse.json(data)
       cache(res)
       return res
     }
     return NextResponse.json(null)
-  } catch (error) {
+  }
+  catch {
     return NextResponse.error()
   }
 }

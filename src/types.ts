@@ -16,7 +16,7 @@ export const generationSchema = z.enum([
   '第六世代',
   '第七世代',
   '第八世代',
-  '第九世代'
+  '第九世代',
 ])
 
 export type Generation = z.infer<typeof generationSchema>
@@ -44,7 +44,7 @@ export const typeSchema = z.enum([
   '龙',
   '恶',
   '妖精',
-  '未知'
+  '未知',
 ])
 
 export type Type = z.infer<typeof typeSchema>
@@ -53,7 +53,7 @@ export const PaginatedResponseSchema = z.object({
   page: z.number(),
   pageSize: z.number(),
   total: z.number(),
-  contents: z.array(z.any())
+  contents: z.array(z.any()),
 })
 
 export const pokemonSimpleSchema = z.object({
@@ -65,8 +65,8 @@ export const pokemonSimpleSchema = z.object({
   types: z.array(typeSchema),
   meta: z.object({
     filter: z.string(),
-    icon_position: z.string()
-  })
+    icon_position: z.string(),
+  }),
 })
 
 export const pokemonListSchema = z.array(pokemonSimpleSchema)
@@ -77,14 +77,14 @@ export const statLabelSchema = z.enum([
   'defense',
   'sp_attack',
   'sp_defense',
-  'speed'
+  'speed',
 ])
 
 export type StatLabel = z.infer<typeof statLabelSchema>
 
 export const statSchema = z.object({
   form: z.string().default('一般'),
-  data: z.record(statLabelSchema, z.string())
+  data: z.record(statLabelSchema, z.string()),
 })
 
 export type Stat = z.infer<typeof statSchema>
@@ -92,7 +92,7 @@ export type Stat = z.infer<typeof statSchema>
 export const homeImageSchema = z.object({
   name: z.string(),
   image: z.string().nullable(),
-  shiny: z.string().nullable()
+  shiny: z.string().nullable(),
 })
 
 export type HomeImage = z.infer<typeof homeImageSchema>
@@ -103,9 +103,9 @@ export const flavorTextSchema = z.object({
     z.object({
       name: z.string(),
       group: z.string(),
-      text: z.string()
-    })
-  )
+      text: z.string(),
+    }),
+  ),
 })
 
 export type FlavorText = z.infer<typeof flavorTextSchema>
@@ -118,8 +118,8 @@ export const evolutionChainSchema = z.array(
     image: z.string(),
     back_text: z.string().nullable(),
     from: z.string().nullable(),
-    form_name: z.string().nullable()
-  })
+    form_name: z.string().nullable(),
+  }),
 )
 
 export type EvolutionChain = z.infer<typeof evolutionChainSchema>
@@ -134,14 +134,14 @@ export const moveSchema = z.object({
   category: categorySchema,
   power: z.string(),
   accuracy: z.string(),
-  pp: z.string()
+  pp: z.string(),
 })
 
 export type Move = z.infer<typeof moveSchema>
 
 export const formMoveSchema = z.object({
   form: z.string(),
-  data: z.array(moveSchema)
+  data: z.array(moveSchema),
 })
 
 export type FormMove = z.infer<typeof formMoveSchema>
@@ -149,7 +149,7 @@ export type FormMove = z.infer<typeof formMoveSchema>
 export const formAbilitySchema = z.object({
   name: z.string(),
   is_hidden: z.boolean(),
-  text: z.string().nullable()
+  text: z.string().nullable(),
 })
 
 export type FormAbility = z.infer<typeof formAbilitySchema>
@@ -172,24 +172,24 @@ export const pokemonDetailSchema = z.object({
       ability: z.array(formAbilitySchema),
       experience: z.object({
         number: z.string(),
-        speed: z.string()
+        speed: z.string(),
       }),
       height: z.string(),
       weight: z.string(),
       gender_rate: z
         .object({
           male: z.string(),
-          female: z.string()
+          female: z.string(),
         })
         .nullable(),
       shape: z.string(),
       color: z.string(),
       catch_rate: z.object({
         number: z.string(),
-        rate: z.string()
+        rate: z.string(),
       }),
-      egg_groups: z.array(z.string())
-    })
+      egg_groups: z.array(z.string()),
+    }),
   ),
   stats: z.array(statSchema),
   flavor_texts: z.array(
@@ -199,10 +199,10 @@ export const pokemonDetailSchema = z.object({
         z.object({
           name: z.string(),
           group: z.string(),
-          text: z.string()
-        })
-      )
-    })
+          text: z.string(),
+        }),
+      ),
+    }),
   ),
   names: z.object({
     zh_hans: z.string(),
@@ -213,14 +213,14 @@ export const pokemonDetailSchema = z.object({
     it: z.string(),
     es: z.string(),
     ja: z.string(),
-    ko: z.string()
+    ko: z.string(),
   }),
   moves: z.object({
     learned: z.array(formMoveSchema),
-    machine: z.array(formMoveSchema)
+    machine: z.array(formMoveSchema),
   }),
   evolution_chains: z.array(evolutionChainSchema),
-  home_images: z.array(homeImageSchema)
+  home_images: z.array(homeImageSchema),
 })
 
 export type PokemonSimple = z.infer<typeof pokemonSimpleSchema>
@@ -248,11 +248,11 @@ export const abilityDetailSchema = z.object({
       hidden: z.string(),
       meta: z
         .object({
-          icon_position: z.string()
+          icon_position: z.string(),
         })
-        .nullable()
-    })
-  )
+        .nullable(),
+    }),
+  ),
 })
 
 export const abilitySimpleSchema = z.object({
@@ -263,7 +263,7 @@ export const abilitySimpleSchema = z.object({
   name_en: z.string(),
   text: z.string(),
   common_count: z.number(),
-  hidden_count: z.number()
+  hidden_count: z.number(),
 })
 
 export const abilityListSchema = z.array(abilitySimpleSchema)
@@ -283,7 +283,7 @@ export const moveSimpleSchema = z.object({
   power: z.string(),
   accuracy: z.string(),
   pp: z.string(),
-  text: z.string()
+  text: z.string(),
 })
 export const moveListSchema = z.array(moveSimpleSchema)
 
@@ -293,9 +293,9 @@ const movePokemonSchema = z.object({
   types: z.array(typeSchema),
   meta: z
     .object({
-      icon_position: z.string()
+      icon_position: z.string(),
     })
-    .nullable()
+    .nullable(),
 })
 
 export type MovePokemon = z.infer<typeof movePokemonSchema>
@@ -319,8 +319,8 @@ export const moveDetailSchema = z.object({
     level: z.array(movePokemonSchema),
     machine: z.array(movePokemonSchema),
     egg: z.array(movePokemonSchema),
-    tutor: z.array(movePokemonSchema)
-  })
+    tutor: z.array(movePokemonSchema),
+  }),
 })
 
 export type MoveSimple = z.infer<typeof moveSimpleSchema>

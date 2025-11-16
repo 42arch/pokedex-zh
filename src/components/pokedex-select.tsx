@@ -1,22 +1,22 @@
-"use client"
+'use client'
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronsUpDown } from 'lucide-react'
+import * as React from 'react'
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandGroup,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from '@/components/ui/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { POKEDEX_LIST } from "@/lib/constants"
+} from '@/components/ui/popover'
+import { POKEDEX_LIST } from '@/lib/constants'
+import { cn } from '@/lib/utils'
 
 interface PokedexProps {
   value: string
@@ -36,16 +36,16 @@ export default function PokedexSelect({ value, onChange }: PokedexProps) {
           className="w-[200px] font-semibold justify-between"
         >
           {value
-            ? POKEDEX_LIST.find((pokedex) => pokedex.value === value)?.label
-            : "全国图鉴"}
+            ? POKEDEX_LIST.find(pokedex => pokedex.value === value)?.label
+            : '全国图鉴'}
           <ChevronsUpDown className="opacity-50 h-4 w-4" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[200px] p-0 border border-border">
         <Command>
           <CommandList>
             <CommandGroup>
-              {POKEDEX_LIST.map((pokedex) => (
+              {POKEDEX_LIST.map(pokedex => (
                 <CommandItem
                   key={pokedex.value}
                   value={pokedex.value}
@@ -58,8 +58,8 @@ export default function PokedexSelect({ value, onChange }: PokedexProps) {
                   {pokedex.label}
                   <Check
                     className={cn(
-                      "ml-auto",
-                      value === pokedex.value ? "opacity-100" : "opacity-0"
+                      'ml-auto',
+                      value === pokedex.value ? 'opacity-100' : 'opacity-0',
                     )}
                   />
                 </CommandItem>

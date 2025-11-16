@@ -1,75 +1,35 @@
-import type { Filter, Generation, Order, Type } from '@/types'
-import TypeBadge from '@/components/type-badge'
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion'
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Separator } from '@/components/ui/separator'
-import { FILTER_LIST, GENERATIONS, TYPES } from '@/lib/constants'
+import type { Category, Generation, Order, Type } from '@/types'
+import { GENERATIONS, TYPES } from '@/lib/constants'
 import { cn } from '@/lib/utils'
+import TypeBadge from './type-badge'
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion'
+import { Button } from './ui/button'
+import { Label } from './ui/label'
+import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { Separator } from './ui/separator'
 
-export interface FilterOptions {
-  type1: Type | null
-  type2: Type | null
-  filter: Filter | null
+export interface MoveFilterOptions {
+  type: Type | null
+  category: Category | null
   generation: Generation | null
   order: Order
 }
 
-export default function PokemonFilter({
+export default function MoveFilter({
   options,
   onOptionsChange,
 }: {
-  options: FilterOptions
-  onOptionsChange: (v: FilterOptions) => void
+  options: MoveFilterOptions
+  onOptionsChange: (v: MoveFilterOptions) => void
 }) {
   const handleTypeClick = (type: Type) => {
     const newOptions = { ...options }
 
-    if (!options.type1) {
-      newOptions.type1 = type
-      newOptions.type2 = null
+    if (!options.type) {
+      newOptions.type = type
     }
     else {
-      if (options.type1 === type) {
-        if (options.type2) {
-          newOptions.type1 = options.type2
-          newOptions.type2 = null
-        }
-        else {
-          newOptions.type1 = null
-        }
-      }
-      else {
-        if (!options.type2) {
-          newOptions.type2 = type
-        }
-        else {
-          if (options.type2 === type) {
-            newOptions.type2 = null
-          }
-          else {
-            newOptions.type2 = type
-          }
-        }
-      }
-    }
-    onOptionsChange(newOptions)
-  }
-
-  const handleFilterClick = (filter: Filter) => {
-    const newOptions = { ...options }
-
-    if (newOptions.filter === filter) {
-      newOptions.filter = null
-    }
-    else {
-      newOptions.filter = filter
+      newOptions.type = null
     }
     onOptionsChange(newOptions)
   }
@@ -96,14 +56,14 @@ export default function PokemonFilter({
   const handleClear = () => {
     onOptionsChange({
       ...options,
-      type1: null,
-      type2: null,
+      type: null,
+      category: null,
       generation: null,
     })
   }
 
   return (
-    <Accordion type="single" collapsible className=" pr-4">
+    <Accordion type="single" collapsible className="pr-4">
       <AccordionItem value="filter" className="border-b-0">
         <AccordionTrigger className="justify-end gap-2 hover:no-underline">
           筛选
@@ -114,31 +74,11 @@ export default function PokemonFilter({
               <TypeBadge
                 key={type}
                 type={type}
-                active={options.type1 === type || options.type2 === type}
+                active={options.type === type}
                 size="normal"
                 onClick={handleTypeClick}
               />
             ))}
-            <Separator className="my-1 h-[0.5px]" />
-            {
-              FILTER_LIST.map(filter => (
-                <div
-                  key={filter.value}
-                  className={cn(
-                    'cursor-pointer rounded px-2 py-0.5 bg-muted',
-                    options.filter !== filter.value
-                      ? 'text-muted-foreground '
-                      : 'text-primary-foreground',
-                  )}
-                  style={{
-                    backgroundColor: options.filter !== filter.value ? 'hsl(var(--muted))' : filter.color,
-                  }}
-                  onClick={() => handleFilterClick(filter.value)}
-                >
-                  {filter.label}
-                </div>
-              ))
-            }
             <Separator className="my-1 h-[0.5px]" />
             {GENERATIONS.map(gen => (
               <div

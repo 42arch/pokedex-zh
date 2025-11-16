@@ -1,12 +1,12 @@
+import type { Order, PokemonList, Type } from '@/types'
 import { NextResponse } from 'next/server'
-import { Order, PokemonList, Type } from '@/types'
-import { readFile } from '@/lib/file'
 import { cache } from '@/lib/cache'
+import { readFile } from '@/lib/file'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const page = parseInt(searchParams.get('page') || '0')
-  const pageSize = parseInt(searchParams.get('pageSize') || '50')
+  const page = Number.parseInt(searchParams.get('page') || '0')
+  const pageSize = Number.parseInt(searchParams.get('pageSize') || '50')
   const name = searchParams.get('name') || ''
   const type1 = searchParams.get('type1') || ''
   const type2 = searchParams.get('type2') || ''
@@ -15,18 +15,15 @@ export async function GET(request: Request) {
   const order = (searchParams.get('order') || 'asc') as Order
   const pokedex = searchParams.get('pokedex') || 'national'
 
-
-  console.log(44444, filter)
-  
   try {
     const fullData = await readFile<PokemonList>(`/pokedex/pokedex_${pokedex}.json`)
 
     const filteredData = fullData
       .filter(
-        (p) =>
-          p.name.includes(name) ||
-          p.name_en.toLowerCase().includes(name) ||
-          p.name_jp.includes(name)
+        p =>
+          p.name.includes(name)
+          || p.name_en.toLowerCase().includes(name)
+          || p.name_jp.includes(name),
       )
       .filter((p) => {
         if (generation) {
@@ -35,7 +32,7 @@ export async function GET(request: Request) {
         return true
       })
       .filter((p) => {
-        if(filter) {
+        if (filter) {
           return p.meta.filter.includes(filter)
         }
         return true
@@ -57,14 +54,15 @@ export async function GET(request: Request) {
 
     const data = orderedData.splice(page * pageSize, pageSize)
     const res = NextResponse.json({
-      total: total,
-      page: page,
-      pageSize: pageSize,
-      contents: data
+      total,
+      page,
+      pageSize,
+      contents: data,
     })
     cache(res)
     return res
-  } catch (error) {
+  }
+  catch {
     return NextResponse.error()
   }
 }

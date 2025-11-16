@@ -1,5 +1,5 @@
-import path from 'path'
-import { promises as fs } from 'fs'
+import { promises as fs } from 'node:fs'
+import path from 'node:path'
 
 export async function readFile<T>(jsonPath: string) {
   const filePath = path.join(process.cwd(), `/public/data/${jsonPath}`)
@@ -11,7 +11,7 @@ export async function readFile<T>(jsonPath: string) {
 export async function findFile(name: string, directoryName: string) {
   const directoryPath = path.join(
     process.cwd(),
-    `/public/data/${directoryName}`
+    `/public/data/${directoryName}`,
   )
   const files = await fs.readdir(directoryPath)
   const matchedFile = files.find((file) => {

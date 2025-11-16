@@ -1,6 +1,6 @@
-import { findFile, readFile } from '@/lib/file'
-import { MoveDetail, PokemonList } from '@/types'
+import type { MoveDetail, PokemonList } from '@/types'
 import { NextResponse } from 'next/server'
+import { findFile, readFile } from '@/lib/file'
 
 export async function GET(request: Request, context: any) {
   const { params } = context
@@ -13,29 +13,30 @@ export async function GET(request: Request, context: any) {
       const pokemonList = await readFile<PokemonList>('pokemon_full_list.json')
 
       data.pokemon.egg.forEach((poke) => {
-        const detail = pokemonList.find((p) => p.name === poke.name)
+        const detail = pokemonList.find(p => p.name === poke.name)
         poke.types = detail?.types ?? []
         poke.meta = detail ? detail.meta : null
       })
       data.pokemon.level.forEach((poke) => {
-        const detail = pokemonList.find((p) => p.name === poke.name)
+        const detail = pokemonList.find(p => p.name === poke.name)
         poke.types = detail?.types ?? []
         poke.meta = detail ? detail.meta : null
       })
       data.pokemon.machine.forEach((poke) => {
-        const detail = pokemonList.find((p) => p.name === poke.name)
+        const detail = pokemonList.find(p => p.name === poke.name)
         poke.types = detail?.types ?? []
         poke.meta = detail ? detail.meta : null
       })
       data.pokemon.tutor.forEach((poke) => {
-        const detail = pokemonList.find((p) => p.name === poke.name)
+        const detail = pokemonList.find(p => p.name === poke.name)
         poke.types = detail?.types ?? []
         poke.meta = detail ? detail.meta : null
       })
       return NextResponse.json(data)
     }
     return NextResponse.json(null)
-  } catch (error) {
+  }
+  catch {
     return NextResponse.error()
   }
 }

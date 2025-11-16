@@ -1,12 +1,12 @@
 'use client'
 
+import type { MoveDetail as MoveDetailType } from '@/types'
+import { useRouter } from 'next/navigation'
+import BackButton from '@/components/back-button'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import useMediaQuery from '@/hooks/useMediaQuery'
-import type { MoveDetail as MoveDetailType } from '@/types'
-import TopBar from './top-bar'
-import { useRouter } from 'next/navigation'
 import MoveDetail from './move-detail'
-import BackButton from '@/components/back-button'
+import TopBar from './top-bar'
 
 interface Props {
   data: MoveDetailType
@@ -15,7 +15,8 @@ interface Props {
 export default function MobilePage({ data }: Props) {
   const isMobile = useMediaQuery('(max-width: 1024px)')
   const router = useRouter()
-  if (!isMobile) return null
+  if (!isMobile)
+    return null
 
   return (
     <Dialog
@@ -26,7 +27,7 @@ export default function MobilePage({ data }: Props) {
         }
       }}
     >
-      <DialogContent className='h-full p-2'>
+      <DialogContent className="h-full p-2">
         <TopBar name={data.name} />
         <MoveDetail data={data} />
         <BackButton />
