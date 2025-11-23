@@ -127,11 +127,11 @@ export default function PokemonFilter({
                   className={cn(
                     'cursor-pointer rounded px-2 py-0.5 bg-muted',
                     options.filter !== filter.value
-                      ? 'text-muted-foreground '
+                      ? 'text-muted-foreground'
                       : 'text-primary-foreground',
                   )}
                   style={{
-                    backgroundColor: options.filter !== filter.value ? 'hsl(var(--muted))' : filter.color,
+                    backgroundColor: options.filter !== filter.value ? 'var(--muted)' : filter.color,
                   }}
                   onClick={() => handleFilterClick(filter.value)}
                 >

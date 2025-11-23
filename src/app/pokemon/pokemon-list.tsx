@@ -126,7 +126,7 @@ function AllPokemonList({ initialData, className }: Props) {
               setFilterOptions(v)
             }}
           />
-          <ScrollArea className="flex-grow">
+          <ScrollArea className="grow">
             <div className="flex flex-col gap-2">
               {pokemonList.map((pokemon, idx) => (
                 <PokemonItem key={idx} data={pokemon} />
