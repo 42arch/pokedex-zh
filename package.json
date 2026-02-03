@@ -1,6 +1,6 @@
 {
   "name": "pokedex-zh",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -35,7 +35,7 @@
     "cmdk": "^1.1.1",
     "framer-motion": "^11.1.9",
     "lucide-react": "^0.445.0",
-    "next": "15.4.6",
+    "next": "15.4.10",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-intersection-observer": "^9.10.2",

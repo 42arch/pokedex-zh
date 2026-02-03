@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Image from '@/components/image'
 
 export default function IndexPage() {
@@ -14,23 +13,12 @@ export default function IndexPage() {
         </h2>
       </div>
       <div className="mt-8 flex w-full flex-col items-center justify-evenly gap-4 lg:gap-6">
-        <Image src='/wechat.jpg' alt="微信小程序" width={200} height={200}/>
+        <Image src="/wechat.jpg" alt="微信小程序" width={200} height={200} />
         <div className="flex flex-col items-center justify-center">
           <h3 className="text-base">我们开发了微信小程序版的宝可梦中文图鉴，欢迎扫码访问！</h3>
           <h3 className="text-base">或者微信搜索“训练家口袋图鉴”，功能更全，更新更及时！</h3>
         </div>
       </div>
     </main>
-  )
-}
-
-function NavItem({ title, href }: { title: string, href: string }) {
-  return (
-    <Link
-      href={href}
-      className="flex h-16 w-full max-w-lg items-center justify-center gap-4 rounded-lg border border-border px-4 py-3 text-center transition-all hover:bg-accent"
-    >
-      {title}
-    </Link>
   )
 }
