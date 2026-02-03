@@ -14,10 +14,11 @@ export default function IndexPage() {
         </h2>
       </div>
       <div className="mt-8 flex w-full flex-col items-center justify-evenly gap-4 lg:gap-6">
-        <NavItem title="图鉴" href="/pokemon" />
-        <NavItem title="特性" href="/ability" />
-        <NavItem title="招式" href="/move" />
-        <NavItem title="道具" href="/item" />
+        <Image src='/wechat.jpg' alt="微信小程序" width={200} height={200}/>
+        <div className="flex flex-col items-center justify-center">
+          <h3 className="text-base">我们开发了微信小程序版的宝可梦中文图鉴，欢迎扫码访问！</h3>
+          <h3 className="text-base">或者微信搜索“训练家口袋图鉴”，功能更全，更新更及时！</h3>
+        </div>
       </div>
     </main>
   )
