@@ -1,10 +1,9 @@
 'use client'
 
+import type { PokemonDetail } from '@/types'
 import { use, useEffect, useState } from 'react'
-import { notFound } from 'next/navigation'
-import { getPokedex, getPokemon } from '@/http/pokemon'
-import type { PokemonDetail, PokemonList } from '@/types'
 import useSWR from 'swr'
+import { getPokedex, getPokemon } from '@/http/pokemon'
 import MobilePage from './mobile-page'
 import PokemonDetailComponent from './pokemon-detail'
 import TopBar from './top-bar'
@@ -22,24 +21,26 @@ export default function Page({ params }: Props) {
 
   useEffect(() => {
     async function fetchDetail() {
-      if (!pokedex) return
+      if (!pokedex)
+        return
 
       // Find pokemon by name (Chinese, English, or Japanese)
       // The params.name is likely the link name which is usually Chinese name or part of it?
-      // In pokemon-list.tsx: linkName = name.split('-')[0]. 
+      // In pokemon-list.tsx: linkName = name.split('-')[0].
       // Actually national.json name is "妙蛙种子", list link is "/pokemon/妙蛙种子".
       // So name is "妙蛙种子".
-      
+
       const decodedName = decodeURIComponent(name)
       const pokemon = pokedex.find(
-        p => p.name === decodedName || p.name_en === decodedName || p.name_jp === decodedName
+        p => p.name === decodedName || p.name_en === decodedName || p.name_jp === decodedName,
       )
 
       if (pokemon) {
         try {
           const data = await getPokemon(pokemon.id, pokemon.name)
           setDetailData(data)
-        } catch (e) {
+        }
+        catch (e) {
           console.error(e)
         }
       }

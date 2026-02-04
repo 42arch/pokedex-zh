@@ -5,7 +5,6 @@ import type {
   MoveList,
   MoveSimple,
 } from '@/types'
-import { getMoveList } from '@/http/move'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
@@ -15,6 +14,7 @@ import MoveFilter from '@/components/move-filter'
 import TypeBadge from '@/components/type-badge'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { getMoveList } from '@/http/move'
 import { cn } from '@/lib/utils'
 
 interface Props {

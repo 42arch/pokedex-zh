@@ -11,17 +11,17 @@ interface Props {
   data: AbilityDetailType
 }
 
-const GEN_MAP: Record<number, string> = {
-  1: '第一世代',
-  2: '第二世代',
-  3: '第三世代',
-  4: '第四世代',
-  5: '第五世代',
-  6: '第六世代',
-  7: '第七世代',
-  8: '第八世代',
-  9: '第九世代',
-}
+// const GEN_MAP: Record<number, string> = {
+//   1: '第一世代',
+//   2: '第二世代',
+//   3: '第三世代',
+//   4: '第四世代',
+//   5: '第五世代',
+//   6: '第六世代',
+//   7: '第七世代',
+//   8: '第八世代',
+//   9: '第九世代',
+// }
 
 function AbilityDetail({ className, data }: Props) {
   return (
@@ -40,15 +40,15 @@ function AbilityDetail({ className, data }: Props) {
             ，英文︰
             {data.name_en}
             ）是
-            {/* The generation field is not in detail data based on schema provided earlier, only in list data. 
-                Wait, previous schema update might have missed it or it is not in detail json. 
+            {/* The generation field is not in detail data based on schema provided earlier, only in list data.
+                Wait, previous schema update might have missed it or it is not in detail json.
                 Let's check schema. AbilityDetailSchema has 'id', 'name_zh', 'name_ja', 'name_en', 'basic_info', 'introduction', 'effect', 'pokemon_list'.
-                It does NOT have 'generation'. So we can't display it here unless we fetch it from list or it is added. 
+                It does NOT have 'generation'. So we can't display it here unless we fetch it from list or it is added.
                 For now, let's omit generation display or rely on list passing it (but here we fetch detail separately).
-                Actually, usually detail pages might not show generation if it's not in JSON. 
+                Actually, usually detail pages might not show generation if it's not in JSON.
                 Let's check the previous code: it showed generation.
                 If the new JSON doesn't have it, we can't show it easily without extra fetch.
-                Let's remove generation display for now or keep it if I missed it in schema. 
+                Let's remove generation display for now or keep it if I missed it in schema.
                 Looking at schema update: AbilityDetailSchema indeed lacks generation.
                 I will remove the generation part from the intro text.
             */}

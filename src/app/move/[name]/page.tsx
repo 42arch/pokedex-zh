@@ -1,7 +1,7 @@
 'use client'
 
-import { use, useEffect, useState } from 'react'
 import type { MoveDetail } from '@/types'
+import { use, useEffect, useState } from 'react'
 import { getMoveInfo } from '@/http/move'
 import MobilePage from './mobile-page'
 import MoveDetailComponent from './move-detail'

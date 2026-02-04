@@ -66,7 +66,7 @@ function PokemonDetail({ className, data }: Props) {
 
                 <section className="grid grid-cols-2 gap-x-4 gap-y-2 lg:gap-x-8">
                   <InfoCell title="英文名" value={data.name_en} />
-                  <InfoCell title="日文名" value={data.name_jp} />
+                  <InfoCell title="日文名" value={data.name_ja} />
                   <InfoCell title="高度" value={form.height} />
                   <InfoCell title="重量" value={form.weight} />
                   <InfoCell title="体型" value={form.shape} />

@@ -58,7 +58,7 @@ function MoveDetail({ className, data }: Props) {
             ))}
           </ul>
         </section>
-        
+
         <SectionTitle>范围</SectionTitle>
         <section className="text-sm">
           <p className="whitespace-pre-line indent-7">
@@ -69,11 +69,11 @@ function MoveDetail({ className, data }: Props) {
         <SectionTitle>可以学会该招式的宝可梦</SectionTitle>
         <section className="mr-2">
           {/* We need to adapt the new flat arrays to the structure PokemonList expects or update PokemonList.
-              Assuming PokemonList needs a structure like { level: [], machine: [], egg: [], tutor: [] } 
+              Assuming PokemonList needs a structure like { level: [], machine: [], egg: [], tutor: [] }
               or we update PokemonList to accept these props directly.
               Let's update PokemonList in next step. For now, pass data in a compatible way or pass the whole data object.
           */}
-          <PokemonList 
+          <PokemonList
             level={data.learn_by_level_up || []}
             machine={data.learn_by_tm || []}
             egg={data.learn_by_breeding || []}

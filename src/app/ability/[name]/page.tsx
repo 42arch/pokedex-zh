@@ -1,7 +1,7 @@
 'use client'
 
-import { use, useEffect, useState } from 'react'
 import type { AbilityDetail } from '@/types'
+import { use, useEffect, useState } from 'react'
 import { getAbilityInfo } from '@/http/ability'
 import Detail from './ability-detail'
 import MobilePage from './mobile-page'

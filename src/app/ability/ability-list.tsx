@@ -5,7 +5,6 @@ import type {
   AbilityList,
   AbilitySimple,
 } from '@/types'
-import { getAbilityList } from '@/http/ability'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
@@ -13,6 +12,7 @@ import useSWR from 'swr'
 import AbilityFilter from '@/components/ability-filter'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { getAbilityList } from '@/http/ability'
 import { cn } from '@/lib/utils'
 
 interface Props {
