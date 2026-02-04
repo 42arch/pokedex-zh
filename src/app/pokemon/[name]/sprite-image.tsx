@@ -1,42 +1,39 @@
 import type { HomeImage } from '@/types'
-import { Sparkle } from '@phosphor-icons/react/dist/ssr'
 import Image from '@/components/image'
+import { IMAGE_PATH } from '@/lib/constants'
 
-interface Props {
-  data: HomeImage
-}
-
-export default function SpriteImage({ data }: Props) {
+export default function SpriteImage({ data }: { data: HomeImage }) {
   return (
-    <div className="flex flex-col gap-2">
-      {data.image && (
-        <div className="flex flex-col items-center">
-          <Image
-            src={`/images/home/${data.image}`}
-            width={100}
-            height={100}
-            alt={data.name}
-          />
-          <p className="pt-2 text-center text-xs text-muted-foreground">
-            {data.name}
-          </p>
-        </div>
-      )}
-      {data.shiny && (
-        <div className="flex flex-col items-center">
-          <Image
-            src={`/images/home/${data.shiny}`}
-            width={100}
-            height={100}
-            alt={data.name}
-          />
-          <div className="flex gap-1 pt-2 text-center text-xs text-muted-foreground">
-            {data.name}
-            {' '}
-            <Sparkle size={14} weight="fill" color="#e1c614" />
-          </div>
-        </div>
-      )}
+    <div className="flex flex-col items-center gap-1 rounded-lg border border-border p-4">
+      <div className="flex gap-4">
+        {data.image
+          ? (
+              <div className="flex flex-col items-center gap-1">
+                <Image
+                  src={`${IMAGE_PATH}home/${data.image}`}
+                  alt={data.name}
+                  width={100}
+                  height={100}
+                />
+                <p className="text-xs text-muted-foreground">普通</p>
+              </div>
+            )
+          : null}
+        {data.shiny
+          ? (
+              <div className="flex flex-col items-center gap-1">
+                <Image
+                  src={`${IMAGE_PATH}home/${data.shiny}`}
+                  alt={data.name}
+                  width={100}
+                  height={100}
+                />
+                <p className="text-xs text-muted-foreground">异色</p>
+              </div>
+            )
+          : null}
+      </div>
+      <p className="mt-2 text-center text-xs font-medium">{data.name}</p>
     </div>
   )
 }

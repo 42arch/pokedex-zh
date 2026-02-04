@@ -200,3 +200,5 @@ export const CATEGORY_TYPE: Record<Category, string> = {
   特殊: '#2266cc',
   变化: '#999999',
 }
+
+export const IMAGE_PATH = 'https://s.starllow.com/pokedex/images/'

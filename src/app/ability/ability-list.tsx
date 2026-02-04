@@ -4,90 +4,69 @@ import type { AbilityFilterOptions } from '@/components/ability-filter'
 import type {
   AbilityList,
   AbilitySimple,
-  PaginatedResponse,
-  PokemonList,
 } from '@/types'
+import { getAbilityList } from '@/http/ability'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
-import useSWRInfinite from 'swr/infinite'
+import { useMemo, useState } from 'react'
+import useSWR from 'swr'
 import AbilityFilter from '@/components/ability-filter'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import useOnView from '@/hooks/useOnView'
 import { cn } from '@/lib/utils'
-
-const PAGE_SIZE = 50
-const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 interface Props {
   initialData: AbilityList
   className?: string
 }
 
-function AllAbilityList({ initialData, className }: Props) {
-  const ref = useRef<HTMLDivElement>(null!)
-  const isVisible = useOnView(ref)
-  const [fetched, setFetched] = useState(false)
-  const [abilityList, setAbilityList] = useState<AbilityList>(initialData)
+const GEN_MAP: Record<number, string> = {
+  1: '第一世代',
+  2: '第二世代',
+  3: '第三世代',
+  4: '第四世代',
+  5: '第五世代',
+  6: '第六世代',
+  7: '第七世代',
+  8: '第八世代',
+  9: '第九世代',
+}
+
+function AllAbilityList({ className }: Props) {
   const [name, setName] = useState('')
   const [filterOptions, setFilterOptions] = useState<AbilityFilterOptions>({
     generation: null,
     order: 'asc',
   })
 
-  const getKey = (
-    page: number,
-    previousPageData: PaginatedResponse<AbilityList> | null,
-  ): string | null => {
-    if (previousPageData && !previousPageData.contents.length)
-      return null
-    const params = new URLSearchParams({
-      page: page.toString(),
-      pageSize: PAGE_SIZE.toString(),
-      name,
-      order: filterOptions.order,
-    })
+  const { data: fullList, error, isLoading } = useSWR('ability-list', getAbilityList)
 
-    if (filterOptions.generation)
-      params.append('generation', filterOptions.generation)
+  const filteredList = useMemo(() => {
+    if (!fullList)
+      return []
 
-    return `/api/ability?${params.toString()}`
-  }
-  const { data, error, size, setSize } = useSWRInfinite<
-    PaginatedResponse<PokemonList>
-  >(getKey, fetcher)
+    let result = [...fullList]
 
-  const isLoadingInitialData = !data && !error
-  const isLoadingMore
-    = isLoadingInitialData
-      || (size > 0 && data && typeof data[size - 1] === 'undefined')
-  const isEmpty = data?.[0].contents?.length === 0
-  const isReachingEnd
-    = isEmpty || (data && data[data.length - 1]?.contents.length < PAGE_SIZE)
-
-  useEffect(() => {
-    if (isVisible && !isReachingEnd && !isLoadingMore) {
-      setSize(size + 1)
-    }
-    if (data) {
-      setFetched(true)
-      const newList: AbilityList = []
-      data.forEach(page =>
-        page.contents.forEach((p: AbilitySimple) => {
-          newList.push(p)
-        }),
+    if (name) {
+      const search = name.toLowerCase()
+      result = result.filter(
+        a =>
+          a.name_zh.includes(search)
+          || a.name_en.toLowerCase().includes(search)
+          || a.name_ja.includes(search),
       )
-      if (fetched) {
-        setAbilityList(newList)
-      }
-      else {
-        if (size > 1) {
-          setAbilityList(newList)
-        }
-      }
     }
-  }, [data, fetched, isLoadingMore, isReachingEnd, isVisible, setSize, size])
+
+    if (filterOptions.generation) {
+      result = result.filter(a => GEN_MAP[a.generation] === filterOptions.generation)
+    }
+
+    if (filterOptions.order === 'desc') {
+      result.reverse()
+    }
+
+    return result
+  }, [fullList, name, filterOptions])
 
   return (
     <div className={cn(className, 'border-r border-r-muted')}>
@@ -114,18 +93,32 @@ function AllAbilityList({ initialData, className }: Props) {
             }}
           />
           <ScrollArea className="grow">
-            <div className="flex flex-col gap-2">
-              {abilityList.map((ability, idx) => (
-                <AbilityItem key={idx} data={ability} />
-              ))}
-            </div>
-            <div ref={ref} className="mt-2 p-3 text-center text-sm">
-              {isLoadingMore
-                ? '加载中...'
-                : isReachingEnd
-                  ? `共${data[0].total}个`
-                  : '加载更多'}
-            </div>
+            {isLoading
+              ? (
+                  <div className="flex h-40 items-center justify-center text-sm text-muted-foreground">
+                    加载中...
+                  </div>
+                )
+              : error
+                ? (
+                    <div className="flex h-40 items-center justify-center text-sm text-red-500">
+                      加载失败，请重试
+                    </div>
+                  )
+                : (
+                    <div className="flex flex-col gap-2">
+                      {filteredList.map((ability, idx) => (
+                        <AbilityItem key={idx} data={ability} />
+                      ))}
+                      <div className="mt-2 p-3 text-center text-sm text-muted-foreground">
+                        共
+                        {' '}
+                        {filteredList.length}
+                        {' '}
+                        个
+                      </div>
+                    </div>
+                  )}
           </ScrollArea>
         </div>
       </div>
@@ -136,18 +129,18 @@ function AllAbilityList({ initialData, className }: Props) {
 export default AllAbilityList
 
 function AbilityItem({ data }: { data: AbilitySimple }) {
-  const { index, name } = data
+  const { id, name_zh } = data
   return (
     <Link
-      href={`/ability/${name}`}
+      href={`/ability/${name_zh}`}
       prefetch={false}
-      className="flex flex-row items-center border border-border gap-4 rounded-lg px-4 py-3 text-left text-sm transition-all hover:bg-accent"
+      className="flex flex-row items-center gap-4 rounded-lg border border-border px-4 py-3 text-left text-sm transition-all hover:bg-accent"
     >
       <div className="ml-2 flex grow items-center justify-between">
-        <span>{name}</span>
+        <span>{name_zh}</span>
         <span className="text-xs">
           #
-          {index}
+          {id}
         </span>
       </div>
     </Link>

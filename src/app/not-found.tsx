@@ -1,13 +1,14 @@
 import Link from 'next/link'
 import Image from '@/components/image'
 import { Button } from '@/components/ui/button'
+import { IMAGE_PATH } from '@/lib/constants'
 
 export default function NotFound() {
   return (
     <div className="flex w-full flex-col items-center justify-center p-10">
       <Image
         className="m-4"
-        src="/images/dream/201Unown_QU_Dream.png"
+        src={`${IMAGE_PATH}dream/201Unown_QU_Dream.png`}
         width={100}
         height={100}
         alt="皮卡丘"

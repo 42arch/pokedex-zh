@@ -1,12 +1,9 @@
-import type { Metadata } from 'next'
-import type {
-  AbilityDetail as AbilityDetailType,
-  AbilityList,
-  PokemonList,
-} from '@/types'
-import { notFound } from 'next/navigation'
-import { findFile, readFile } from '@/lib/file'
-import AbilityDetail from './ability-detail'
+'use client'
+
+import { use, useEffect, useState } from 'react'
+import type { AbilityDetail } from '@/types'
+import { getAbilityInfo } from '@/http/ability'
+import Detail from './ability-detail'
 import MobilePage from './mobile-page'
 import TopBar from './top-bar'
 
@@ -14,58 +11,41 @@ interface Props {
   params: Promise<{ name: string }>
 }
 
-async function getDetailData(name: string) {
-  try {
-    const file = await findFile(name, 'ability')
-    if (file) {
-      const data = await readFile<AbilityDetailType>(`ability/${file}`)
-      const pokemonList = await readFile<PokemonList>('/pokedex/pokedex_national.json')
-      data.pokemon.forEach((poke) => {
-        const detail = pokemonList.find(p => p.name === poke.name)
-        poke.meta = detail ? detail.meta : null
-      })
-      return data
+export default function Page({ params }: Props) {
+  const { name } = use(params)
+  const [data, setData] = useState<AbilityDetail | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const decodedName = decodeURIComponent(name)
+        const detailData = await getAbilityInfo(decodedName)
+        setData(detailData)
+      }
+      catch (e) {
+        console.error(e)
+      }
+      finally {
+        setLoading(false)
+      }
     }
-    return null
-  }
-  catch {
-    return null
-  }
-}
+    fetchData()
+  }, [name])
 
-export async function generateStaticParams() {
-  const list = await readFile<AbilityList>('ability_list.json')
-  return list.map(item => ({
-    name: item.name,
-  }))
-}
+  if (loading) {
+    return <div className="flex h-full w-full items-center justify-center">加载中...</div>
+  }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { name } = await params
-  const data = await getDetailData(name)
   if (!data) {
-    notFound()
-  }
-
-  return {
-    title: `宝可梦图鉴 | ${data.name}`,
-    description: `宝可梦图鉴, ${data.name}`,
-    keywords: [data.name],
-  }
-}
-
-export default async function Page({ params }: Props) {
-  const { name } = await params
-  const data = await getDetailData(name)
-  if (!data) {
-    notFound()
+    return <div className="flex h-full w-full items-center justify-center">未找到特性</div>
   }
 
   return (
     <>
       <div className="relative hidden w-full lg:block lg:w-2/3">
-        <TopBar name={data.name} index={data.index} />
-        <AbilityDetail data={data} />
+        <TopBar name={data.name_zh} index={data.id} />
+        <Detail data={data} />
       </div>
       <MobilePage data={data} />
     </>

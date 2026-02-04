@@ -28,7 +28,7 @@ export default function MobilePage({ data }: Props) {
       }}
     >
       <DialogContent className="h-full p-2">
-        <TopBar name={data.name} />
+        <TopBar name={data.name_zh} />
         <MoveDetail data={data} />
         <BackButton />
       </DialogContent>

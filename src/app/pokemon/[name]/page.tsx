@@ -1,84 +1,71 @@
-import type { Metadata } from 'next'
-import type {
-  AbilityDetail,
-  PokemonDetail as PokemonDetailType,
-  PokemonSimple,
-} from '@/types'
+'use client'
+
+import { use, useEffect, useState } from 'react'
 import { notFound } from 'next/navigation'
-import { findFile, readFile } from '@/lib/file'
+import { getPokedex, getPokemon } from '@/http/pokemon'
+import type { PokemonDetail, PokemonList } from '@/types'
+import useSWR from 'swr'
 import MobilePage from './mobile-page'
-import PokemonDetail from './pokemon-detail'
+import PokemonDetailComponent from './pokemon-detail'
 import TopBar from './top-bar'
 
 interface Props {
   params: Promise<{ name: string }>
 }
 
-async function getDetailData(name: string) {
-  try {
-    const file = await findFile(name, 'pokemon')
-    if (file) {
-      const data = await readFile<PokemonDetailType>(`pokemon/${file}`)
-      await Promise.all(
-        data.forms.map(async (form) => {
-          await Promise.all(
-            form.ability.map(async (a) => {
-              const aFile = await findFile(a.name, 'ability')
-              const detail = await readFile<AbilityDetail>(`ability/${aFile}`)
-              a.text = detail.text
-            }),
-          )
-        }),
+export default function Page({ params }: Props) {
+  const { name } = use(params)
+  const [detailData, setDetailData] = useState<PokemonDetail | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  const { data: pokedex } = useSWR('pokedex-full', getPokedex)
+
+  useEffect(() => {
+    async function fetchDetail() {
+      if (!pokedex) return
+
+      // Find pokemon by name (Chinese, English, or Japanese)
+      // The params.name is likely the link name which is usually Chinese name or part of it?
+      // In pokemon-list.tsx: linkName = name.split('-')[0]. 
+      // Actually national.json name is "妙蛙种子", list link is "/pokemon/妙蛙种子".
+      // So name is "妙蛙种子".
+      
+      const decodedName = decodeURIComponent(name)
+      const pokemon = pokedex.find(
+        p => p.name === decodedName || p.name_en === decodedName || p.name_jp === decodedName
       )
-      return data
+
+      if (pokemon) {
+        try {
+          const data = await getPokemon(pokemon.id, pokemon.name)
+          setDetailData(data)
+        } catch (e) {
+          console.error(e)
+        }
+      }
+      setLoading(false)
     }
-    return null
-  }
-  catch {
-    return null
-  }
-}
 
-export async function generateStaticParams() {
-  const list = await readFile<PokemonSimple[]>('pokemon_list.json')
-  return list.map(item => ({
-    name: item.name,
-  }))
-}
+    if (pokedex) {
+      fetchDetail()
+    }
+  }, [pokedex, name])
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { name } = await params
-  const data = await getDetailData(name)
-
-  if (!data) {
-    notFound()
+  if (loading && !detailData) {
+    return <div className="flex h-full w-full items-center justify-center">加载中...</div>
   }
 
-  return {
-    title: `宝可梦图鉴 | ${data.name}`,
-    description: `宝可梦图鉴, ${data.name}`,
-    keywords: [data.name],
-    // openGraph: {
-    //   images: ['/some-specific-page-image.jpg']
-    // }
-  }
-}
-
-export default async function Page({ params }: Props) {
-  const { name } = await params
-  const data = await getDetailData(name)
-
-  if (!data) {
-    notFound()
+  if (!detailData) {
+    return <div className="flex h-full w-full items-center justify-center">未找到宝可梦</div>
   }
 
   return (
     <>
       <div className="relative hidden w-full lg:block lg:w-2/3">
-        <TopBar name={data.name} index={data.forms[0].index} />
-        <PokemonDetail data={data} />
+        <TopBar name={detailData.name_zh} index={detailData.pokedex_id} />
+        <PokemonDetailComponent data={detailData} />
       </div>
-      <MobilePage data={data} />
+      <MobilePage data={detailData} />
     </>
   )
 }

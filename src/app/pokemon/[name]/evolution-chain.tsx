@@ -2,6 +2,7 @@ import type { EvolutionChain as EvolutionChainType } from '@/types'
 import Link from 'next/link'
 import Image from '@/components/image'
 import { Separator } from '@/components/ui/separator'
+import { IMAGE_PATH } from '@/lib/constants'
 
 interface Props {
   data: EvolutionChainType[]
@@ -33,7 +34,7 @@ function EvolutionChain({ data }: Props) {
                   className="rounded-lg  px-6 py-2 hover:bg-accent"
                 >
                   <Image
-                    src={`/images/dream/${poke.image}`}
+                    src={`${IMAGE_PATH}dream/${poke.image}`}
                     alt={poke.name}
                     width={100}
                     height={100}

@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import type { PropsWithChildren } from 'react'
-import type { AbilityList, PaginatedResponse } from '@/types'
-import { fetchData } from '@/lib/fetch'
 import AllAbilityList from './ability-list'
 
 export const metadata: Metadata = {
@@ -10,15 +8,11 @@ export const metadata: Metadata = {
   keywords: ['宝可梦', '宝可梦图鉴', '特性列表'],
 }
 
-export default async function Page({ children }: PropsWithChildren) {
-  const data = await fetchData<PaginatedResponse<AbilityList>>(
-    'ability?page=0&pageSize=30',
-  )
-
+export default function Page({ children }: PropsWithChildren) {
   return (
     <div className="relative flex h-full w-full overflow-hidden">
       <AllAbilityList
-        initialData={data.contents}
+        initialData={[]}
         className="w-full border-l border-l-muted md:border-l-0 lg:w-1/3 "
       />
       {children}

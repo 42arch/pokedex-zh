@@ -1,89 +1,51 @@
-import type { Metadata } from 'next'
-import type {
-  MoveDetail as MoveDetailType,
-  MoveList,
-  PokemonList,
-} from '@/types'
-import { notFound } from 'next/navigation'
-import { findFile, readFile } from '@/lib/file'
+'use client'
+
+import { use, useEffect, useState } from 'react'
+import type { MoveDetail } from '@/types'
+import { getMoveInfo } from '@/http/move'
 import MobilePage from './mobile-page'
-import MoveDetail from './move-detail'
+import MoveDetailComponent from './move-detail'
 import TopBar from './top-bar'
 
 interface Props {
   params: Promise<{ name: string }>
 }
 
-async function getDetailData(name: string) {
-  try {
-    const file = await findFile(name, 'move')
-    if (file) {
-      const data = await readFile<MoveDetailType>(`move/${file}`)
-      const pokemonList = await readFile<PokemonList>('/pokedex/pokedex_national.json')
+export default function Page({ params }: Props) {
+  const { name } = use(params)
+  const [data, setData] = useState<MoveDetail | null>(null)
+  const [loading, setLoading] = useState(true)
 
-      data.pokemon.egg.forEach((poke) => {
-        const detail = pokemonList.find(p => p.name === poke.name)
-        poke.types = detail?.types ?? []
-        poke.meta = detail ? detail.meta : null
-      })
-      data.pokemon.level.forEach((poke) => {
-        const detail = pokemonList.find(p => p.name === poke.name)
-        poke.types = detail?.types ?? []
-        poke.meta = detail ? detail.meta : null
-      })
-      data.pokemon.machine.forEach((poke) => {
-        const detail = pokemonList.find(p => p.name === poke.name)
-        poke.types = detail?.types ?? []
-        poke.meta = detail ? detail.meta : null
-      })
-      data.pokemon.tutor.forEach((poke) => {
-        const detail = pokemonList.find(p => p.name === poke.name)
-        poke.types = detail?.types ?? []
-        poke.meta = detail ? detail.meta : null
-      })
-      return data
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const decodedName = decodeURIComponent(name)
+        const detailData = await getMoveInfo(decodedName)
+        setData(detailData)
+      }
+      catch (e) {
+        console.error(e)
+      }
+      finally {
+        setLoading(false)
+      }
     }
-    return null
-  }
-  catch (error) {
-    console.error(error)
-    return null
-  }
-}
+    fetchData()
+  }, [name])
 
-export async function generateStaticParams() {
-  const list = await readFile<MoveList>('move_list.json')
-  return list.map(item => ({
-    name: item.name,
-  }))
-}
+  if (loading) {
+    return <div className="flex h-full w-full items-center justify-center">加载中...</div>
+  }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { name } = await params
-  const data = await getDetailData(name)
   if (!data) {
-    notFound()
-  }
-
-  return {
-    title: `宝可梦图鉴 | ${data.name}`,
-    description: `宝可梦图鉴, ${data.name}`,
-    keywords: [data.name],
-  }
-}
-
-export default async function Page({ params }: Props) {
-  const { name } = await params
-  const data = await getDetailData(name)
-  if (!data) {
-    notFound()
+    return <div className="flex h-full w-full items-center justify-center">未找到招式</div>
   }
 
   return (
     <>
       <div className="relative hidden w-full lg:block lg:w-2/3">
-        <TopBar name={data.name} />
-        <MoveDetail data={data} />
+        <TopBar name={data.name_zh} />
+        <MoveDetailComponent data={data} />
       </div>
       <MobilePage data={data} />
     </>

@@ -2,36 +2,41 @@
 
 import type { FilterOptions } from '@/components/pokemon-filter'
 import type {
-  PaginatedResponse,
   PokemonList,
   PokemonSimple,
+  Type,
 } from '@/types'
 import { MagnifyingGlass } from '@phosphor-icons/react'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
-import useSWRInfinite from 'swr/infinite'
+import { useMemo, useState } from 'react'
+import useSWR from 'swr'
 import PokedexSelect from '@/components/pokedex-select'
 import PokemonFilter from '@/components/pokemon-filter'
 import TypeBadge from '@/components/type-badge'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { getPokedex } from '@/http/pokemon'
 
-import useOnView from '@/hooks/useOnView'
-import { PAGE_SIZE } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-
-const fetcher = (url: string) => fetch(url).then(res => res.json())
 
 interface Props {
   initialData: PokemonList
   className?: string
 }
 
-function AllPokemonList({ initialData, className }: Props) {
-  const ref = useRef<HTMLDivElement>(null!)
-  const isVisible = useOnView(ref)
-  const [fetched, setFetched] = useState(false)
-  const [pokemonList, setPokemonList] = useState<PokemonList>(initialData)
+const GEN_MAP: Record<number, string> = {
+  1: '第一世代',
+  2: '第二世代',
+  3: '第三世代',
+  4: '第四世代',
+  5: '第五世代',
+  6: '第六世代',
+  7: '第七世代',
+  8: '第八世代',
+  9: '第九世代',
+}
+
+function AllPokemonList({ className }: Props) {
   const [name, setName] = useState('')
   const [pokedex, setPokedex] = useState('national')
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({
@@ -42,65 +47,57 @@ function AllPokemonList({ initialData, className }: Props) {
     order: 'asc',
   })
 
-  const getKey = (
-    page: number,
-    previousPageData: PaginatedResponse<PokemonList> | null,
-  ): string | null => {
-    if (previousPageData && !previousPageData.contents.length)
-      return null
+  const { data: fullList, error, isLoading } = useSWR('pokedex-full', getPokedex)
 
-    const params = new URLSearchParams({
-      page: page.toString(),
-      pageSize: PAGE_SIZE.toString(),
-      name,
-      pokedex,
-      order: filterOptions.order,
-    })
-    if (filterOptions.type1)
-      params.append('type1', filterOptions.type1)
-    if (filterOptions.type2)
-      params.append('type2', filterOptions.type2)
-    if (filterOptions.filter)
-      params.append('filter', filterOptions.filter)
-    if (filterOptions.generation)
-      params.append('generation', filterOptions.generation)
+  const filteredList = useMemo(() => {
+    if (!fullList)
+      return []
 
-    return `/api/pokemon?${params.toString()}`
-  }
-  const { data, error, size, setSize } = useSWRInfinite<
-    PaginatedResponse<PokemonList>
-  >(getKey, fetcher)
+    let result = [...fullList]
 
-  const isLoadingInitialData = !data && !error
-  const isLoadingMore
-    = isLoadingInitialData
-      || (size > 0 && data && typeof data[size - 1] === 'undefined')
-  const isEmpty = data?.[0].contents?.length === 0
-  const isReachingEnd
-    = isEmpty || (data && data[data.length - 1]?.contents.length < PAGE_SIZE)
-
-  useEffect(() => {
-    if (isVisible && !isReachingEnd && !isLoadingMore) {
-      setSize(size + 1)
-    }
-    if (data) {
-      setFetched(true)
-      const newList: PokemonList = []
-      data.forEach(page =>
-        page.contents.forEach((p: PokemonSimple) => {
-          newList.push(p)
-        }),
+    // 搜索过滤
+    if (name) {
+      const search = name.toLowerCase()
+      result = result.filter(
+        p =>
+          p.name.includes(search)
+          || p.name_en?.toLowerCase().includes(search)
+          || p.name_jp?.includes(search),
       )
-      if (fetched) {
-        setPokemonList(newList)
-      }
-      else {
-        if (size > 1) {
-          setPokemonList(newList)
-        }
-      }
     }
-  }, [data, fetched, isLoadingMore, isReachingEnd, isVisible, setSize, size])
+
+    // 世代过滤
+    if (filterOptions.generation) {
+      result = result.filter((p) => {
+        const genStr = GEN_MAP[p.gen] || p.generation
+        return genStr === filterOptions.generation
+      })
+    }
+
+    // 分类过滤 (初、鼠、石等)
+    if (filterOptions.filter) {
+      result = result.filter(p => p.filter.includes(filterOptions.filter!))
+    }
+
+    // 属性过滤
+    if (filterOptions.type1 && filterOptions.type2) {
+      result = result.filter(
+        p =>
+          p.types.includes(filterOptions.type1 as Type)
+          && p.types.includes(filterOptions.type2 as Type),
+      )
+    }
+    else if (filterOptions.type1) {
+      result = result.filter(p => p.types.includes(filterOptions.type1 as Type))
+    }
+
+    // 排序
+    if (filterOptions.order === 'desc') {
+      result.reverse()
+    }
+
+    return result
+  }, [fullList, name, filterOptions])
 
   return (
     <div className={cn(className, 'border-r border-r-muted')}>
@@ -127,18 +124,32 @@ function AllPokemonList({ initialData, className }: Props) {
             }}
           />
           <ScrollArea className="grow">
-            <div className="flex flex-col gap-2">
-              {pokemonList.map((pokemon, idx) => (
-                <PokemonItem key={idx} data={pokemon} />
-              ))}
-            </div>
-            <div ref={ref} className="mt-2 p-3 text-center text-sm">
-              {isLoadingMore
-                ? '加载中...'
-                : isReachingEnd
-                  ? `共 ${data[0].total} 种`
-                  : '加载更多'}
-            </div>
+            {isLoading
+              ? (
+                  <div className="flex h-40 items-center justify-center text-sm text-muted-foreground">
+                    加载中...
+                  </div>
+                )
+              : error
+                ? (
+                    <div className="flex h-40 items-center justify-center text-sm text-red-500">
+                      加载失败，请重试
+                    </div>
+                  )
+                : (
+                    <div className="flex flex-col gap-2">
+                      {filteredList.map((pokemon, idx) => (
+                        <PokemonItem key={idx} data={pokemon} />
+                      ))}
+                      <div className="mt-2 p-3 text-center text-sm text-muted-foreground">
+                        共
+                        {' '}
+                        {filteredList.length}
+                        {' '}
+                        种
+                      </div>
+                    </div>
+                  )}
           </ScrollArea>
         </div>
       </div>
@@ -149,7 +160,7 @@ function AllPokemonList({ initialData, className }: Props) {
 export default AllPokemonList
 
 function PokemonItem({ data }: { data: PokemonSimple }) {
-  const { index, name, types, meta } = data
+  const { id, name, types, icon } = data
   const linkName = name.split('-')[0]
   return (
     <Link
@@ -159,9 +170,9 @@ function PokemonItem({ data }: { data: PokemonSimple }) {
     >
       <div className="flex items-center">
         <span
-          className="pokemon-normal"
+          className="pokemon-icon"
           style={{
-            backgroundPosition: meta.icon_position,
+            backgroundPosition: icon,
           }}
         >
         </span>
@@ -173,13 +184,13 @@ function PokemonItem({ data }: { data: PokemonSimple }) {
 
             <div className="flex gap-2">
               {types.map(type => (
-                <TypeBadge key={type} type={type} size="small" />
+                <TypeBadge key={type} type={type as Type} size="small" />
               ))}
             </div>
           </div>
           <span className="text-xs">
             #
-            {index}
+            {id}
           </span>
         </div>
       </div>

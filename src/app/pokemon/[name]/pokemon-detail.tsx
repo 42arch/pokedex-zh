@@ -1,11 +1,12 @@
 import type { PropsWithChildren, ReactNode } from 'react'
-import type { PokemonDetail as PokemonDetailType } from '@/types'
+import type { PokemonDetail as PokemonDetailType, Type } from '@/types'
 import { GenderFemale, GenderMale } from '@phosphor-icons/react/dist/ssr'
 import Image from '@/components/image'
 import TypeBadge from '@/components/type-badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { IMAGE_PATH } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import Ability from './ability'
 import EvolutionChain from './evolution-chain'
@@ -49,18 +50,18 @@ function PokemonDetail({ className, data }: Props) {
             <TabsContent key={index} value={form.name}>
               <div className="mt-2 flex flex-col items-center justify-center gap-4 pt-4">
                 <Image
-                  src={`/images/official/${form.image}`}
+                  src={`${IMAGE_PATH}official/${form.image}`}
                   alt={form.name}
                   width={180}
                   height={180}
                 />
                 <section className="flex gap-2">
                   {form.types.map(type => (
-                    <TypeBadge key={type} size="normal" type={type} />
+                    <TypeBadge key={type} size="normal" type={type as Type} />
                   ))}
                 </section>
                 <span className="rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700">
-                  {form.genus}
+                  {form.category}
                 </span>
 
                 <section className="grid grid-cols-2 gap-x-4 gap-y-2 lg:gap-x-8">
@@ -73,12 +74,7 @@ function PokemonDetail({ className, data }: Props) {
                     title="100级经验值"
                     value={(
                       <span>
-                        {form.experience.number}
-                        <span className="text-xs">
-                          （
-                          {form.experience.speed}
-                          ）
-                        </span>
+                        {form.experience_100}
                       </span>
                     )}
                   />
@@ -88,22 +84,17 @@ function PokemonDetail({ className, data }: Props) {
                     title="捕获率"
                     value={(
                       <span>
-                        {form.catch_rate.number}
-                        <span className="text-xs">
-                          （
-                          {form.catch_rate.rate}
-                          ）
-                        </span>
+                        {form.catch_rate}
                       </span>
                     )}
                   />
                   <InfoCell
                     title="性别比例"
                     value={
-                      form.gender_rate
+                      form.gender_ratio
                         ? (
                             <div className="flex items-center justify-center gap-2">
-                              {form.gender_rate.male
+                              {form.gender_ratio.male
                                 ? (
                                     <div className="flex items-end justify-end gap-1">
                                       <GenderMale
@@ -112,13 +103,14 @@ function PokemonDetail({ className, data }: Props) {
                                         weight="bold"
                                       />
                                       <span className="text-xs">
-                                        {form.gender_rate.male}
+                                        {form.gender_ratio.male}
+                                        %
                                       </span>
                                     </div>
                                   )
                                 : null}
 
-                              {form.gender_rate.female
+                              {form.gender_ratio.female
                                 ? (
                                     <div className="flex items-end justify-end gap-1">
                                       <GenderFemale
@@ -127,7 +119,8 @@ function PokemonDetail({ className, data }: Props) {
                                         weight="bold"
                                       />
                                       <span className="text-xs">
-                                        {form.gender_rate.female}
+                                        {form.gender_ratio.female}
+                                        %
                                       </span>
                                     </div>
                                   )
@@ -144,7 +137,7 @@ function PokemonDetail({ className, data }: Props) {
                 <section className="w-full ">
                   <SectionTitle>特性</SectionTitle>
                   <div className="flex flex-col items-center justify-center gap-4">
-                    {form.ability.map(a => (
+                    {form.abilities.map(a => (
                       <Ability
                         key={a.name}
                         name={a.name}
@@ -187,16 +180,16 @@ function PokemonDetail({ className, data }: Props) {
 
         <SectionTitle>图鉴介绍</SectionTitle>
         <section>
-          <FlavorText data={data.flavor_texts} />
+          <FlavorText data={data.pokedex_entries} />
         </section>
 
         <SectionTitle>招式列表（通过提升等级）</SectionTitle>
         <section>
-          <PokemonMove data={data.moves.learned} type="learned" />
+          <PokemonMove data={data.learnable_moves} type="learned" />
         </section>
         <SectionTitle>招式列表（通过招式学习器）</SectionTitle>
         <section>
-          <PokemonMove data={data.moves.machine} type="machine" />
+          <PokemonMove data={data.machine_moves} type="machine" />
         </section>
       </ScrollArea>
     </div>

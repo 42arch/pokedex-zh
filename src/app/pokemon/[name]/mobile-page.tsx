@@ -28,7 +28,7 @@ export default function MobilePage({ data }: Props) {
       }}
     >
       <DialogContent className="h-full p-2">
-        <TopBar name={data.name} index={data.forms[0].index} />
+        <TopBar name={data.name_zh} index={data.pokedex_id} />
         <PokemonDetail data={data} />
         <BackButton />
       </DialogContent>

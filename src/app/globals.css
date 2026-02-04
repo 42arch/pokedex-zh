@@ -166,14 +166,15 @@
 
 /* pokemon thumbnail */
 
-.pokemon-normal {
+.pokemon-icon {
   display: inline-block;
-  width: 56px;
-  height: 56px;
-  background-image: url('/images/normal.webp');
+  font-size: 56px;
+  width: 1em;
+  height: 1em;
+  background-image: url('/images/sprites.webp');
   background-repeat: no-repeat;
+  background-size: 40em auto;
   vertical-align: middle;
-  background-size: 2240px 2240px;
 }
 
 /* pokemon type sprites */

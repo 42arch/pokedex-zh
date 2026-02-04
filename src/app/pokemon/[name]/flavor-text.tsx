@@ -1,4 +1,4 @@
-import type { FlavorText as FlavorTextType } from '@/types'
+import type { PokedexEntry } from '@/types'
 import {
   Accordion,
   AccordionContent,
@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/accordion'
 
 interface Props {
-  data: FlavorTextType[]
+  data: PokedexEntry[]
 }
 
 export default function FlavorText({ data }: Props) {

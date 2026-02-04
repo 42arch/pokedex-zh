@@ -1,7 +1,6 @@
 import type { Order, PokemonList, Type } from '@/types'
 import { NextResponse } from 'next/server'
 import { cache } from '@/lib/cache'
-import { readFile } from '@/lib/file'
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
@@ -16,7 +15,9 @@ export async function GET(request: Request) {
   const pokedex = searchParams.get('pokedex') || 'national'
 
   try {
-    const fullData = await readFile<PokemonList>(`/pokedex/pokedex_${pokedex}.json`)
+    // const fullData = await readFile<PokemonList>(`/pokedex/pokedex_${pokedex}.json`)
+    const response = await fetch('https://s.starllow.com/pokedex/pokedex/national.json')
+    const fullData = await response.json() as PokemonList
 
     const filteredData = fullData
       .filter(
@@ -33,7 +34,7 @@ export async function GET(request: Request) {
       })
       .filter((p) => {
         if (filter) {
-          return p.meta.filter.includes(filter)
+          return p.filter.includes(filter)
         }
         return true
       })

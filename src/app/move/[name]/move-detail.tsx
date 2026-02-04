@@ -34,47 +34,51 @@ function MoveDetail({ className, data }: Props) {
         </div>
         <section className="mt-4 indent-7 text-sm">
           <p>
-            {data.name}
+            {data.name_zh}
             （日文︰
-            {data.name_jp}
+            {data.name_ja}
             ，英文︰
             {data.name_en}
-            ）是
-            {data.generation}
-            引入的宝可梦的招式。
+            ）
           </p>
-          <p>{data.text}</p>
+          <p>{data.intro}</p>
+          <p>{data.description}</p>
         </section>
 
         <SectionTitle>效果</SectionTitle>
         <section className="text-sm">
-          {data.effect.split('\n').map((line, idx) => (
-            <p key={idx} className="whitespace-pre-line indent-7">
-              {line}
+          {data.additional_effect && (
+            <p className="whitespace-pre-line indent-7 mb-2">
+              {data.additional_effect}
             </p>
-          ))}
+          )}
+          <ul className="marker:text-primary-400 list-disc space-y-2 pl-5">
+            {data.effect.map((e, idx) => (
+              <li key={idx}>{e}</li>
+            ))}
+          </ul>
         </section>
+        
         <SectionTitle>范围</SectionTitle>
         <section className="text-sm">
           <p className="whitespace-pre-line indent-7">
             {data.range}
-            。
           </p>
         </section>
-        <SectionTitle>基本信息</SectionTitle>
-        <section className="text-sm">
-          <ul
-            role="list"
-            className="marker:text-primary-400 list-disc space-y-2 pl-5"
-          >
-            {data.info.map((i, idx) => (
-              <li key={idx}>{i}</li>
-            ))}
-          </ul>
-        </section>
+
         <SectionTitle>可以学会该招式的宝可梦</SectionTitle>
         <section className="mr-2">
-          <PokemonList data={data.pokemon} />
+          {/* We need to adapt the new flat arrays to the structure PokemonList expects or update PokemonList.
+              Assuming PokemonList needs a structure like { level: [], machine: [], egg: [], tutor: [] } 
+              or we update PokemonList to accept these props directly.
+              Let's update PokemonList in next step. For now, pass data in a compatible way or pass the whole data object.
+          */}
+          <PokemonList 
+            level={data.learn_by_level_up || []}
+            machine={data.learn_by_tm || []}
+            egg={data.learn_by_breeding || []}
+            tutor={data.learn_by_tutor || []}
+          />
         </section>
       </ScrollArea>
     </div>
