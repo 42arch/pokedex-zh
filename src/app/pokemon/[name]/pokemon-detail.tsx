@@ -1,11 +1,11 @@
 import type { PropsWithChildren, ReactNode } from 'react'
 import type { PokemonDetail as PokemonDetailType, Type } from '@/types'
 import { GenderFemale, GenderMale } from '@phosphor-icons/react/dist/ssr'
+import { useState } from 'react'
 import Image from '@/components/image'
 import TypeBadge from '@/components/type-badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { IMAGE_PATH } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import Ability from './ability'
@@ -21,6 +21,9 @@ interface Props {
 }
 
 function PokemonDetail({ className, data }: Props) {
+  const [selectedFormIndex, setSelectedFormIndex] = useState(0)
+  const form = data.forms[selectedFormIndex]
+
   return (
     <div
       className={cn(
@@ -29,128 +32,127 @@ function PokemonDetail({ className, data }: Props) {
       )}
     >
       <ScrollArea className="h-full">
-        <Tabs defaultValue={data.forms[0]?.name} className="w-full">
-          <TabsList className="w-full">
-            {data.forms.map((form, index) => {
-              const formNames = form.name.split('-')
-              const formName = formNames[formNames.length - 1]
-              return (
-                <TabsTrigger
-                  key={index}
-                  value={form.name}
-                  className="block w-24 truncate lg:w-auto"
-                  title={form.name}
-                >
-                  {formName}
-                </TabsTrigger>
-              )
-            })}
-          </TabsList>
-          {data.forms.map((form, index) => (
-            <TabsContent key={index} value={form.name}>
-              <div className="mt-2 flex flex-col items-center justify-center gap-4 pt-4">
-                <Image
-                  src={`${IMAGE_PATH}official/${form.image}`}
-                  alt={form.name}
-                  width={180}
-                  height={180}
-                />
-                <section className="flex gap-2">
-                  {form.types.map(type => (
-                    <TypeBadge key={type} size="normal" type={type as Type} />
-                  ))}
-                </section>
-                <span className="rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700">
-                  {form.category}
+        <div className="flex w-full items-center justify-center gap-2">
+          {data.forms.map((f, index) => {
+            const formNames = f.name.split('-')
+            const formName = formNames[formNames.length - 1]
+            const isSelected = selectedFormIndex === index
+            return (
+              <button
+                key={index}
+                className={cn(
+                  'rounded-full px-4 py-1 text-sm transition-all',
+                  !isSelected
+                    ? 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground'
+                    : 'bg-primary/20 text-primary shadow-sm',
+                )}
+                onClick={() => setSelectedFormIndex(index)}
+              >
+                {formName}
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="mt-2 flex flex-col items-center justify-center gap-4 pt-4">
+          <Image
+            src={`${IMAGE_PATH}official/${form.image}`}
+            alt={form.name}
+            width={180}
+            height={180}
+          />
+          <section className="flex gap-2">
+            {form.types.map(type => (
+              <TypeBadge key={type} size="normal" type={type as Type} />
+            ))}
+          </section>
+          <span className="rounded-full bg-primary/20 px-3 py-1 text-sm text-primary">
+            {form.category}
+          </span>
+
+          <section className="grid grid-cols-2 gap-x-4 gap-y-2 lg:gap-x-8">
+            <InfoCell title="英文名" value={data.name_en} />
+            <InfoCell title="日文名" value={data.name_ja} />
+            <InfoCell title="高度" value={form.height} />
+            <InfoCell title="重量" value={form.weight} />
+            <InfoCell title="体型" value={form.shape} />
+            <InfoCell
+              title="100级经验值"
+              value={(
+                <span>
+                  {form.experience_100}
                 </span>
+              )}
+            />
+            <InfoCell title="蛋群" value={form.egg_groups.join(',')} />
+            <InfoCell title="图鉴颜色" value={form.color} />
+            <InfoCell
+              title="捕获率"
+              value={(
+                <span>
+                  {form.catch_rate}
+                </span>
+              )}
+            />
+            <InfoCell
+              title="性别比例"
+              value={
+                form.gender_ratio
+                  ? (
+                      <div className="flex items-center justify-center gap-2">
+                        {form.gender_ratio.male
+                          ? (
+                              <div className="flex items-end justify-end gap-1">
+                                <GenderMale
+                                  size={16}
+                                  color="#60a5fa"
+                                  weight="bold"
+                                />
+                                <span className="text-xs">
+                                  {form.gender_ratio.male}
+                                  %
+                                </span>
+                              </div>
+                            )
+                          : null}
 
-                <section className="grid grid-cols-2 gap-x-4 gap-y-2 lg:gap-x-8">
-                  <InfoCell title="英文名" value={data.name_en} />
-                  <InfoCell title="日文名" value={data.name_ja} />
-                  <InfoCell title="高度" value={form.height} />
-                  <InfoCell title="重量" value={form.weight} />
-                  <InfoCell title="体型" value={form.shape} />
-                  <InfoCell
-                    title="100级经验值"
-                    value={(
-                      <span>
-                        {form.experience_100}
-                      </span>
-                    )}
-                  />
-                  <InfoCell title="蛋群" value={form.egg_groups.join(',')} />
-                  <InfoCell title="图鉴颜色" value={form.color} />
-                  <InfoCell
-                    title="捕获率"
-                    value={(
-                      <span>
-                        {form.catch_rate}
-                      </span>
-                    )}
-                  />
-                  <InfoCell
-                    title="性别比例"
-                    value={
-                      form.gender_ratio
-                        ? (
-                            <div className="flex items-center justify-center gap-2">
-                              {form.gender_ratio.male
-                                ? (
-                                    <div className="flex items-end justify-end gap-1">
-                                      <GenderMale
-                                        size={16}
-                                        color="#60a5fa"
-                                        weight="bold"
-                                      />
-                                      <span className="text-xs">
-                                        {form.gender_ratio.male}
-                                        %
-                                      </span>
-                                    </div>
-                                  )
-                                : null}
-
-                              {form.gender_ratio.female
-                                ? (
-                                    <div className="flex items-end justify-end gap-1">
-                                      <GenderFemale
-                                        size={16}
-                                        color="#f87171"
-                                        weight="bold"
-                                      />
-                                      <span className="text-xs">
-                                        {form.gender_ratio.female}
-                                        %
-                                      </span>
-                                    </div>
-                                  )
-                                : null}
-                            </div>
-                          )
-                        : (
-                            '无性别'
-                          )
-                    }
-                  />
-                </section>
-
-                <section className="w-full ">
-                  <SectionTitle>特性</SectionTitle>
-                  <div className="flex flex-col items-center justify-center gap-4">
-                    {form.abilities.map(a => (
-                      <Ability
-                        key={a.name}
-                        name={a.name}
-                        is_hidden={a.is_hidden}
-                        text={a.text}
-                      />
-                    ))}
-                  </div>
-                </section>
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
+                        {form.gender_ratio.female
+                          ? (
+                              <div className="flex items-end justify-end gap-1">
+                                <GenderFemale
+                                  size={16}
+                                  color="#f87171"
+                                  weight="bold"
+                                />
+                                <span className="text-xs">
+                                  {form.gender_ratio.female}
+                                  %
+                                </span>
+                              </div>
+                            )
+                          : null}
+                      </div>
+                    )
+                  : (
+                      '无性别'
+                    )
+              }
+            />
+          </section>
+          <section className="w-full ">
+            <SectionTitle>特性</SectionTitle>
+            <div className="flex flex-col items-center justify-center gap-4">
+              {form.abilities.map(a => (
+                <Ability
+                  key={a.name}
+                  name={a.name}
+                  is_hidden={a.is_hidden}
+                  text={a.text}
+                />
+              ))}
+            </div>
+          </section>
+        </div>
 
         <SectionTitle>简介</SectionTitle>
         <section className="text-sm">
@@ -200,7 +202,7 @@ export default PokemonDetail
 
 function InfoCell({ title, value }: { title: string, value: ReactNode }) {
   return (
-    <div className="flex min-w-40 flex-col items-center justify-between gap-1 rounded-lg bg-gray-100 px-4 py-2 lg:px-6">
+    <div className="flex min-w-40 flex-col items-center justify-between gap-1 rounded-lg bg-primary/10 px-4 py-2 lg:px-6">
       <div className="text-center text-xs text-muted-foreground">{title}</div>
       <span className="text-center text-sm font-medium">{value}</span>
     </div>

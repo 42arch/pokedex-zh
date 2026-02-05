@@ -22,12 +22,8 @@ import {
   YAxis,
 } from 'recharts'
 import { Button } from '@/components/ui/button'
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
+import { cn } from '@/lib/utils'
 
 const chartConfig = {
   value: {
@@ -177,31 +173,35 @@ function StatChart({
 
 function StatsChart({ stats }: { stats: PokemonDetail['stats'] }) {
   const [isRadarChart, setIsRadarChart] = useState(false)
+  const [selectedIndex, setSelectedIndex] = useState(0)
 
   return (
-    <Tabs defaultValue={stats[0].form} className="w-full">
-      <TabsList className="w-full">
-        {stats.map((stat, index) => (
-          <TabsTrigger
-            key={index}
-            value={stat.form}
-            className="block w-28 truncate lg:w-auto"
-            title={stat.form}
-          >
-            {stat.form}
-          </TabsTrigger>
-        ))}
-      </TabsList>
-      {stats.map((stat, index) => (
-        <TabsContent key={index} value={stat.form}>
-          <StatChart
-            stat={stat}
-            isRadarChart={isRadarChart}
-            onChartChange={v => setIsRadarChart(v)}
-          />
-        </TabsContent>
-      ))}
-    </Tabs>
+    <div className="w-full">
+      <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
+        {stats.map((stat, index) => {
+          const isSelected = selectedIndex === index
+          return (
+            <button
+              key={index}
+              className={cn(
+                'rounded-full px-4 py-1 text-sm transition-all',
+                !isSelected
+                  ? 'bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground'
+                  : 'bg-primary/20 text-primary shadow-sm',
+              )}
+              onClick={() => setSelectedIndex(index)}
+            >
+              {stat.form}
+            </button>
+          )
+        })}
+      </div>
+      <StatChart
+        stat={stats[selectedIndex]}
+        isRadarChart={isRadarChart}
+        onChartChange={v => setIsRadarChart(v)}
+      />
+    </div>
   )
 }
 

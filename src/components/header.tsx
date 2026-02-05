@@ -20,7 +20,7 @@ export async function Header() {
 
         <MobileSidebar>
           <Button
-            className="flex rounded-full md:hidden"
+            className="flex rounded-full lg:hidden"
             variant="outline"
             size="icon"
           >

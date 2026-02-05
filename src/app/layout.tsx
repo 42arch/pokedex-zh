@@ -1,7 +1,5 @@
 import type { Metadata } from 'next'
 import { GoogleAnalytics } from '@next/third-parties/google'
-import { OpenPanelComponent } from '@openpanel/nextjs'
-import { Analytics } from '@vercel/analytics/react'
 import localFont from 'next/font/local'
 import { Header } from '@/components/header'
 import { Sidebar } from '@/components/sidebar'
@@ -47,7 +45,6 @@ export default async function RootLayout({
   children: React.ReactNode
   params: { locale: string }
 }) {
-  const opClientId = process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID
   const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
   return (
     <html lang="zh_CN">
@@ -61,17 +58,11 @@ export default async function RootLayout({
           <Header />
         </div>
         <div className="flex h-[calc(100vh-65px)] min-h-[calc(100vh-65px)] ">
-          <Sidebar className="hidden border-r border-r-muted md:flex md:w-64" />
-          <div className="h-full w-full px-4 md:w-[calc(100vw-16rem)] lg:pl-0">
+          <Sidebar className="hidden border-r border-r-muted lg:flex lg:w-64" />
+          <div className="h-full w-full px-4 lg:w-[calc(100vw-16rem)] lg:pl-0">
             {children}
           </div>
         </div>
-        <OpenPanelComponent
-          clientId={opClientId || ''}
-          trackScreenViews={true}
-          trackOutgoingLinks={true}
-        />
-        <Analytics />
         <GoogleAnalytics gaId={gaId || ''} />
       </body>
     </html>

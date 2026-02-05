@@ -3,7 +3,7 @@
 import type { PokemonDetail as PokemonDetailType } from '@/types'
 import { useRouter } from 'next/navigation'
 import BackButton from '@/components/back-button'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
 import useMediaQuery from '@/hooks/useMediaQuery'
 import PokemonDetail from './pokemon-detail'
 import TopBar from './top-bar'
@@ -28,6 +28,7 @@ export default function MobilePage({ data }: Props) {
       }}
     >
       <DialogContent className="h-full p-2">
+        <DialogTitle className="sr-only">{data.name_zh}</DialogTitle>
         <TopBar name={data.name_zh} index={data.pokedex_id} />
         <PokemonDetail data={data} />
         <BackButton />
