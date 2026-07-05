@@ -1,78 +1,113 @@
 import type { Metadata } from 'next'
-import { GoogleAnalytics } from '@next/third-parties/google'
-import { OpenPanelComponent } from '@openpanel/nextjs'
-import { Analytics } from '@vercel/analytics/react'
+import { NextIntlClientProvider } from 'next-intl'
+import { getLocale, getMessages } from 'next-intl/server'
 import localFont from 'next/font/local'
-import { Header } from '@/components/header'
-import { Sidebar } from '@/components/sidebar'
+import { RegisterSW } from '@/components/register-sw'
+import { ThemeProvider } from '@/components/theme-provider'
+import { SidebarNav, SidebarLinks, PokeballIcon } from '@/components/sidebar-nav'
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Button } from '@/components/ui/button'
+import { List } from '@phosphor-icons/react/dist/ssr'
 import { cn } from '@/lib/utils'
 import './globals.css'
 
-export const fontSans = localFont({
-  src: [
-    {
-      path: '../../public/fonts/NotoSansSC-Regular.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../../public/fonts/NotoSansSC-Medium.ttf',
-      weight: '500',
-      style: 'medium',
-    },
-    {
-      path: '../../public/fonts/NotoSansSC-SemiBold.ttf',
-      weight: '600',
-      style: 'semibold',
-    },
-    {
-      path: '../../public/fonts/NotoSansSC-Bold.ttf',
-      weight: '700',
-      style: 'bold',
-    },
-  ],
+const geistSans = localFont({
+  src: '../../public/fonts/Geist-Variable.woff2',
   variable: '--font-sans',
-  display: 'swap',
+})
+
+const geistMono = localFont({
+  src: '../../public/fonts/GeistMono-Variable.woff2',
+  variable: '--font-geist-mono',
+})
+
+const geistHeading = localFont({
+  src: '../../public/fonts/Geist-Variable.woff2',
+  variable: '--font-heading',
 })
 
 export const metadata: Metadata = {
-  title: '宝可梦图鉴',
-  description: '宝可梦中文图鉴，快速查询，随时了解你的宝可梦伙伴！',
-  keywords: ['宝可梦', '宝可梦图鉴', '中文图鉴', '神奇宝贝图鉴', '宠物小精灵'],
+  title: '宝可梦图鉴 Pokedex',
+  description: '基于 Next.js 16 构建的现代化宝可梦中文图鉴应用',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: '宝可梦图鉴',
+  },
+  formatDetection: {
+    telephone: false,
+  },
 }
 
 export default async function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode
-  params: { locale: string }
-}) {
-  const opClientId = process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID
-  const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
+}>) {
+  const locale = await getLocale()
+  const messages = await getMessages()
+
   return (
-    <html lang="zh_CN">
-      <body
-        className={cn(
-          fontSans.variable,
-          'mx-auto bg-white font-sans text-neutral-600 dark:bg-neutral-900 dark:text-neutral-400',
-        )}
-      >
-        <div className="sticky top-0 z-10 border-b border-b-muted">
-          <Header />
-        </div>
-        <div className="flex h-[calc(100vh-65px)] min-h-[calc(100vh-65px)] ">
-          <Sidebar className="hidden border-r border-r-muted md:flex md:w-64" />
-          <div className="h-full w-full px-4 md:w-[calc(100vw-16rem)] lg:pl-0">
-            {children}
-          </div>
-        </div>
-        <OpenPanelComponent
-          clientId={opClientId || ''}
-          trackScreenViews={true}
-          trackOutgoingLinks={true}
-        />
-        <Analytics />
-        <GoogleAnalytics gaId={gaId || ''} />
+    <html
+      lang={locale}
+      className={cn('h-full', 'antialiased', geistSans.variable, geistMono.variable, geistHeading.variable, 'font-sans')}
+      suppressHydrationWarning
+    >
+      <body className="h-screen overflow-hidden flex flex-col md:flex-row bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 transition-colors duration-200">
+        <RegisterSW />
+        <NextIntlClientProvider messages={messages}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {/* Desktop Sidebar */}
+            <SidebarNav />
+
+            {/* Main Area */}
+            <div className="flex-1 flex flex-col min-h-0 overflow-hidden md:pl-64">
+              {/* Mobile Top Bar */}
+              <header className="md:hidden h-16 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md sticky top-0 flex items-center justify-between px-6 z-20">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex items-center justify-center w-8.5 h-8.5 rounded-lg bg-red-500/10 dark:bg-red-500/20 text-red-500 shadow-sm">
+                    <PokeballIcon className="w-4.5 h-4.5" />
+                  </div>
+                  <span className="font-bold text-base tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
+                    宝可梦图鉴
+                  </span>
+                </div>
+
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon" className="rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900">
+                      <List className="w-5 h-5" />
+                      <span className="sr-only">Toggle Menu</span>
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="left" className="w-64 p-0 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-r border-zinc-200/50 dark:border-zinc-800/50 flex flex-col">
+                    <div className="h-16 flex items-center gap-3 px-6 border-b border-zinc-200/50 dark:border-zinc-800/50">
+                      <div className="flex items-center justify-center w-8.5 h-8.5 rounded-lg bg-red-500/10 dark:bg-red-500/20 text-red-500">
+                        <PokeballIcon className="w-4.5 h-4.5" />
+                      </div>
+                      <span className="font-bold text-base tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
+                        宝可梦图鉴
+                      </span>
+                    </div>
+                    <div className="flex flex-col flex-1 justify-between">
+                      <SidebarLinks />
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </header>
+
+              {/* Page Content */}
+              <main className="flex-1 flex flex-col min-h-0 overflow-hidden">
+                {children}
+              </main>
+            </div>
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   )

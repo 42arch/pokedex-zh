@@ -1,61 +1,41 @@
-<div align="center">
-  <image />
-  <h1>宝可梦中文图鉴</h1>
-  <p>快速查询，随时了解你的宝可梦伙伴！</p>
-</div>
 
-## 说明
+# Next.js Starter Template
 
-开源的宝可梦中文图鉴，提供最新（截至第九世代）的宝可梦图鉴数据。
+## Project Purpose
 
-访问：
+This project provides a ready-to-use Next.js starter template for quickly building modern web applications. It comes with a pre-configured frontend tech stack and best practices, making it suitable for personal projects, enterprise apps, or learning purposes.
 
-https://pokedex.starllow.com
 
-另外，我们也开发了微信小程序版的宝可梦中文图鉴，欢迎扫码访问！或者微信搜索“训练家口袋图鉴”，功能更全，更新更及时！
+## Tech Stack
 
-![微信小程序](./public/wechat.jpg)
+- **Next.js 16**: React-based framework for SSR and SSG
+- **TypeScript**: Type-safe JavaScript superset
+- **Tailwind CSS 4**: Utility-first CSS framework with dark mode support
+- **shadcn/ui**: Customizable UI component library
+- **next-themes**: Theme switching (light/dark mode) support
+- **ESLint + @antfu/eslint-config**: Code quality and style checking
+- **pnpm**: Fast, disk space efficient package manager
 
-## 功能和进度
+---
 
-- 宝可梦
+## Getting Started
 
-  - [x] 列表和查询
-  - [ ] 添加收藏
-  - [x] 详情-基础信息
-  - [x] 详情-形象
-  - [x] 详情-进化链
-  - [x] 详情-招式
-  - [x] 详情-特性
+Install dependencies and start the development server:
 
-- [x] 特性
+```bash
+pnpm install
+pnpm dev
+```
 
-  - [x] 列表和查询
-  - [ ] 添加收藏
-  - [x] 详情
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the result.
 
-- [x] 招式
+You can start editing the page by modifying `src/app/page.tsx`. The page will auto-update as you save changes.
 
-  - [x] 列表和查询
-  - [ ] 添加收藏
-  - [x] 详情
+---
 
-- [ ] 道具
+## Useful Links
 
-  - [ ] 列表和查询
-  - [ ] 添加收藏
-  - [ ] 详情
-
-- [ ] 支持PWA
-
-## 开发
-
-本应用使用Next.js 14 构建的全栈应用，采用基础技术栈如下:
-
-- Next.js 14 (App Router)
-- TailwindCSS
-- ShadcnUI
-
-本应用所有数据采集自[神奇宝贝百科](https://wiki.52poke.com/wiki/主页)。
-
-数据仓库：https://github.com/42arch/pokemon-dataset-zh
+- [Next.js Documentation](https://nextjs.org/docs)
+- [React Documentation](https://react.dev/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/)
+- [shadcn/ui Docs](https://ui.shadcn.com/)

@@ -1,0 +1,42 @@
+{
+  "Home": {
+    "title": "Next.js 16 + Tailwind v4",
+    "description": "一个集成了 shadcn-ui (v4)、Phosphor 图标和严格 ESLint 配置的高性能 Web 开发脚手架模板。",
+    "cards": {
+      "nextjs": {
+        "title": "Next.js 16",
+        "description": "基于 App Router 和 React 服务端组件构建。",
+        "content": "利用最新的框架特性，获得极致的性能优化与绝佳的开发体验。"
+      },
+      "tailwind": {
+        "title": "Tailwind v4",
+        "description": "开箱即用的现代化 CSS 开发引擎。",
+        "content": "感受 Tailwind 下一代编译器带来的闪电般的 CSS 处理速度。"
+      },
+      "typesafety": {
+        "title": "类型安全",
+        "description": "严格的 TypeScript 和 ESLint 配置。",
+        "content": "通过 @antfu/eslint-config 和完整的 TS 支持，保持卓越的代码质量。"
+      }
+    },
+    "cta": {
+      "getStarted": "开始使用",
+      "viewComponents": "查看组件"
+    },
+    "footer": {
+      "text": "准备好构建令人惊叹的应用了吗？从运行 <code>pnpm dev</code> 开始。"
+    }
+  },
+  "LanguageSwitcher": {
+    "label": "语言",
+    "zh": "简体中文",
+    "zh-Hant": "繁体中文"
+  },
+  "Navbar": {
+    "pokemon": "宝可梦",
+    "moves": "招式",
+    "abilities": "特性",
+    "items": "物品",
+    "tools": "工具"
+  }
+}

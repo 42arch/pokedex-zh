@@ -1,21 +1,20 @@
-import type { Metadata } from 'next'
-import type { PropsWithChildren } from 'react'
-import PokemonList from './pokemon-list'
+import * as React from 'react'
+import { getCombinedPokedex, getRegionalPokedexMap } from '@/services/pokemon'
+import { PokemonLayoutClient } from '@/app/pokemon/layout-client'
 
-export const metadata: Metadata = {
-  title: '宝可梦中文图鉴 | 全国图鉴列表',
-  description: '宝可梦中文图鉴，全国图鉴列表。',
-  keywords: ['宝可梦', '宝可梦图鉴', '全国图鉴列表'],
-}
+export default async function PokemonLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const [pokemonList, regionalMap] = await Promise.all([
+    getCombinedPokedex(),
+    getRegionalPokedexMap(),
+  ])
 
-export default async function Page({ children }: PropsWithChildren) {
   return (
-    <div className="relative flex h-full w-full overflow-hidden">
-      <PokemonList
-        initialData={[]}
-        className="w-full border-l border-l-muted  md:border-l-0 lg:w-1/3 "
-      />
+    <PokemonLayoutClient pokemonList={pokemonList} regionalMap={regionalMap}>
       {children}
-    </div>
+    </PokemonLayoutClient>
   )
 }
