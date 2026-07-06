@@ -190,7 +190,7 @@ export function AbilitiesLayout({ abilityList, activeDetail, activeName }: Abili
                   <p className="text-[11px] text-zinc-450 dark:text-zinc-500 truncate">
                     {ability.name_en} · {ability.name_ja}
                   </p>
-                  <p className="text-[11px] text-zinc-500 dark:text-zinc-450 truncate line-clamp-1 mt-1 border-t border-zinc-100/40 dark:border-zinc-900/40 pt-1">
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-450 line-clamp-2 mt-1 border-t border-zinc-100/40 dark:border-zinc-900/40 pt-1 whitespace-normal break-all">
                     {translateText(ability.description, locale)}
                   </p>
                 </div>
@@ -228,10 +228,17 @@ export function AbilitiesLayout({ abilityList, activeDetail, activeName }: Abili
               
               {/* Header profile block */}
               <div 
-                className="rounded-3xl border border-zinc-200/40 dark:border-zinc-800/40 overflow-hidden shadow-lg relative flex flex-col gap-4 p-6 md:p-8"
+                className="rounded-3xl border border-zinc-200/40 dark:border-zinc-800/40 overflow-hidden shadow-lg relative flex flex-col gap-3 p-4 md:p-6"
                 style={{ background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(239, 68, 68, 0.15))' }}
               >
                 <div className="absolute inset-0 bg-white/45 dark:bg-zinc-950/45 backdrop-blur-xl -z-10" />
+
+                {/* Floating background Poke Ball */}
+                <div className="absolute -right-16 -bottom-16 w-64 h-64 text-black/[0.03] dark:text-white/[0.02] pointer-events-none -z-10">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+                    <circle cx="12" cy="12" r="10" />
+                  </svg>
+                </div>
 
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="px-3.5 py-1 text-xs font-bold rounded-full bg-red-500/10 dark:bg-red-500/25 text-red-500 shadow-sm border border-red-500/10">
@@ -248,7 +255,7 @@ export function AbilitiesLayout({ abilityList, activeDetail, activeName }: Abili
                   </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white/60 dark:bg-black/15 shadow-inner border border-white/20 dark:border-white/5 text-sm font-semibold leading-relaxed text-zinc-800 dark:text-zinc-200">
+                <div className="p-3 rounded-2xl bg-white/60 dark:bg-black/15 shadow-sm border border-white/20 dark:border-white/5 text-sm font-semibold leading-relaxed text-zinc-800 dark:text-zinc-200">
                   {translateText(activeDetail.description, locale)}
                 </div>
               </div>

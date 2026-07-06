@@ -1,5 +1,5 @@
-import fs from 'fs/promises'
 import path from 'path'
+import { ASSET_URL } from '@/lib/constants'
 
 export interface SimplePokemon {
   index: string
@@ -199,14 +199,15 @@ export interface ItemNode {
   icon?: string | string[]
 }
 
-const DATA_DIR = path.join(process.cwd(), 'public/data')
-
-// Read files using fs/promises
+// Fetch files from remote ASSET_URL
 async function readJsonFile<T>(relativePath: string): Promise<T> {
-  const filePath = path.join(DATA_DIR, relativePath)
-  const read = fs.readFile
-  const content = await read(filePath, 'utf-8')
-  return JSON.parse(content) as T
+  const normalizedPath = relativePath.replace(/\\/g, '/')
+  const url = `${ASSET_URL}/${normalizedPath}`
+  const response = await fetch(url)
+  if (!response.ok) {
+    throw new Error(`Failed to fetch JSON from ${url}: ${response.statusText}`)
+  }
+  return await response.json() as T
 }
 
 // Memory Cache

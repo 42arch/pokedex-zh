@@ -136,7 +136,7 @@
   font-size: 56px;
   width: 1em;
   height: 1em;
-  background-image: url('/images/sprites.webp');
+  background-image: url('https://s.starllow.com/pokedex/images/sprites.webp');
   background-repeat: no-repeat;
   background-size: 40em auto;
   vertical-align: middle;
@@ -148,7 +148,7 @@
   display: inline-block;
   width: 20px;
   height: 20px;
-  background-image: url('/images/types.webp');
+  background-image: url('https://s.starllow.com/pokedex/images/types.webp');
   background-repeat: no-repeat;
   background-size: 20px 420px;
 }

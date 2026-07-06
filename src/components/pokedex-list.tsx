@@ -445,9 +445,9 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                 </div>
 
                 {/* Types Badges */}
-                <div className="flex flex-col gap-1 items-end">
+                <div className="flex flex-row gap-1 items-center shrink-0">
                   {pokemon.types.map((type) => (
-                    <TypeBadge key={type} type={type} className="px-1.5 py-0.5 text-[9px] rounded-md" />
+                    <TypeBadge key={type} type={type} variant="icon" />
                   ))}
                 </div>
               </div>

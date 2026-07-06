@@ -1,3 +1,6 @@
+export const ASSET_URL = 'https://s.starllow.com/pokedex'
+
+
 export const POKEDEX_LIST = [
   {
     "name": "关都地区",

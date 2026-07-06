@@ -11,6 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { ItemNode } from '@/services/pokemon'
 import { translateText } from '@/lib/chinese'
 import { cn } from '@/lib/utils'
+import { ASSET_URL } from '@/lib/constants'
 
 export interface FlattenedItem {
   name_zh: string
@@ -62,7 +63,7 @@ export function ItemSprite({
   size?: number
 }) {
   const iconName = Array.isArray(icon) ? icon[0] : icon
-  const src = iconName ? `/data/images/items/${encodeURIComponent(iconName)}` : ''
+  const src = iconName ? `${ASSET_URL}/images/items/${encodeURIComponent(iconName)}` : ''
   const [error, setError] = React.useState(false)
 
   if (!src || error) {
@@ -332,7 +333,7 @@ export function ItemsLayout({ itemList, activeName }: ItemsLayoutProps) {
             <div className="p-4 md:p-6 lg:p-8 max-w-3xl mx-auto w-full space-y-6 animate-in fade-in duration-200">
               {/* Header profile block */}
               <div
-                className="rounded-3xl border border-zinc-200/40 dark:border-zinc-800/40 overflow-hidden shadow-lg relative flex flex-col md:flex-row gap-6 p-6 md:p-8 items-center md:items-start"
+                className="rounded-3xl border border-zinc-200/40 dark:border-zinc-800/40 overflow-hidden shadow-lg relative flex flex-col md:flex-row gap-4 p-4 md:p-6 items-center md:items-start"
                 style={{ background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(239, 68, 68, 0.12))' }}
               >
                 <div className="absolute inset-0 bg-white/45 dark:bg-zinc-950/45 backdrop-blur-xl -z-10" />

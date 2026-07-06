@@ -234,8 +234,8 @@ export function MovesLayout({ moveList, activeDetail, activeName }: MovesLayoutP
                         {nameLabel}
                       </h4>
                       <div className="flex items-center gap-1 shrink-0">
-                        <CategoryBadge category={move.category} className="px-1.5 py-0.5 text-[9px] rounded-md" />
-                        <TypeBadge type={move.type} className="px-1.5 py-0.5 text-[9px] rounded-md" />
+                        <CategoryBadge category={move.category} variant="icon" />
+                        <TypeBadge type={move.type} variant="icon" />
                       </div>
                     </div>
                     <p className="text-[11px] text-zinc-400 dark:text-zinc-500 truncate mt-0.5">
@@ -277,10 +277,17 @@ export function MovesLayout({ moveList, activeDetail, activeName }: MovesLayoutP
               
               {/* Header profile block */}
               <div 
-                className="rounded-3xl border border-zinc-200/40 dark:border-zinc-800/40 overflow-hidden shadow-lg relative flex flex-col gap-5 p-6 md:p-8"
+                className="rounded-3xl border border-zinc-200/40 dark:border-zinc-800/40 overflow-hidden shadow-lg relative flex flex-col gap-3.5 p-4 md:p-6"
                 style={{ background: `linear-gradient(135deg, ${getTypeColor(activeDetail.type)}15, ${getTypeColor(activeDetail.type)}25)` }}
               >
                 <div className="absolute inset-0 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-xl -z-10" />
+
+                {/* Floating background Poke Ball */}
+                <div className="absolute -right-16 -bottom-16 w-64 h-64 text-black/[0.03] dark:text-white/[0.02] pointer-events-none -z-10">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
+                    <circle cx="12" cy="12" r="10" />
+                  </svg>
+                </div>
 
                 <div className="flex flex-wrap items-center gap-2.5">
                   <TypeBadge type={activeDetail.type} className="px-3.5 py-1 rounded-full text-xs" />
@@ -291,7 +298,7 @@ export function MovesLayout({ moveList, activeDetail, activeName }: MovesLayoutP
                 </div>
 
                 <div className="space-y-1">
-                  <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50">
+                  <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 drop-shadow-sm">
                     {translateText(activeDetail.name_zh, locale)}
                   </h1>
                   <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
@@ -299,23 +306,23 @@ export function MovesLayout({ moveList, activeDetail, activeName }: MovesLayoutP
                   </p>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-white/50 dark:bg-black/15 shadow-inner border border-white/20 dark:border-white/5 text-sm font-medium leading-relaxed text-zinc-700 dark:text-zinc-300">
+                <div className="p-3 rounded-2xl bg-white/50 dark:bg-black/15 shadow-sm border border-white/20 dark:border-white/5 text-sm font-medium leading-relaxed text-zinc-700 dark:text-zinc-300">
                   {translateText(activeDetail.description, locale)}
                 </div>
 
                 {/* Base Parameters grid */}
                 <div className="grid grid-cols-3 gap-3 md:gap-4 text-center">
-                  <div className="bg-white/70 dark:bg-zinc-900/50 backdrop-blur-sm p-3.5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
+                  <div className="bg-white/70 dark:bg-zinc-900/50 backdrop-blur-sm p-2 rounded-xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
                     <span className="text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wider">{translateText('威力', locale)}</span>
-                    <p className="font-black text-lg md:text-xl text-zinc-900 dark:text-zinc-50 mt-1 font-mono">{activeDetail.power}</p>
+                    <p className="font-black text-zinc-900 dark:text-zinc-50 mt-1 font-mono">{activeDetail.power}</p>
                   </div>
-                  <div className="bg-white/70 dark:bg-zinc-900/50 backdrop-blur-sm p-3.5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
+                  <div className="bg-white/70 dark:bg-zinc-900/50 backdrop-blur-sm p-2 rounded-xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
                     <span className="text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wider">{translateText('命中率', locale)}</span>
-                    <p className="font-black text-lg md:text-xl text-zinc-900 dark:text-zinc-50 mt-1 font-mono">{activeDetail.accuracy}%</p>
+                    <p className="font-black text-zinc-900 dark:text-zinc-50 mt-1 font-mono">{activeDetail.accuracy}%</p>
                   </div>
-                  <div className="bg-white/70 dark:bg-zinc-900/50 backdrop-blur-sm p-3.5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
+                  <div className="bg-white/70 dark:bg-zinc-900/50 backdrop-blur-sm p-2 rounded-xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
                     <span className="text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wider">PP</span>
-                    <p className="font-black text-lg md:text-xl text-zinc-900 dark:text-zinc-50 mt-1 font-mono">{activeDetail.pp}</p>
+                    <p className="font-black text-zinc-900 dark:text-zinc-50 mt-1 font-mono">{activeDetail.pp}</p>
                   </div>
                 </div>
               </div>
