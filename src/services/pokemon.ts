@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'node:path'
 import { ASSET_URL } from '@/lib/constants'
 
 export interface SimplePokemon {
@@ -37,22 +37,22 @@ export interface PokemonDetail {
   profile: string
   prototype: string
   detail: string
-  names: { language: string; name: string; origin: string }[]
+  names: { language: string, name: string, origin: string }[]
   forms: {
     name: string
     types: string[]
     category: string
-    abilities: { name: string; is_hidden: boolean }[]
+    abilities: { name: string, is_hidden: boolean }[]
     height: string
     weight: string
     color: string
     catch_rate: string
     egg_groups: string[]
     experience_100: string
-    base_points: { stat: string; value: number }[]
+    base_points: { stat: string, value: number }[]
     base_exp: string
     battle_exp: string
-    gender_ratio: { male: number; female: number } | string
+    gender_ratio: { male: number, female: number } | string
     egg_cycles: string
     shape: string
     footprint: string
@@ -72,18 +72,18 @@ export interface PokemonDetail {
   type_effectiveness: {
     form: string
     types: string[]
-    data: { type: string; damage: string }[]
+    data: { type: string, damage: string }[]
   }[]
   obtainment_methods: {
     generation: string
     versions: {
       version: string
-      methods: { method: string; location: string; remark: string; icon: string }[]
+      methods: { method: string, location: string, remark: string, icon: string }[]
     }[]
   }[]
   pokedex_entries: {
     name: string
-    versions: { name: string; group: string; text: string }[]
+    versions: { name: string, group: string, text: string }[]
   }[]
   evolution_chains: {
     name: string
@@ -98,15 +98,15 @@ export interface PokemonDetail {
   gigantamax_evolution?: any[]
   learnable_moves: {
     form: string
-    data: { level: string; name: string; type: string; category: string; power: string; accuracy: string; pp: string }[]
+    data: { level: string, name: string, type: string, category: string, power: string, accuracy: string, pp: string }[]
   }[]
   machine_moves: {
     form: string
-    data: { machine: string; name: string; type: string; category: string; power: string; accuracy: string; pp: string }[]
+    data: { machine: string, name: string, type: string, category: string, power: string, accuracy: string, pp: string }[]
   }[]
   egg_moves: {
     form: string
-    data: { parents: { id: string; name: string }[]; name: string; type: string; category: string; power: string; accuracy: string; pp: string }[]
+    data: { parents: { id: string, name: string }[], name: string, type: string, category: string, power: string, accuracy: string, pp: string }[]
   }[]
   home_images: {
     name: string
@@ -151,7 +151,7 @@ export interface SimpleMove {
   type: string
   category: string
   power: string
-  accuracy: string;
+  accuracy: string
   pp: string
   description: string
   generation: number
@@ -181,10 +181,10 @@ export interface MoveDetail {
   generation: string
   pokemons: {
     form: string
-    level_learn: { level: string; id: string; name: string }[]
-    machine_learn: { machine: string; id: string; name: string }[]
-    egg_learn: { id: string; name: string }[]
-    tutor_learn: { id: string; name: string }[]
+    level_learn: { level: string, id: string, name: string }[]
+    machine_learn: { machine: string, id: string, name: string }[]
+    egg_learn: { id: string, name: string }[]
+    tutor_learn: { id: string, name: string }[]
   }[]
 }
 
@@ -215,34 +215,36 @@ let simplePokedexCache: SimplePokemon[] | null = null
 let nationalPokedexCache: NationalPokemon[] | null = null
 let combinedPokedexCache: CombinedPokemon[] | null = null
 
-
 let abilityListCache: SimpleAbility[] | null = null
 let moveListCache: SimpleMove[] | null = null
 let itemListCache: ItemNode[] | null = null
 
 export async function getSimplePokedex(): Promise<SimplePokemon[]> {
-  if (simplePokedexCache) return simplePokedexCache
+  if (simplePokedexCache)
+    return simplePokedexCache
   simplePokedexCache = await readJsonFile<SimplePokemon[]>('simple_pokedex.json')
   return simplePokedexCache
 }
 
 export async function getNationalPokedex(): Promise<NationalPokemon[]> {
-  if (nationalPokedexCache) return nationalPokedexCache
+  if (nationalPokedexCache)
+    return nationalPokedexCache
   nationalPokedexCache = await readJsonFile<NationalPokemon[]>(path.join('pokedex', 'national.json'))
   return nationalPokedexCache
 }
 
 export async function getCombinedPokedex(): Promise<CombinedPokemon[]> {
-  if (combinedPokedexCache) return combinedPokedexCache
+  if (combinedPokedexCache)
+    return combinedPokedexCache
 
   const [national, simple] = await Promise.all([
     getNationalPokedex(),
-    getSimplePokedex()
+    getSimplePokedex(),
   ])
 
   const simpleMap = new Map(simple.map(p => [p.index, p]))
 
-  combinedPokedexCache = national.map(p => {
+  combinedPokedexCache = national.map((p) => {
     const s = simpleMap.get(p.id)
     return {
       id: p.id,
@@ -252,7 +254,7 @@ export async function getCombinedPokedex(): Promise<CombinedPokemon[]> {
       types: p.types,
       icon: p.icon,
       filter: p.filter,
-      gen: p.gen
+      gen: p.gen,
     }
   })
 
@@ -260,7 +262,7 @@ export async function getCombinedPokedex(): Promise<CombinedPokemon[]> {
 }
 
 // Region key → file url mapping (mirrors POKEDEX_LIST in constants.ts)
-const REGION_FILES: { regionKey: string; subKey: string; url: string }[] = [
+const REGION_FILES: { regionKey: string, subKey: string, url: string }[] = [
   { regionKey: '关都', subKey: '关都', url: '关都.json' },
   { regionKey: '城都', subKey: '城都', url: '城都.json' },
   { regionKey: '丰缘', subKey: '丰缘', url: '丰缘.json' },
@@ -298,14 +300,15 @@ let regionalPokedexMapCache: RegionalPokedexMap | null = null
  * Returns maps: national_id → region keys, and national_id → sub-dex keys.
  */
 export async function getRegionalPokedexMap(): Promise<RegionalPokedexMap> {
-  if (regionalPokedexMapCache) return regionalPokedexMapCache
+  if (regionalPokedexMapCache)
+    return regionalPokedexMapCache
 
   const results = await Promise.all(
     REGION_FILES.map(({ regionKey, subKey, url }) =>
       readJsonFile<{ national_id: string }[]>(path.join('pokedex', url))
         .then(entries => ({ regionKey, subKey, entries }))
-        .catch(() => ({ regionKey, subKey, entries: [] as { national_id: string }[] }))
-    )
+        .catch(() => ({ regionKey, subKey, entries: [] as { national_id: string }[] })),
+    ),
   )
 
   const byRegion: Record<string, string[]> = {}
@@ -314,10 +317,14 @@ export async function getRegionalPokedexMap(): Promise<RegionalPokedexMap> {
   for (const { regionKey, subKey, entries } of results) {
     for (const entry of entries) {
       const id = entry.national_id
-      if (!byRegion[id]) byRegion[id] = []
-      if (!byRegion[id].includes(regionKey)) byRegion[id].push(regionKey)
-      if (!bySub[id]) bySub[id] = []
-      if (!bySub[id].includes(subKey)) bySub[id].push(subKey)
+      if (!byRegion[id])
+        byRegion[id] = []
+      if (!byRegion[id].includes(regionKey))
+        byRegion[id].push(regionKey)
+      if (!bySub[id])
+        bySub[id] = []
+      if (!bySub[id].includes(subKey))
+        bySub[id].push(subKey)
     }
   }
 
@@ -328,20 +335,23 @@ export async function getRegionalPokedexMap(): Promise<RegionalPokedexMap> {
 export async function getPokemonDetail(index: string): Promise<PokemonDetail | null> {
   try {
     const list = await getSimplePokedex()
-    const pokemon = list.find((p) => p.index === index)
-    if (!pokemon) return null
+    const pokemon = list.find(p => p.index === index)
+    if (!pokemon)
+      return null
 
     const fileName = `${index}-${pokemon.name_zh}.json`
     const detail = await readJsonFile<PokemonDetail>(path.join('pokemon', fileName))
     return detail
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`Error loading pokemon detail for ${index}:`, error)
     return null
   }
 }
 
 export async function getAbilityList(): Promise<SimpleAbility[]> {
-  if (abilityListCache) return abilityListCache
+  if (abilityListCache)
+    return abilityListCache
   abilityListCache = await readJsonFile<SimpleAbility[]>('ability_list.json')
   return abilityListCache
 }
@@ -349,13 +359,13 @@ export async function getAbilityList(): Promise<SimpleAbility[]> {
 export async function getAbilityDetail(name: string): Promise<AbilityDetail | null> {
   try {
     const raw = await readJsonFile<any>(path.join('abilities', `${name}.json`))
-    
+
     // Map pokemon_list to pokemons
     const pokemons = (raw.pokemon_list || []).map((item: any) => ({
       id: item.id || '',
       name: item.name || '',
       form: item.form || '',
-      is_hidden: item.hidden_ability === raw.name_zh
+      is_hidden: item.hidden_ability === raw.name_zh,
     }))
 
     return {
@@ -366,16 +376,18 @@ export async function getAbilityDetail(name: string): Promise<AbilityDetail | nu
       effect: raw.effect || '',
       detail_effect: raw.detail_effect || '',
       generation: raw.generation || raw.id || '',
-      pokemons
+      pokemons,
     }
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`Error loading ability detail for ${name}:`, error)
     return null
   }
 }
 
 export async function getMoveList(): Promise<SimpleMove[]> {
-  if (moveListCache) return moveListCache
+  if (moveListCache)
+    return moveListCache
   moveListCache = await readJsonFile<SimpleMove[]>('move_list.json')
   return moveListCache
 }
@@ -388,10 +400,10 @@ export async function getMoveDetail(name: string): Promise<MoveDetail | null> {
       id: string
       name: string
       form: string
-      level_learn: { level: string; id: string; name: string }[]
-      machine_learn: { machine: string; id: string; name: string }[]
-      egg_learn: { id: string; name: string }[]
-      tutor_learn: { id: string; name: string }[]
+      level_learn: { level: string, id: string, name: string }[]
+      machine_learn: { machine: string, id: string, name: string }[]
+      egg_learn: { id: string, name: string }[]
+      tutor_learn: { id: string, name: string }[]
     }>()
 
     const getOrCreate = (id: string, fullName: string) => {
@@ -411,7 +423,7 @@ export async function getMoveDetail(name: string): Promise<MoveDetail | null> {
           level_learn: [],
           machine_learn: [],
           egg_learn: [],
-          tutor_learn: []
+          tutor_learn: [],
         })
       }
       return pokemonMap.get(key)!
@@ -468,16 +480,18 @@ export async function getMoveDetail(name: string): Promise<MoveDetail | null> {
       affected_by_mirror_move: raw.affected_by_mirror_move || '否',
       affected_by_kings_rock: raw.affected_by_kings_rock || '否',
       generation: raw.generation || raw.id || '',
-      pokemons
+      pokemons,
     }
-  } catch (error) {
+  }
+  catch (error) {
     console.error(`Error loading move detail for ${name}:`, error)
     return null
   }
 }
 
 export async function getItemList(): Promise<ItemNode[]> {
-  if (itemListCache) return itemListCache
+  if (itemListCache)
+    return itemListCache
   itemListCache = await readJsonFile<ItemNode[]>('item_list.json')
   return itemListCache
 }

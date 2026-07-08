@@ -1,7 +1,7 @@
 'use client'
 
 import { DragHandleDots2Icon } from '@radix-ui/react-icons'
-import { Group as PanelGroup, Panel, Separator as PanelResizeHandle } from 'react-resizable-panels'
+import { Panel, Group as PanelGroup, Separator as PanelResizeHandle } from 'react-resizable-panels'
 
 import { cn } from '@/lib/utils'
 

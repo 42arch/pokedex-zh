@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { getCombinedPokedex, getRegionalPokedexMap } from '@/services/pokemon'
 import { PokemonLayoutClient } from '@/app/pokemon/layout-client'
+import { getCombinedPokedex, getRegionalPokedexMap } from '@/services/pokemon'
 
 export default async function PokemonLayout({
   children,

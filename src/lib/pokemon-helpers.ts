@@ -20,7 +20,7 @@ export function getTypeGradient(types: string[]): string {
   return `linear-gradient(135deg, ${color1}44, ${color2}44)`
 }
 
-export function getTypeBadgeStyle(type: string): { backgroundColor: string; color: string } {
+export function getTypeBadgeStyle(type: string): { backgroundColor: string, color: string } {
   const color = getTypeColor(type)
   return {
     backgroundColor: color,
@@ -65,15 +65,24 @@ export function getStatColor(stat: string): string {
 
 export function getGenerationFromIndex(index: string): number {
   const num = parseInt(index, 10)
-  if (isNaN(num)) return 1
-  if (num <= 151) return 1
-  if (num <= 251) return 2
-  if (num <= 386) return 3
-  if (num <= 493) return 4
-  if (num <= 649) return 5
-  if (num <= 721) return 6
-  if (num <= 809) return 7
-  if (num <= 905) return 8
+  if (Number.isNaN(num))
+    return 1
+  if (num <= 151)
+    return 1
+  if (num <= 251)
+    return 2
+  if (num <= 386)
+    return 3
+  if (num <= 493)
+    return 4
+  if (num <= 649)
+    return 5
+  if (num <= 721)
+    return 6
+  if (num <= 809)
+    return 7
+  if (num <= 905)
+    return 8
   return 9
 }
 

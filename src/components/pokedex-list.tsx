@@ -1,22 +1,21 @@
 'use client'
 
-import * as React from 'react'
-import { useRouter, useParams } from 'next/navigation'
+import type { CombinedPokemon, RegionalPokedexMap } from '@/services/pokemon'
+import { FunnelIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
-import { MagnifyingGlassIcon, FunnelIcon, XIcon } from '@phosphor-icons/react'
-import { Input as UiInput } from '@/components/ui/input'
+import { useParams, useRouter } from 'next/navigation'
+import * as React from 'react'
 import { Button } from '@/components/ui/button'
+import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { CombinedPokemon } from '@/services/pokemon'
 import { translateText } from '@/lib/chinese'
+import { FILTER_LIST, POKEDEX_COLORS, POKEDEX_LIST, TYPE_COLORS } from '@/lib/constants'
 import { getTypeColor } from '@/lib/pokemon-helpers'
-import { POKEDEX_LIST, POKEDEX_COLORS, FILTER_LIST, TYPE_COLORS } from '@/lib/constants'
-import { RegionalPokedexMap } from '@/services/pokemon'
-import { TypeBadge } from './type-badge'
 import { cn } from '@/lib/utils'
+import { TypeBadge } from './type-badge'
 
 // Sprite Icon Component using sprites.webp
-export function PokemonSprite({ icon, className, size = 40 }: { icon: string; className?: string; size?: number }) {
+export function PokemonSprite({ icon, className, size = 40 }: { icon: string, className?: string, size?: number }) {
   return (
     <div
       className={cn('pokemon-icon shrink-0 select-none bg-no-repeat', className)}
@@ -31,8 +30,24 @@ export function PokemonSprite({ icon, className, size = 40 }: { icon: string; cl
 
 // All Pokemon Types for filter
 const POKEMON_TYPES = [
-  '一般', '火', '水', '电', '草', '冰', '格斗', '毒', '地面',
-  '飞行', '超能力', '虫', '岩石', '幽灵', '龙', '恶', '钢', '妖精'
+  '一般',
+  '火',
+  '水',
+  '电',
+  '草',
+  '冰',
+  '格斗',
+  '毒',
+  '地面',
+  '飞行',
+  '超能力',
+  '虫',
+  '岩石',
+  '幽灵',
+  '龙',
+  '恶',
+  '钢',
+  '妖精',
 ]
 
 interface PokedexListProps {
@@ -60,10 +75,13 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
 
   // Toggle type: deselect if already on, add as 2nd if 1 selected, replace 2nd if 2 already selected
   const handleTypeToggle = (type: string) => {
-    setSelectedTypes(prev => {
-      if (prev.includes(type)) return prev.filter(t => t !== type)
-      if (prev.length === 0) return [type]
-      if (prev.length === 1) return [prev[0], type]
+    setSelectedTypes((prev) => {
+      if (prev.includes(type))
+        return prev.filter(t => t !== type)
+      if (prev.length === 0)
+        return [type]
+      if (prev.length === 1)
+        return [prev[0], type]
       // 2 already selected — replace the second one
       return [prev[0], type]
     })
@@ -74,7 +92,8 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
     if (selectedRegion === regionKey) {
       setSelectedRegion(null)
       setSelectedSubDex(null)
-    } else {
+    }
+    else {
       setSelectedRegion(regionKey)
       setSelectedSubDex(null)
     }
@@ -86,15 +105,15 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
 
   // Filter Logic
   const filteredList = React.useMemo(() => {
-    return pokemonList.filter(pokemon => {
+    return pokemonList.filter((pokemon) => {
       // 1. Search Query Match
       const q = searchQuery.toLowerCase().trim()
-      const matchesSearch = !q ||
-        pokemon.id.includes(q) ||
-        pokemon.name.toLowerCase().includes(q) ||
-        translateText(pokemon.name, 'zh-Hant').toLowerCase().includes(q) ||
-        pokemon.name_jp.toLowerCase().includes(q) ||
-        pokemon.name_en.toLowerCase().includes(q)
+      const matchesSearch = !q
+        || pokemon.id.includes(q)
+        || pokemon.name.toLowerCase().includes(q)
+        || translateText(pokemon.name, 'zh-Hant').toLowerCase().includes(q)
+        || pokemon.name_jp.toLowerCase().includes(q)
+        || pokemon.name_en.toLowerCase().includes(q)
 
       // 2. Generation Match
       const matchesGen = selectedGen === 'all' || pokemon.gen === selectedGen
@@ -106,7 +125,8 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
       let matchesRegion = true
       if (selectedSubDex) {
         matchesRegion = (regionalMap.bySub[pokemon.id] || []).includes(selectedSubDex)
-      } else if (selectedRegion) {
+      }
+      else if (selectedRegion) {
         matchesRegion = (regionalMap.byRegion[pokemon.id] || []).includes(selectedRegion)
       }
 
@@ -144,7 +164,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
               type="text"
               placeholder={translateText('搜索宝可梦 (名称/编号/英文)...', locale)}
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={e => setSearchQuery(e.target.value)}
               className="pl-9 pr-8 py-2 rounded-xl text-sm border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50 dark:bg-zinc-900/50 focus-visible:ring-1 focus-visible:ring-zinc-400 dark:focus-visible:ring-zinc-700"
             />
             {searchQuery && (
@@ -162,7 +182,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
             onClick={() => setShowFilters(!showFilters)}
             className={cn(
               'rounded-xl border-zinc-200/80 dark:border-zinc-800/80 relative hover:bg-zinc-50 dark:hover:bg-zinc-900/50',
-              (showFilters || hasNonSearchFilters) && 'bg-zinc-100 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700'
+              (showFilters || hasNonSearchFilters) && 'bg-zinc-100 dark:bg-zinc-900 border-zinc-300 dark:border-zinc-700',
             )}
           >
             <FunnelIcon className="w-4 h-4" />
@@ -195,7 +215,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                         'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all border',
                         isActive
                           ? 'text-zinc-900 shadow-sm border-transparent'
-                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60 border-transparent'
+                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60 border-transparent',
                       )}
                       style={isActive && color ? { backgroundColor: color } : undefined}
                     >
@@ -210,7 +230,8 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
               {/* Level 2: Sub-dex buttons — shown when a region is selected and has multiple dexes */}
               {selectedRegion && (() => {
                 const region = POKEDEX_LIST.find(r => r.name.replace('地区', '') === selectedRegion)
-                if (!region || region.items.length <= 1) return null
+                if (!region || region.items.length <= 1)
+                  return null
                 const regionKey = selectedRegion
                 const color = (POKEDEX_COLORS as Record<string, string>)[regionKey]
                 return (
@@ -227,7 +248,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                             'px-2.5 py-0.5 text-[11px] font-semibold rounded-md transition-all border',
                             isSubActive
                               ? 'text-zinc-900 shadow-sm border-transparent'
-                              : 'bg-white dark:bg-zinc-900/60 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 border-zinc-200/60 dark:border-zinc-800/60'
+                              : 'bg-white dark:bg-zinc-900/60 text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 border-zinc-200/60 dark:border-zinc-800/60',
                           )}
                           style={isSubActive && color ? { backgroundColor: color } : undefined}
                         >
@@ -252,12 +273,12 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                     'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                     selectedGen === 'all'
                       ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
-                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60'
+                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                   )}
                 >
                   {translateText('全部', locale)}
                 </button>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((gen) => (
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(gen => (
                   <button
                     key={gen}
                     onClick={() => setSelectedGen(gen)}
@@ -265,10 +286,11 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                       'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                       selectedGen === gen
                         ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
-                        : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60'
+                        : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                     )}
                   >
-                    G{gen}
+                    G
+                    {gen}
                   </button>
                 ))}
               </div>
@@ -280,7 +302,9 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                 {translateText('属性', locale)}
                 {selectedTypes.length > 0 && (
                   <span className="normal-case font-normal text-zinc-400 dark:text-zinc-500">
-                    ({selectedTypes.length === 2 ? translateText('双属性', locale) : translateText('单属性', locale)})
+                    (
+                    {selectedTypes.length === 2 ? translateText('双属性', locale) : translateText('单属性', locale)}
+                    )
                   </span>
                 )}
               </label>
@@ -291,7 +315,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                     'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                     selectedTypes.length === 0
                       ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
-                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60'
+                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                   )}
                 >
                   {translateText('全部', locale)}
@@ -309,7 +333,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                         'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all border border-transparent',
                         isSelected
                           ? 'text-white shadow-sm'
-                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-650 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60'
+                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-650 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                       )}
                       style={isSelected ? { backgroundColor: typeColor } : undefined}
                     >
@@ -332,7 +356,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                     'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                     selectedFilter === 'all'
                       ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
-                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60'
+                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                   )}
                 >
                   {translateText('全部', locale)}
@@ -347,7 +371,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                         'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all border border-transparent',
                         isSelected
                           ? 'text-white shadow-sm'
-                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60'
+                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                       )}
                       style={isSelected ? { backgroundColor: color } : undefined}
                     >
@@ -372,11 +396,14 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
           </div>
         )}
 
-
         {/* Count Summary */}
         <div className="text-[11px] font-bold text-zinc-400 dark:text-zinc-500 px-1 flex justify-between items-center">
           <span>
-            {translateText('共找到', locale)} {filteredList.length} {translateText('只宝可梦', locale)}
+            {translateText('共找到', locale)}
+            {' '}
+            {filteredList.length}
+            {' '}
+            {translateText('只宝可梦', locale)}
           </span>
           {hasActiveFilters && (
             <span className="text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-900 px-1.5 py-0.5 rounded-md text-[10px]">
@@ -387,8 +414,8 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
       </div>
 
       {/* Pokémon Cards List */}
-      <ScrollArea className="flex-1">
-        <div className="p-3 space-y-1.5">
+      <ScrollArea className="flex-1 w-full">
+        <div className="p-3 space-y-1.5 w-full">
           {filteredList.map((pokemon, idx) => {
             const isSelected = currentId === pokemon.id
             const translatedName = translateText(pokemon.name, locale)
@@ -400,10 +427,10 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                 key={`${pokemon.id}-${pokemon.name}-${idx}`}
                 onClick={() => handleSelect(pokemon.id)}
                 className={cn(
-                  'flex items-center gap-3.5 p-3 rounded-2xl cursor-pointer transition-all duration-200 group relative overflow-hidden border',
+                  'w-full flex items-center gap-3.5 p-3 rounded-2xl cursor-pointer transition-all duration-200 group relative overflow-hidden border',
                   isSelected
                     ? 'border-none shadow-sm'
-                    : 'border-zinc-100 dark:border-zinc-800/60 bg-transparent hover:bg-zinc-100/60 dark:hover:bg-zinc-900/40 hover:border-zinc-200 dark:hover:border-zinc-700/60 text-zinc-700 dark:text-zinc-300'
+                    : 'border-zinc-100 dark:border-zinc-800/60 bg-transparent hover:bg-zinc-100/60 dark:hover:bg-zinc-900/40 hover:border-zinc-200 dark:hover:border-zinc-700/60 text-zinc-700 dark:text-zinc-300',
                 )}
                 style={
                   isSelected
@@ -430,13 +457,15 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-mono text-[10px] font-bold text-zinc-400 dark:text-zinc-500">
-                      #{pokemon.id}
+                      #
+                      {pokemon.id}
                     </span>
                   </div>
                   <h4 className={cn(
                     'font-bold text-sm truncate tracking-tight transition-colors',
-                    isSelected ? 'text-zinc-950 dark:text-zinc-50' : 'text-zinc-900 dark:text-zinc-100'
-                  )}>
+                    isSelected ? 'text-zinc-950 dark:text-zinc-50' : 'text-zinc-900 dark:text-zinc-100',
+                  )}
+                  >
                     {translatedName}
                   </h4>
                   <p className="text-[11px] text-zinc-400 dark:text-zinc-500 font-medium truncate mt-0.5">
@@ -446,7 +475,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
 
                 {/* Types Badges */}
                 <div className="flex flex-row gap-1 items-center shrink-0">
-                  {pokemon.types.map((type) => (
+                  {pokemon.types.map(type => (
                     <TypeBadge key={type} type={type} variant="icon" />
                   ))}
                 </div>

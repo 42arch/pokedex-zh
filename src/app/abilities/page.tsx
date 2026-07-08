@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { getAbilityList, getAbilityDetail } from '@/services/pokemon'
 import { AbilitiesLayout } from '@/components/abilities-layout'
+import { getAbilityDetail, getAbilityList } from '@/services/pokemon'
 
 interface PageProps {
   searchParams: Promise<{ name?: string }>
@@ -14,10 +14,10 @@ export default async function AbilitiesPage({ searchParams }: PageProps) {
   const activeDetail = activeName ? await getAbilityDetail(activeName) : null
 
   return (
-    <AbilitiesLayout 
-      abilityList={abilityList} 
-      activeDetail={activeDetail} 
-      activeName={activeName} 
+    <AbilitiesLayout
+      abilityList={abilityList}
+      activeDetail={activeDetail}
+      activeName={activeName}
     />
   )
 }

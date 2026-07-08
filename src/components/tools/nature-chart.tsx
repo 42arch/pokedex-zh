@@ -1,11 +1,11 @@
 'use client'
 
-import * as React from 'react'
+import { ArrowDownIcon, ArrowUpIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
-import { translateText } from '@/lib/chinese'
+import * as React from 'react'
 import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { MagnifyingGlassIcon, XIcon, ArrowUpIcon, ArrowDownIcon } from '@phosphor-icons/react'
+import { translateText } from '@/lib/chinese'
 import { cn } from '@/lib/utils'
 
 interface Nature {
@@ -52,7 +52,7 @@ const NATURES: Nature[] = [
   { name_zh: '坦率', name_en: 'Docile', name_ja: 'すなお', up: null, down: null, description: '平衡性格，无任何属性修正。' },
   { name_zh: '羞涩', name_en: 'Bashful', name_ja: 'てれや', up: null, down: null, description: '平衡性格，无任何属性修正。' },
   { name_zh: '勤奋', name_en: 'Hardy', name_ja: 'がんばりや', up: null, down: null, description: '平衡性格，无任何属性修正。' },
-  { name_zh: '实干', name_en: 'Quirky', name_ja: 'きまぐれ', up: null, down: null, description: '平衡性格，无任何属性修正。' }
+  { name_zh: '实干', name_en: 'Quirky', name_ja: 'きまぐれ', up: null, down: null, description: '平衡性格，无任何属性修正。' },
 ]
 
 export function NatureChart() {
@@ -63,24 +63,25 @@ export function NatureChart() {
   // Filter list of natures
   const filteredNatures = React.useMemo(() => {
     const q = searchQuery.toLowerCase().trim()
-    if (!q) return NATURES
+    if (!q)
+      return NATURES
     return NATURES.filter((nature) => {
       const upLabel = nature.up ? translateText(STAT_LABELS[nature.up] || '', locale) : ''
       const downLabel = nature.down ? translateText(STAT_LABELS[nature.down] || '', locale) : ''
       return (
-        nature.name_zh.toLowerCase().includes(q) ||
-        translateText(nature.name_zh, 'zh-Hant').toLowerCase().includes(q) ||
-        nature.name_en.toLowerCase().includes(q) ||
-        nature.name_ja.toLowerCase().includes(q) ||
-        upLabel.includes(q) ||
-        downLabel.includes(q)
+        nature.name_zh.toLowerCase().includes(q)
+        || translateText(nature.name_zh, 'zh-Hant').toLowerCase().includes(q)
+        || nature.name_en.toLowerCase().includes(q)
+        || nature.name_ja.toLowerCase().includes(q)
+        || upLabel.includes(q)
+        || downLabel.includes(q)
       )
     })
   }, [searchQuery, locale])
 
   // Get nature in matrix cell
   const getMatrixNature = (upStat: string, downStat: string): Nature | undefined => {
-    return NATURES.find((n) => n.up === upStat && n.down === downStat)
+    return NATURES.find(n => n.up === upStat && n.down === downStat)
   }
 
   return (
@@ -92,7 +93,7 @@ export function NatureChart() {
           type="text"
           placeholder={translateText('搜索性格名称/影响属性 (e.g. 攻击, 固执)...', locale)}
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={e => setSearchQuery(e.target.value)}
           className="pl-9 pr-8 py-2 rounded-xl text-sm border-zinc-200/80 dark:border-zinc-800/80 bg-white dark:bg-zinc-900/50 focus-visible:ring-1 focus-visible:ring-zinc-400 shadow-sm"
         />
         {searchQuery && (
@@ -107,7 +108,7 @@ export function NatureChart() {
 
       {/* Grid Layout containing Matrix & Search results */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-        
+
         {/* Matrix Visualization */}
         <div className="xl:col-span-7 bg-white dark:bg-zinc-950 p-5 rounded-3xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm space-y-4">
           <div>
@@ -126,21 +127,23 @@ export function NatureChart() {
                   <th className="p-2 border-b border-r border-zinc-200 dark:border-zinc-800 font-bold bg-zinc-50/50 dark:bg-zinc-900/20 text-zinc-400">
                     {translateText('提\\降', locale)}
                   </th>
-                  {STAT_KEYS.map((key) => (
+                  {STAT_KEYS.map(key => (
                     <th
                       key={key}
                       className="p-2 border-b border-zinc-200 dark:border-zinc-800 font-bold text-red-500/90 dark:text-red-400/90 bg-red-500/5 dark:bg-red-500/10 text-center"
                     >
-                      -{translateText(STAT_LABELS[key], locale)}
+                      -
+                      {translateText(STAT_LABELS[key], locale)}
                     </th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {STAT_KEYS.map((upKey) => (
+                {STAT_KEYS.map(upKey => (
                   <tr key={upKey}>
                     <td className="p-2 border-r border-zinc-200 dark:border-zinc-800 font-bold text-emerald-500/90 dark:text-emerald-400/90 bg-emerald-500/5 dark:bg-emerald-500/10 text-center">
-                      +{translateText(STAT_LABELS[upKey], locale)}
+                      +
+                      {translateText(STAT_LABELS[upKey], locale)}
                     </td>
                     {STAT_KEYS.map((downKey) => {
                       const nature = getMatrixNature(upKey, downKey)
@@ -150,7 +153,7 @@ export function NatureChart() {
                         : nature?.name_zh || ''
 
                       const actualNature = isNeutral
-                        ? NATURES.find((n) => n.name_zh === cellName)
+                        ? NATURES.find(n => n.name_zh === cellName)
                         : nature
 
                       const isSelected = hoveredNature?.name_zh === cellName
@@ -165,7 +168,7 @@ export function NatureChart() {
                             isNeutral
                               ? 'bg-zinc-50/40 dark:bg-zinc-900/10 text-zinc-400 dark:text-zinc-500'
                               : 'bg-white dark:bg-zinc-950 text-zinc-850 dark:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-900',
-                            isSelected && 'ring-2 ring-zinc-900 dark:ring-zinc-100 z-10 scale-[1.03] bg-zinc-50 dark:bg-zinc-900 shadow-sm'
+                            isSelected && 'ring-2 ring-zinc-900 dark:ring-zinc-100 z-10 scale-[1.03] bg-zinc-50 dark:bg-zinc-900 shadow-sm',
                           )}
                         >
                           {translateText(cellName, locale)}
@@ -180,38 +183,53 @@ export function NatureChart() {
 
           {/* Hover detail card inside selector */}
           <div className="h-24 flex items-center justify-center p-3 rounded-2xl bg-zinc-50/50 dark:bg-zinc-900/30 border border-zinc-100 dark:border-zinc-900/50">
-            {hoveredNature ? (
-              <div className="w-full text-center space-y-1 animate-in fade-in duration-150">
-                <h4 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-50">
-                  {translateText(hoveredNature.name_zh, locale)} ({hoveredNature.name_en} · {hoveredNature.name_ja})
-                </h4>
-                <div className="flex justify-center items-center gap-3 text-xs font-bold">
-                  {hoveredNature.up ? (
-                    <>
-                      <span className="flex items-center gap-0.5 text-emerald-500">
-                        <ArrowUpIcon className="w-3.5 h-3.5" />
-                        {translateText(STAT_LABELS[hoveredNature.up] || '', locale)} (+10%)
-                      </span>
-                      <span className="flex items-center gap-0.5 text-red-500">
-                        <ArrowDownIcon className="w-3.5 h-3.5" />
-                        {translateText(STAT_LABELS[hoveredNature.down || ''] || '', locale)} (-10%)
-                      </span>
-                    </>
-                  ) : (
-                    <span className="text-zinc-400 dark:text-zinc-500">
-                      {translateText('平衡修正 (无属性增减)', locale)}
-                    </span>
-                  )}
-                </div>
-                <p className="text-[11px] text-zinc-500 dark:text-zinc-400 font-semibold">
-                  {translateText(hoveredNature.description, locale)}
-                </p>
-              </div>
-            ) : (
-              <span className="text-xs text-zinc-400 dark:text-zinc-500 font-bold">
-                {translateText('将鼠标悬停在矩阵格子上查看详细属性影响', locale)}
-              </span>
-            )}
+            {hoveredNature
+              ? (
+                  <div className="w-full text-center space-y-1 animate-in fade-in duration-150">
+                    <h4 className="font-extrabold text-sm text-zinc-900 dark:text-zinc-50">
+                      {translateText(hoveredNature.name_zh, locale)}
+                      {' '}
+                      (
+                      {hoveredNature.name_en}
+                      {' '}
+                      ·
+                      {hoveredNature.name_ja}
+                      )
+                    </h4>
+                    <div className="flex justify-center items-center gap-3 text-xs font-bold">
+                      {hoveredNature.up
+                        ? (
+                            <>
+                              <span className="flex items-center gap-0.5 text-emerald-500">
+                                <ArrowUpIcon className="w-3.5 h-3.5" />
+                                {translateText(STAT_LABELS[hoveredNature.up] || '', locale)}
+                                {' '}
+                                (+10%)
+                              </span>
+                              <span className="flex items-center gap-0.5 text-red-500">
+                                <ArrowDownIcon className="w-3.5 h-3.5" />
+                                {translateText(STAT_LABELS[hoveredNature.down || ''] || '', locale)}
+                                {' '}
+                                (-10%)
+                              </span>
+                            </>
+                          )
+                        : (
+                            <span className="text-zinc-400 dark:text-zinc-500">
+                              {translateText('平衡修正 (无属性增减)', locale)}
+                            </span>
+                          )}
+                    </div>
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400 font-semibold">
+                      {translateText(hoveredNature.description, locale)}
+                    </p>
+                  </div>
+                )
+              : (
+                  <span className="text-xs text-zinc-400 dark:text-zinc-500 font-bold">
+                    {translateText('将鼠标悬停在矩阵格子上查看详细属性影响', locale)}
+                  </span>
+                )}
           </div>
         </div>
 
@@ -220,13 +238,15 @@ export function NatureChart() {
           <h3 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 flex items-center justify-between">
             <span>{translateText('全部性格列表', locale)}</span>
             <span className="text-xs font-mono text-zinc-400 dark:text-zinc-500">
-              {filteredNatures.length} / 25
+              {filteredNatures.length}
+              {' '}
+              / 25
             </span>
           </h3>
 
           <ScrollArea className="flex-1 pr-1.5">
             <div className="space-y-2">
-              {filteredNatures.map((nature) => (
+              {filteredNatures.map(nature => (
                 <div
                   key={nature.name_zh}
                   className="p-3.5 rounded-2xl border border-zinc-150/40 dark:border-zinc-900 bg-zinc-50/20 dark:bg-zinc-900/5 flex flex-col gap-2 transition-all hover:bg-zinc-50 dark:hover:bg-zinc-900/20"
@@ -237,25 +257,32 @@ export function NatureChart() {
                         {translateText(nature.name_zh, locale)}
                       </h4>
                       <p className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-500">
-                        {nature.name_en} · {nature.name_ja}
+                        {nature.name_en}
+                        {' '}
+                        ·
+                        {nature.name_ja}
                       </p>
                     </div>
 
                     <div className="flex items-center gap-1.5 text-[10px] font-bold">
-                      {nature.up ? (
-                        <>
-                          <span className="flex items-center px-1.5 py-0.5 rounded bg-emerald-500/10 dark:bg-emerald-500/25 text-emerald-500 border border-emerald-500/10">
-                            +{translateText(STAT_LABELS[nature.up] || '', locale)}
-                          </span>
-                          <span className="flex items-center px-1.5 py-0.5 rounded bg-red-500/10 dark:bg-red-500/25 text-red-500 border border-red-500/10">
-                            -{translateText(STAT_LABELS[nature.down || ''] || '', locale)}
-                          </span>
-                        </>
-                      ) : (
-                        <span className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-500">
-                          {translateText('平衡', locale)}
-                        </span>
-                      )}
+                      {nature.up
+                        ? (
+                            <>
+                              <span className="flex items-center px-1.5 py-0.5 rounded bg-emerald-500/10 dark:bg-emerald-500/25 text-emerald-500 border border-emerald-500/10">
+                                +
+                                {translateText(STAT_LABELS[nature.up] || '', locale)}
+                              </span>
+                              <span className="flex items-center px-1.5 py-0.5 rounded bg-red-500/10 dark:bg-red-500/25 text-red-500 border border-red-500/10">
+                                -
+                                {translateText(STAT_LABELS[nature.down || ''] || '', locale)}
+                              </span>
+                            </>
+                          )
+                        : (
+                            <span className="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-500">
+                              {translateText('平衡', locale)}
+                            </span>
+                          )}
                     </div>
                   </div>
                   <p className="text-xs text-zinc-650 dark:text-zinc-400 font-semibold leading-relaxed">

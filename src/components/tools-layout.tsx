@@ -1,14 +1,14 @@
 'use client'
 
-import * as React from 'react'
+import type { CombinedPokemon } from '@/services/pokemon'
+import { IdentificationCardIcon, ShieldCheckIcon, ShieldIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
+import * as React from 'react'
 import { translateText } from '@/lib/chinese'
-import { CombinedPokemon } from '@/services/pokemon'
-import { TypeMatchupCalc } from './tools/type-matchup-calc'
+import { cn } from '@/lib/utils'
 import { NatureChart } from './tools/nature-chart'
 import { TeamPlanner } from './tools/team-planner'
-import { ShieldIcon, ShieldCheckIcon, IdentificationCardIcon } from '@phosphor-icons/react'
-import { cn } from '@/lib/utils'
+import { TypeMatchupCalc } from './tools/type-matchup-calc'
 
 interface ToolsLayoutProps {
   pokemonList: CombinedPokemon[]
@@ -44,7 +44,7 @@ export function ToolsLayout({ pokemonList }: ToolsLayoutProps) {
   return (
     <div className="flex-1 overflow-y-auto bg-zinc-50/20 dark:bg-zinc-950/10 min-h-[calc(100vh-4rem)] md:min-h-screen">
       <div className="p-4 md:p-6 lg:p-8 max-w-6xl mx-auto space-y-6 md:space-y-8 animate-in fade-in duration-200">
-        
+
         {/* Header Title */}
         <div className="space-y-1.5 md:space-y-2">
           <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-zinc-50 bg-gradient-to-r from-zinc-900 to-zinc-650 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
@@ -69,7 +69,7 @@ export function ToolsLayout({ pokemonList }: ToolsLayoutProps) {
                   'p-4 rounded-3xl border text-left flex items-start gap-4 transition-all shadow-sm relative overflow-hidden group cursor-pointer',
                   isActive
                     ? 'bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 border-zinc-900/10 dark:border-zinc-100/10 shadow-md shadow-zinc-900/10'
-                    : 'bg-white dark:bg-zinc-950 border-zinc-200/50 dark:border-zinc-800/50 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100/40 dark:hover:bg-zinc-900/40'
+                    : 'bg-white dark:bg-zinc-950 border-zinc-200/50 dark:border-zinc-800/50 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100/40 dark:hover:bg-zinc-900/40',
                 )}
               >
                 <div
@@ -77,7 +77,7 @@ export function ToolsLayout({ pokemonList }: ToolsLayoutProps) {
                     'p-2.5 rounded-2xl shrink-0 transition-all border shadow-sm',
                     isActive
                       ? 'bg-white/10 dark:bg-black/10 border-white/10 dark:border-black/5 text-zinc-50 dark:text-zinc-900'
-                      : 'bg-zinc-50 dark:bg-zinc-900/80 border-zinc-200/40 dark:border-zinc-800/40 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-600 dark:group-hover:text-zinc-300'
+                      : 'bg-zinc-50 dark:bg-zinc-900/80 border-zinc-200/40 dark:border-zinc-800/40 text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-600 dark:group-hover:text-zinc-300',
                   )}
                 >
                   <Icon className="w-5 h-5" />

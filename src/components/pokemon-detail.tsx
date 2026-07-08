@@ -10,7 +10,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { translateText } from '@/lib/chinese'
 import { ASSET_URL, GENERATION_COLORS, VERSION_COLORS } from '@/lib/constants'
-import { getStatColor, getStatName, getTypeColor, getTypeGradient } from '@/lib/pokemon-helpers'
+import { getStatColor, getStatName, getTypeGradient } from '@/lib/pokemon-helpers'
 import { cn } from '@/lib/utils'
 import { CategoryBadge, TypeBadge } from './type-badge'
 
@@ -28,7 +28,7 @@ function AbilityCard({ ability, locale }: { ability: { name: string, is_hidden: 
         if (res.ok) {
           const data = await res.json()
           if (active) {
-            const rawDesc = data.desc || data.description || data.effect || ''
+            const rawDesc = data.introduction || data.desc || data.description || data.effect || ''
             setDesc(rawDesc)
           }
         }
@@ -86,7 +86,7 @@ function AbilityCard({ ability, locale }: { ability: { name: string, is_hidden: 
 }
 
 function getBasePointStatName(statKey: string) {
-  const key = statKey.toLowerCase().replace(/[\s-._]+/g, '')
+  const key = statKey.toLowerCase().replace(/[\s._-]+/g, '')
   if (key === 'hp')
     return 'HP'
   if (key === 'attack')
@@ -112,20 +112,34 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
 
   // State
   const [activeFormIndex, setActiveFormIndex] = React.useState(0)
+  const [activeStatsForm, setActiveStatsForm] = React.useState(() => {
+    const normal = detail.stats.find(s => s.form === '一般' || s.form === '普通' || s.form === '')
+    return normal ? normal.form : (detail.stats[0]?.form || '一般')
+  })
+  const [activeEffForm, setActiveEffForm] = React.useState(() => {
+    const normal = detail.type_effectiveness.find(e => e.form === '一般' || e.form === '普通' || e.form === '')
+    return normal ? normal.form : (detail.type_effectiveness[0]?.form || '')
+  })
+
+  // Synchronize local switcher forms when detail changes
+  React.useEffect(() => {
+    if (detail) {
+      const normalStat = detail.stats.find(s => s.form === '一般' || s.form === '普通' || s.form === '')
+      setActiveStatsForm(normalStat ? normalStat.form : (detail.stats[0]?.form || '一般'))
+
+      const normalEff = detail.type_effectiveness.find(e => e.form === '一般' || e.form === '普通' || e.form === '')
+      setActiveEffForm(normalEff ? normalEff.form : (detail.type_effectiveness[0]?.form || ''))
+    }
+  }, [detail])
 
   // Computed Values
   const activeForm = detail.forms[activeFormIndex] || detail.forms[0]
 
   // Find stats for active form
   const activeStatsObj = React.useMemo(() => {
-    // try to find by form name
-    let statEntry = detail.stats.find(s => s.form === activeForm.name)
-    if (!statEntry) {
-      // fallback to first
-      statEntry = detail.stats[0]
-    }
-    return statEntry ? statEntry.data : { hp: '0', attack: '0', defense: '0', sp_attack: '0', sp_defense: '0', speed: '0' }
-  }, [detail, activeForm])
+    const entry = detail.stats.find(s => s.form === activeStatsForm) || detail.stats[0]
+    return entry ? entry.data : { hp: '0', attack: '0', defense: '0', sp_attack: '0', sp_defense: '0', speed: '0' }
+  }, [detail.stats, activeStatsForm])
 
   // Stat calculations
   const statsList = [
@@ -134,19 +148,16 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
     { key: 'defense', name: '防御', icon: ShieldIcon, val: parseInt(activeStatsObj.defense, 10) || 0 },
     { key: 'sp_attack', name: '特攻', icon: LightningIcon, val: parseInt(activeStatsObj.sp_attack, 10) || 0 },
     { key: 'sp_defense', name: '特防', icon: SparkleIcon, val: parseInt(activeStatsObj.sp_defense, 10) || 0 },
-    { key: 'speed', name: '速度', icon: LightningIcon, val: parseInt(activeStatsObj.speed, 10) || 0 }, // Wait, LightningIcon or Timer or Arrow
+    { key: 'speed', name: '速度', icon: LightningIcon, val: parseInt(activeStatsObj.speed, 10) || 0 },
   ]
 
   const statsTotal = statsList.reduce((sum, s) => sum + s.val, 0)
 
   // Find type effectiveness for active form
   const typeEffectiveness = React.useMemo(() => {
-    let effEntry = detail.type_effectiveness.find(e => e.form === activeForm.name)
-    if (!effEntry) {
-      effEntry = detail.type_effectiveness[0]
-    }
-    return effEntry ? effEntry.data : []
-  }, [detail, activeForm])
+    const entry = detail.type_effectiveness.find(e => e.form === activeEffForm) || detail.type_effectiveness[0]
+    return entry ? entry.data : []
+  }, [detail.type_effectiveness, activeEffForm])
 
   // Group type effectiveness by damage multiplier
   const effectivenessGroups = React.useMemo(() => {
@@ -467,10 +478,30 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
         <TabsContent value="effectiveness" className="mt-3 focus-visible:outline-none space-y-4">
 
           {/* 3. 基础种族值 */}
-          <div className="bg-white dark:bg-zinc-950 p-4 md:p-5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm space-y-3">
-            <h3 className="font-bold text-base tracking-tight border-b border-zinc-100 dark:border-zinc-900 pb-1.5">
-              {translateText('基础种族值', locale)}
-            </h3>
+          <div className="bg-white dark:bg-zinc-950 p-4 md:p-5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-100 dark:border-zinc-900 pb-2">
+              <h3 className="font-bold text-base tracking-tight">
+                {translateText('基础种族值', locale)}
+              </h3>
+              {detail.stats.length > 1 && (
+                <div className="flex flex-wrap gap-1 p-1 bg-zinc-150/40 dark:bg-zinc-900/40 rounded-xl w-fit">
+                  {detail.stats.map(s => (
+                    <button
+                      key={s.form}
+                      onClick={() => setActiveStatsForm(s.form)}
+                      className={cn(
+                        'px-2.5 py-1 text-xs font-bold rounded-lg transition-all duration-200 cursor-pointer select-none',
+                        activeStatsForm === s.form
+                          ? 'bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-200/30 dark:border-zinc-800/30'
+                          : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300',
+                      )}
+                    >
+                      {translateText(s.form || '一般', locale)}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="space-y-3.5 max-w-2xl">
               {statsList.map((stat) => {
                 const percent = Math.min(100, (stat.val / 255) * 100)
@@ -524,7 +555,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                 {activeForm.base_points.map((bp, idx) => {
                   const displayName = getBasePointStatName(bp.stat)
                   let statColorClass = 'bg-zinc-500/10 text-zinc-500 border-zinc-500/25'
-                  const lowerStat = bp.stat.toLowerCase().replace(/[\s-._]+/g, '')
+                  const lowerStat = bp.stat.toLowerCase().replace(/[\s._-]+/g, '')
                   if (lowerStat === 'hp')
                     statColorClass = 'bg-rose-500/10 text-rose-500 border-rose-500/25 dark:bg-rose-500/5 dark:border-rose-500/15'
                   else if (lowerStat === 'attack')
@@ -581,15 +612,35 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
             </div>
           )}
 
-          {/* 属性受性效果 */}
+          {/* 属性相性 */}
           <div className="bg-white dark:bg-zinc-950 p-4 md:p-5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm space-y-4">
-            <div className="flex flex-col gap-1">
-              <h3 className="font-bold text-base tracking-tight">
-                {translateText('属性受性效果', locale)}
-              </h3>
-              <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium">
-                {translateText('显示该宝可梦防守时，遭受不同属性攻击的伤害倍数', locale)}
-              </p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-zinc-100 dark:border-zinc-900 pb-2">
+              <div className="flex flex-col gap-1">
+                <h3 className="font-bold text-base tracking-tight">
+                  {translateText('属性相性', locale)}
+                </h3>
+                <p className="text-xs text-zinc-400 dark:text-zinc-500 font-medium">
+                  {translateText('显示该宝可梦防守时，遭受不同属性攻击的伤害倍数', locale)}
+                </p>
+              </div>
+              {detail.type_effectiveness.length > 1 && (
+                <div className="flex flex-wrap gap-1 p-1 bg-zinc-150/40 dark:bg-zinc-900/40 rounded-xl w-fit">
+                  {detail.type_effectiveness.map(e => (
+                    <button
+                      key={e.form}
+                      onClick={() => setActiveEffForm(e.form)}
+                      className={cn(
+                        'px-2.5 py-1 text-xs font-bold rounded-lg transition-all duration-200 cursor-pointer select-none',
+                        activeEffForm === e.form
+                          ? 'bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-200/30 dark:border-zinc-800/30'
+                          : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300',
+                      )}
+                    >
+                      {translateText(e.form || '一般', locale)}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="space-y-5">
@@ -684,7 +735,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                                 : 'bg-white dark:bg-zinc-950 border-zinc-150 dark:border-zinc-850 hover:border-zinc-300 dark:hover:border-zinc-700',
                             )}
                           >
-                            <div className="relative w-20 h-20 flex items-center justify-center bg-zinc-100/50 dark:bg-zinc-900/50 rounded-xl p-1 shadow-inner border border-zinc-100/30 dark:border-zinc-800/30">
+                            <div className="relative w-20 h-20 flex items-center justify-center rounded-xl p-1 border border-zinc-100/30 dark:border-zinc-800/30">
                               <img
                                 src={`${ASSET_URL}/images/dream/${stage.image}`}
                                 alt={stage.name}
@@ -725,7 +776,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                 <div className="flex flex-wrap gap-4">
                   {detail.mega_evolution.map((mega, idx) => {
                     const matchedIdx = detail.forms.findIndex((f) => {
-                      const norm = (s: string) => s.toLowerCase().replace(/[\s-._·★]+/g, '').replace('极', '级').replace('ｘ', 'x').replace('ｙ', 'y')
+                      const norm = (s: string) => s.toLowerCase().replace(/[\s._·★-]+/g, '').replace('极', '级').replace('ｘ', 'x').replace('ｙ', 'y')
                       const fn = norm(f.name)
                       const target = norm(mega.form_name)
                       const targetAlt = norm(`${mega.name}${mega.form_name}`)
@@ -748,7 +799,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                             : 'bg-white dark:bg-zinc-950 border-zinc-150 dark:border-zinc-850 hover:border-zinc-300 dark:hover:border-zinc-700',
                         )}
                       >
-                        <div className="relative w-20 h-20 flex items-center justify-center bg-zinc-100/50 dark:bg-zinc-900/50 rounded-xl p-1 shadow-inner border border-zinc-100/30 dark:border-zinc-800/30">
+                        <div className="relative w-20 h-20 flex items-center justify-center rounded-xl p-1 border border-zinc-100/30 dark:border-zinc-800/30">
                           <img
                             src={`${ASSET_URL}/images/dream/${mega.image}`}
                             alt={mega.form_name}
@@ -787,7 +838,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                 <div className="flex flex-wrap gap-4">
                   {detail.gigantamax_evolution.map((gmax, idx) => {
                     const matchedIdx = detail.forms.findIndex((f) => {
-                      const norm = (s: string) => s.toLowerCase().replace(/[\s-._·★]+/g, '').replace('极', '级')
+                      const norm = (s: string) => s.toLowerCase().replace(/[\s._·★-]+/g, '').replace('极', '级')
                       const fn = norm(f.name)
                       const target = norm(gmax.form_name)
                       const targetAlt = norm(`${gmax.name}${gmax.form_name}`)
@@ -810,7 +861,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                             : 'bg-white dark:bg-zinc-950 border-zinc-150 dark:border-zinc-850 hover:border-zinc-300 dark:hover:border-zinc-700',
                         )}
                       >
-                        <div className="relative w-20 h-20 flex items-center justify-center bg-zinc-100/50 dark:bg-zinc-900/50 rounded-xl p-1 shadow-inner border border-zinc-100/30 dark:border-zinc-800/30">
+                        <div className="relative w-20 h-20 flex items-center justify-center rounded-xl p-1 border border-zinc-100/30 dark:border-zinc-800/30">
                           <img
                             src={`${ASSET_URL}/images/dream/${gmax.image}`}
                             alt={gmax.form_name}
@@ -907,7 +958,26 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
         </TabsContent>
 
         {/* Moves Tab */}
-        <TabsContent value="moves" className="mt-3 focus-visible:outline-none">
+        <TabsContent value="moves" className="mt-3 focus-visible:outline-none space-y-4">
+          {detail.forms.length > 1 && (
+            <div className="flex flex-wrap gap-1 p-1 bg-zinc-150/40 dark:bg-zinc-900/40 rounded-xl w-fit">
+              {detail.forms.map((form, idx) => (
+                <button
+                  key={form.name}
+                  onClick={() => setActiveFormIndex(idx)}
+                  className={cn(
+                    'px-3 py-1.5 text-xs font-bold rounded-lg transition-all duration-200 cursor-pointer select-none',
+                    activeFormIndex === idx
+                      ? 'bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-sm border border-zinc-200/30 dark:border-zinc-800/30'
+                      : 'text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300',
+                  )}
+                >
+                  {translateText(form.name, locale)}
+                </button>
+              ))}
+            </div>
+          )}
+
           <div className="bg-white dark:bg-zinc-950 p-4 md:p-5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm space-y-4">
             <div className="flex flex-col gap-1">
               <h3 className="font-bold text-base tracking-tight">
@@ -928,13 +998,13 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
               {/* 1. Level-up moves */}
               <TabsContent value="level" className="mt-3 focus-visible:outline-none">
                 <div className="overflow-x-auto pr-1">
-                  <table className="w-full text-left border-collapse text-xs md:text-sm">
+                  <table className="w-full min-w-[600px] text-left border-collapse text-xs md:text-sm">
                     <thead>
                       <tr className="border-b border-zinc-200 dark:border-zinc-800 text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                         <th className="py-2.5 px-3 w-16">{translateText('等级', locale)}</th>
-                        <th className="py-2.5 px-3">{translateText('招式名称', locale)}</th>
-                        <th className="py-2.5 px-3 w-20">{translateText('属性', locale)}</th>
-                        <th className="py-2.5 px-3 w-20">{translateText('分类', locale)}</th>
+                        <th className="py-2.5 px-3 min-w-[130px]">{translateText('招式名称', locale)}</th>
+                        <th className="py-2.5 px-3 w-28 text-center">{translateText('属性', locale)}</th>
+                        <th className="py-2.5 px-3 w-28 text-center">{translateText('分类', locale)}</th>
                         <th className="py-2.5 px-3 w-16 text-center">{translateText('威力', locale)}</th>
                         <th className="py-2.5 px-3 w-16 text-center">{translateText('命中', locale)}</th>
                         <th className="py-2.5 px-3 w-16 text-center">PP</th>
@@ -943,15 +1013,12 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                     <tbody>
                       {/* Get learnable moves for active form */}
                       {(detail.learnable_moves.find(m => m.form === activeForm.name) || detail.learnable_moves[0])?.data.map((move, idx) => {
-                        const typeColor = getTypeColor(move.type)
                         const translatedMoveName = translateText(move.name, locale)
-                        const translatedTypeName = translateText(move.type, locale)
-                        const translatedCategoryName = translateText(move.category, locale)
 
                         return (
                           <tr key={idx} className="border-b border-zinc-100 dark:border-zinc-900/60 hover:bg-zinc-50 dark:hover:bg-zinc-900/20 font-medium">
                             <td className="py-3 px-3 font-mono font-bold text-zinc-500 dark:text-zinc-400">{move.level}</td>
-                            <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-50">
+                            <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-50 whitespace-nowrap">
                               <Link
                                 href={`/moves?name=${encodeURIComponent(move.name)}`}
                                 className="hover:text-red-500 dark:hover:text-red-400 transition-colors"
@@ -959,11 +1026,11 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                                 {translatedMoveName}
                               </Link>
                             </td>
-                            <td className="py-3 px-3">
-                              <TypeBadge type={move.type} className="px-2 py-0.5 rounded text-[9px] block text-center justify-center" />
+                            <td className="py-3 px-3 text-center">
+                              <TypeBadge type={move.type} className="w-16 justify-center text-[10px] py-0.5 rounded-md" />
                             </td>
-                            <td className="py-3 px-3">
-                              <CategoryBadge category={move.category} className="px-2 py-0.5 rounded text-[9px] block text-center justify-center" />
+                            <td className="py-3 px-3 text-center">
+                              <CategoryBadge category={move.category} className="w-16 justify-center text-[10px] py-0.5 rounded-md" />
                             </td>
                             <td className="py-3 px-3 text-center font-mono font-bold text-zinc-700 dark:text-zinc-300">{move.power}</td>
                             <td className="py-3 px-3 text-center font-mono font-bold text-zinc-700 dark:text-zinc-300">{move.accuracy}</td>
@@ -979,13 +1046,13 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
               {/* 2. Machine moves */}
               <TabsContent value="machine" className="mt-3 focus-visible:outline-none">
                 <div className="overflow-x-auto pr-1">
-                  <table className="w-full text-left border-collapse text-xs md:text-sm">
+                  <table className="w-full min-w-[600px] text-left border-collapse text-xs md:text-sm">
                     <thead>
                       <tr className="border-b border-zinc-200 dark:border-zinc-800 text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                         <th className="py-2.5 px-3 w-28">{translateText('学习器', locale)}</th>
-                        <th className="py-2.5 px-3">{translateText('招式名称', locale)}</th>
-                        <th className="py-2.5 px-3 w-20">{translateText('属性', locale)}</th>
-                        <th className="py-2.5 px-3 w-20">{translateText('分类', locale)}</th>
+                        <th className="py-2.5 px-3 min-w-[130px]">{translateText('招式名称', locale)}</th>
+                        <th className="py-2.5 px-3 w-28 text-center">{translateText('属性', locale)}</th>
+                        <th className="py-2.5 px-3 w-28 text-center">{translateText('分类', locale)}</th>
                         <th className="py-2.5 px-3 w-16 text-center">{translateText('威力', locale)}</th>
                         <th className="py-2.5 px-3 w-16 text-center">{translateText('命中', locale)}</th>
                         <th className="py-2.5 px-3 w-16 text-center">PP</th>
@@ -999,7 +1066,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                         return (
                           <tr key={idx} className="border-b border-zinc-100 dark:border-zinc-900/60 hover:bg-zinc-50 dark:hover:bg-zinc-900/20 font-medium font-medium">
                             <td className="py-3 px-3 font-semibold text-zinc-500 dark:text-zinc-400 whitespace-nowrap">{translatedMachine}</td>
-                            <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-55 animate-pulse-none">
+                            <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-55 animate-pulse-none whitespace-nowrap">
                               <Link
                                 href={`/moves?name=${encodeURIComponent(move.name)}`}
                                 className="hover:text-red-500 dark:hover:text-red-400 transition-colors"
@@ -1007,11 +1074,11 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                                 {translatedMoveName}
                               </Link>
                             </td>
-                            <td className="py-3 px-3">
-                              <TypeBadge type={move.type} className="px-2 py-0.5 rounded text-[9px] block text-center justify-center" />
+                            <td className="py-3 px-3 text-center">
+                              <TypeBadge type={move.type} className="w-16 justify-center text-[10px] py-0.5 rounded-md" />
                             </td>
-                            <td className="py-3 px-3">
-                              <CategoryBadge category={move.category} className="px-2 py-0.5 rounded text-[9px] block text-center justify-center" />
+                            <td className="py-3 px-3 text-center">
+                              <CategoryBadge category={move.category} className="w-16 justify-center text-[10px] py-0.5 rounded-md" />
                             </td>
                             <td className="py-3 px-3 text-center font-mono font-bold text-zinc-700 dark:text-zinc-300">{move.power}</td>
                             <td className="py-3 px-3 text-center font-mono font-bold text-zinc-700 dark:text-zinc-300">{move.accuracy}</td>
@@ -1027,12 +1094,12 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
               {/* 3. Egg moves */}
               <TabsContent value="egg" className="mt-3 focus-visible:outline-none">
                 <div className="overflow-x-auto pr-1">
-                  <table className="w-full text-left border-collapse text-xs md:text-sm">
+                  <table className="w-full min-w-[650px] text-left border-collapse text-xs md:text-sm">
                     <thead>
                       <tr className="border-b border-zinc-200 dark:border-zinc-800 text-[10px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
-                        <th className="py-2.5 px-3">{translateText('招式名称', locale)}</th>
-                        <th className="py-2.5 px-3 w-20">{translateText('属性', locale)}</th>
-                        <th className="py-2.5 px-3 w-20">{translateText('分类', locale)}</th>
+                        <th className="py-2.5 px-3 min-w-[130px]">{translateText('招式名称', locale)}</th>
+                        <th className="py-2.5 px-3 w-28 text-center">{translateText('属性', locale)}</th>
+                        <th className="py-2.5 px-3 w-28 text-center">{translateText('分类', locale)}</th>
                         <th className="py-2.5 px-3 w-16 text-center">{translateText('威力', locale)}</th>
                         <th className="py-2.5 px-3 w-16 text-center">{translateText('命中', locale)}</th>
                         <th className="py-2.5 px-3 w-16 text-center">PP</th>
@@ -1041,15 +1108,12 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                     </thead>
                     <tbody>
                       {(detail.egg_moves.find(m => m.form === activeForm.name) || detail.egg_moves[0])?.data.map((move, idx) => {
-                        const typeColor = getTypeColor(move.type)
                         const translatedMoveName = translateText(move.name, locale)
-                        const translatedTypeName = translateText(move.type, locale)
-                        const translatedCategoryName = translateText(move.category, locale)
                         const translatedParents = move.parents.map(p => translateText(p.name, locale)).slice(0, 4).join(', ')
 
                         return (
                           <tr key={idx} className="border-b border-zinc-100 dark:border-zinc-900/60 hover:bg-zinc-50 dark:hover:bg-zinc-900/20 font-medium font-medium">
-                            <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-55 animate-pulse-none">
+                            <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-55 animate-pulse-none whitespace-nowrap">
                               <Link
                                 href={`/moves?name=${encodeURIComponent(move.name)}`}
                                 className="hover:text-red-500 dark:hover:text-red-400 transition-colors"
@@ -1057,11 +1121,11 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                                 {translatedMoveName}
                               </Link>
                             </td>
-                            <td className="py-3 px-3">
-                              <TypeBadge type={move.type} className="px-2 py-0.5 rounded text-[9px] block text-center justify-center" />
+                            <td className="py-3 px-3 text-center">
+                              <TypeBadge type={move.type} className="w-16 justify-center text-[10px] py-0.5 rounded-md" />
                             </td>
-                            <td className="py-3 px-3">
-                              <CategoryBadge category={move.category} className="px-2 py-0.5 rounded text-[9px] block text-center justify-center" />
+                            <td className="py-3 px-3 text-center">
+                              <CategoryBadge category={move.category} className="w-16 justify-center text-[10px] py-0.5 rounded-md" />
                             </td>
                             <td className="py-3 px-3 text-center font-mono font-bold text-zinc-700 dark:text-zinc-300">{move.power}</td>
                             <td className="py-3 px-3 text-center font-mono font-bold text-zinc-700 dark:text-zinc-300">{move.accuracy}</td>
