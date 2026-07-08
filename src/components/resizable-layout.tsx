@@ -17,6 +17,48 @@ interface ResizableLayoutProps {
   rightPanelClassName?: string
 }
 
+function ResizableLayoutInner({
+  id,
+  defaultSize,
+  minSize,
+  maxSize,
+  leftPanel,
+  rightPanel,
+  leftPanelClassName,
+  rightPanelClassName,
+}: ResizableLayoutProps) {
+  const { defaultLayout, onLayoutChanged } = useDefaultLayout({
+    id,
+  })
+
+  return (
+    <div className="hidden md:flex flex-1 h-full overflow-hidden">
+      <ResizablePanelGroup
+        orientation="horizontal"
+        defaultLayout={defaultLayout}
+        onLayoutChanged={onLayoutChanged}
+      >
+        <ResizablePanel
+          defaultSize={defaultLayout ? undefined : defaultSize}
+          minSize={minSize}
+          maxSize={maxSize}
+          collapsible={false}
+        >
+          <div className={cn('h-full overflow-hidden flex flex-col', leftPanelClassName)}>
+            {leftPanel}
+          </div>
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel>
+          <div className={cn('h-full overflow-y-auto', rightPanelClassName)}>
+            {rightPanel}
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </div>
+  )
+}
+
 export function ResizableLayout({
   id,
   defaultSize = '25%',
@@ -29,10 +71,6 @@ export function ResizableLayout({
   rightPanelClassName,
 }: ResizableLayoutProps) {
   const [isMounted, setIsMounted] = React.useState(false)
-
-  const { defaultLayout, onLayoutChanged } = useDefaultLayout({
-    id,
-  })
 
   React.useEffect(() => {
     setIsMounted(true)
@@ -66,30 +104,17 @@ export function ResizableLayout({
   return (
     <div className="flex-1 flex overflow-hidden h-[calc(100vh-4rem)] md:h-screen">
       {/* On desktop, use ResizablePanelGroup */}
-      <div className="hidden md:flex flex-1 h-full overflow-hidden">
-        <ResizablePanelGroup
-          orientation="horizontal"
-          defaultLayout={defaultLayout}
-          onLayoutChanged={onLayoutChanged}
-        >
-          <ResizablePanel
-            defaultSize={defaultLayout ? undefined : defaultSize}
-            minSize={minSize}
-            maxSize={maxSize}
-            collapsible={false}
-          >
-            <div className={cn('h-full overflow-hidden flex flex-col', leftPanelClassName)}>
-              {leftPanel}
-            </div>
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel>
-            <div className={cn('h-full overflow-y-auto', rightPanelClassName)}>
-              {rightPanel}
-            </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
-      </div>
+      <ResizableLayoutInner
+        id={id}
+        defaultSize={defaultSize}
+        minSize={minSize}
+        maxSize={maxSize}
+        leftPanel={leftPanel}
+        rightPanel={rightPanel}
+        isActiveDetail={isActiveDetail}
+        leftPanelClassName={leftPanelClassName}
+        rightPanelClassName={rightPanelClassName}
+      />
 
       {/* On mobile, standard layout */}
       <div className={cn(
