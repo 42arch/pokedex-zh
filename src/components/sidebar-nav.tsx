@@ -7,7 +7,7 @@ import {
   SwordIcon,
   WrenchIcon,
 } from '@phosphor-icons/react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
@@ -47,13 +47,14 @@ interface NavItem {
 export function SidebarLinks({ onItemClick, isCollapsed }: { onItemClick?: () => void, isCollapsed?: boolean }) {
   const pathname = usePathname()
   const t = useTranslations('Navbar')
+  const locale = useLocale()
 
   const navItems: NavItem[] = [
-    { name: t('pokemon'), href: '/pokemon', icon: SwordIcon },
-    { name: t('moves'), href: '/moves', icon: LightningIcon },
-    { name: t('abilities'), href: '/abilities', icon: SparkleIcon },
-    { name: t('items'), href: '/items', icon: BagIcon },
-    { name: t('tools'), href: '/tools', icon: WrenchIcon },
+    { name: t('pokemon'), href: `/${locale}/pokemon`, icon: SwordIcon },
+    { name: t('moves'), href: `/${locale}/moves`, icon: LightningIcon },
+    { name: t('abilities'), href: `/${locale}/abilities`, icon: SparkleIcon },
+    { name: t('items'), href: `/${locale}/items`, icon: BagIcon },
+    { name: t('tools'), href: `/${locale}/tools`, icon: WrenchIcon },
   ]
 
   return (

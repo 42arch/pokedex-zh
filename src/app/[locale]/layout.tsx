@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { List } from '@phosphor-icons/react/dist/ssr'
 import { NextIntlClientProvider } from 'next-intl'
-import { getLocale, getMessages } from 'next-intl/server'
+import { getMessages, setRequestLocale } from 'next-intl/server'
 import localFont from 'next/font/local'
 import { AppLayoutClient } from '@/components/app-layout-client'
 import { RegisterSW } from '@/components/register-sw'
@@ -10,26 +10,26 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
-import './globals.css'
+import '../globals.css'
 
 const geistSans = localFont({
-  src: '../../public/fonts/Geist-Variable.woff2',
+  src: '../../../public/fonts/Geist-Variable.woff2',
   variable: '--font-sans',
 })
 
 const geistMono = localFont({
-  src: '../../public/fonts/GeistMono-Variable.woff2',
+  src: '../../../public/fonts/GeistMono-Variable.woff2',
   variable: '--font-geist-mono',
 })
 
 const geistHeading = localFont({
-  src: '../../public/fonts/Geist-Variable.woff2',
+  src: '../../../public/fonts/Geist-Variable.woff2',
   variable: '--font-heading',
 })
 
 export const metadata: Metadata = {
-  title: '宝可梦图鉴 Pokedex',
-  description: '基于 Next.js 16 构建的现代化宝可梦中文图鉴应用',
+  title: '宝可梦图鉴 Pokedex | 宝可梦中文资料站',
+  description: '全面收录宝可梦（神奇宝贝）全国图鉴、地区图鉴、属性克制、性格修正，以及招式、特性、道具的详细中英文资料，为您提供便捷的队伍规划与属性克制查询服务。',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
@@ -40,12 +40,19 @@ export const metadata: Metadata = {
   },
 }
 
+export function generateStaticParams() {
+  return [{ locale: 'zh' }, { locale: 'zh-Hant' }]
+}
+
 export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode
+  params: Promise<{ locale: string }>
 }>) {
-  const locale = await getLocale()
+  const { locale } = await params
+  setRequestLocale(locale)
   const messages = await getMessages()
 
   return (

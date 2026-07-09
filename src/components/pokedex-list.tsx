@@ -138,7 +138,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
   }, [pokemonList, searchQuery, selectedGen, selectedTypes, selectedRegion, selectedSubDex, selectedFilter, regionalMap])
 
   const handleSelect = (id: string) => {
-    router.push(`/pokemon/${id}`)
+    router.push(`/${locale}/pokemon/${id}`)
   }
 
   const resetFilters = () => {

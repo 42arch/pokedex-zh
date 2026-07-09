@@ -3,6 +3,7 @@
 import type { Locale } from '@/i18n/config'
 import { CheckIcon, TranslateIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
+import { usePathname, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -10,6 +11,8 @@ import { setUserLocale } from '@/services/locale'
 
 export function LanguageSwitcher() {
   const locale = useLocale()
+  const pathname = usePathname()
+  const router = useRouter()
   const [isOpen, setIsOpen] = React.useState(false)
   const [isPending, startTransition] = React.useTransition()
   const dropdownRef = React.useRef<HTMLDivElement>(null)
@@ -32,8 +35,16 @@ export function LanguageSwitcher() {
 
     startTransition(async () => {
       await setUserLocale(newLocale)
+      const segments = pathname.split('/')
+      if (segments[1] === 'zh' || segments[1] === 'zh-Hant') {
+        segments[1] = newLocale
+      }
+      else {
+        segments.splice(1, 0, newLocale)
+      }
+      const newPath = segments.join('/') || '/'
+      router.push(newPath)
       setIsOpen(false)
-      window.location.reload()
     })
   }
 

@@ -199,15 +199,65 @@ export interface ItemNode {
   icon?: string | string[]
 }
 
-// Fetch files from remote ASSET_URL
+// Concurrency control for network requests to prevent rate-limiting/connection resets
+let activeRequests = 0
+const queue: (() => void)[] = []
+const MAX_CONCURRENT = 5 // Limit to 5 concurrent requests
+
+async function acquireSlot(): Promise<void> {
+  if (activeRequests < MAX_CONCURRENT) {
+    activeRequests++
+    return
+  }
+  return new Promise<void>((resolve) => {
+    queue.push(resolve)
+  })
+}
+
+function releaseSlot(): void {
+  activeRequests--
+  if (queue.length > 0) {
+    const next = queue.shift()
+    if (next) {
+      activeRequests++
+      next()
+    }
+  }
+}
+
+async function readJsonFileWithRetry<T>(url: string, retries = 3, delay = 500): Promise<T> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await fetch(url)
+      if (!response.ok) {
+        throw new Error(`status ${response.status} ${response.statusText}`)
+      }
+      return await response.json() as T
+    }
+    catch (error) {
+      if (i === retries - 1) {
+        throw error
+      }
+      const waitTime = delay * (i + 1)
+      console.warn(`Fetch failed for ${url}, retrying in ${waitTime}ms... (Attempt ${i + 1}/${retries}). Error: ${error instanceof Error ? error.message : error}`)
+      await new Promise(resolve => setTimeout(resolve, waitTime))
+    }
+  }
+  throw new Error(`Failed to fetch JSON from ${url} after ${retries} retries`)
+}
+
+// Fetch files from remote ASSET_URL with concurrency limit and retries
 async function readJsonFile<T>(relativePath: string): Promise<T> {
   const normalizedPath = relativePath.replace(/\\/g, '/')
   const url = `${ASSET_URL}/${normalizedPath}`
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error(`Failed to fetch JSON from ${url}: ${response.statusText}`)
+
+  await acquireSlot()
+  try {
+    return await readJsonFileWithRetry<T>(url)
   }
-  return await response.json() as T
+  finally {
+    releaseSlot()
+  }
 }
 
 // Memory Cache
