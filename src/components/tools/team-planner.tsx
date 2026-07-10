@@ -1,6 +1,6 @@
 'use client'
 
-import type { CombinedPokemon } from '@/services/pokemon'
+import type { NationalPokemon } from '@/services/pokemon'
 import { CheckCircleIcon, MagnifyingGlassIcon, PlusIcon, TrashIcon, WarningIcon, XIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
 import * as React from 'react'
@@ -399,12 +399,12 @@ const typeMatchups: Record<PokemonType, Record<PokemonType, number>> = {
 }
 
 interface TeamPlannerProps {
-  pokemonList: CombinedPokemon[]
+  pokemonList: NationalPokemon[]
 }
 
 export function TeamPlanner({ pokemonList }: TeamPlannerProps) {
   const locale = useLocale()
-  const [team, setTeam] = React.useState<(CombinedPokemon | null)[]>([
+  const [team, setTeam] = React.useState<(NationalPokemon | null)[]>([
     null,
     null,
     null,
@@ -425,13 +425,11 @@ export function TeamPlanner({ pokemonList }: TeamPlannerProps) {
         pk.id.includes(q)
         || pk.name.toLowerCase().includes(q)
         || translateText(pk.name, 'zh-Hant').toLowerCase().includes(q)
-        || pk.name_jp.toLowerCase().includes(q)
-        || pk.name_en.toLowerCase().includes(q)
       )
     })
   }, [pokemonList, searchQuery])
 
-  const handleAddPokemon = (pk: CombinedPokemon) => {
+  const handleAddPokemon = (pk: NationalPokemon) => {
     if (activeSlot !== null) {
       const newTeam = [...team]
       newTeam[activeSlot] = pk
@@ -448,7 +446,7 @@ export function TeamPlanner({ pokemonList }: TeamPlannerProps) {
   }
 
   // Calculate effectiveness multipliers for a single pokemon
-  const getPkMultiplier = (pk: CombinedPokemon, attackType: PokemonType): number => {
+  const getPkMultiplier = (pk: NationalPokemon, attackType: PokemonType): number => {
     let mult = 1
     pk.types.forEach((defType) => {
       const t = defType.trim() as PokemonType
@@ -460,7 +458,7 @@ export function TeamPlanner({ pokemonList }: TeamPlannerProps) {
   }
 
   // Calculate Team Defensive Matrix
-  const activeMembers = React.useMemo(() => team.filter((p): p is CombinedPokemon => p !== null), [team])
+  const activeMembers = React.useMemo(() => team.filter((p): p is NationalPokemon => p !== null), [team])
 
   const defenseReport = React.useMemo(() => {
     if (activeMembers.length === 0)
@@ -628,10 +626,6 @@ export function TeamPlanner({ pokemonList }: TeamPlannerProps) {
                         <span className="font-mono text-[9px] text-zinc-450 dark:text-zinc-500">
                           #
                           {pk.id}
-                          {' '}
-                          ·
-                          {' '}
-                          {pk.name_en}
                         </span>
                       </div>
                     </div>

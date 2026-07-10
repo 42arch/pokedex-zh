@@ -1,6 +1,6 @@
 'use client'
 
-import type { CombinedPokemon, RegionalPokedexMap } from '@/services/pokemon'
+import type { NationalPokemon, RegionalPokedexMap } from '@/services/pokemon'
 import { FunnelIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
 import { useParams, useRouter } from 'next/navigation'
@@ -51,7 +51,7 @@ const POKEMON_TYPES = [
 ]
 
 interface PokedexListProps {
-  pokemonList: CombinedPokemon[]
+  pokemonList: NationalPokemon[]
   regionalMap: RegionalPokedexMap
 }
 
@@ -112,8 +112,6 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
         || pokemon.id.includes(q)
         || pokemon.name.toLowerCase().includes(q)
         || translateText(pokemon.name, 'zh-Hant').toLowerCase().includes(q)
-        || pokemon.name_jp.toLowerCase().includes(q)
-        || pokemon.name_en.toLowerCase().includes(q)
 
       // 2. Generation Match
       const matchesGen = selectedGen === 'all' || pokemon.gen === selectedGen
@@ -468,9 +466,6 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                   >
                     {translatedName}
                   </h4>
-                  <p className="text-[11px] text-zinc-400 dark:text-zinc-500 font-medium truncate mt-0.5">
-                    {pokemon.name_en}
-                  </p>
                 </div>
 
                 {/* Types Badges */}

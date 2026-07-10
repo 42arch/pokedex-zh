@@ -1,6 +1,6 @@
 'use client'
 
-import type { CombinedPokemon, RegionalPokedexMap } from '@/services/pokemon'
+import type { NationalPokemon, RegionalPokedexMap } from '@/services/pokemon'
 import { useParams } from 'next/navigation'
 import * as React from 'react'
 import { PokedexList } from '@/components/pokedex-list'
@@ -11,7 +11,7 @@ export function PokemonLayoutClient({
   regionalMap,
   children,
 }: {
-  pokemonList: CombinedPokemon[]
+  pokemonList: NationalPokemon[]
   regionalMap: RegionalPokedexMap
   children: React.ReactNode
 }) {

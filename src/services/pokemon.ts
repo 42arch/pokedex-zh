@@ -1,27 +1,9 @@
 import path from 'node:path'
 import { ASSET_URL } from '@/lib/constants'
 
-export interface SimplePokemon {
-  index: string
-  name_zh: string
-  name_jp: string
-  name_en: string
-}
-
 export interface NationalPokemon {
   id: string
   name: string
-  types: string[]
-  icon: string
-  filter: string
-  gen: number
-}
-
-export interface CombinedPokemon {
-  id: string
-  name: string
-  name_jp: string
-  name_en: string
   types: string[]
   icon: string
   filter: string
@@ -225,7 +207,7 @@ function releaseSlot(): void {
   }
 }
 
-async function readJsonFileWithRetry<T>(url: string, retries = 3, delay = 500): Promise<T> {
+async function readJsonFileWithRetry<T>(url: string, retries = 5, delay = 1000): Promise<T> {
   for (let i = 0; i < retries; i++) {
     try {
       const response = await fetch(url)
@@ -238,7 +220,7 @@ async function readJsonFileWithRetry<T>(url: string, retries = 3, delay = 500): 
       if (i === retries - 1) {
         throw error
       }
-      const waitTime = delay * (i + 1)
+      const waitTime = delay * 2 ** i
       console.warn(`Fetch failed for ${url}, retrying in ${waitTime}ms... (Attempt ${i + 1}/${retries}). Error: ${error instanceof Error ? error.message : error}`)
       await new Promise(resolve => setTimeout(resolve, waitTime))
     }
@@ -249,10 +231,16 @@ async function readJsonFileWithRetry<T>(url: string, retries = 3, delay = 500): 
 // Fetch files from remote ASSET_URL with concurrency limit and retries
 async function readJsonFile<T>(relativePath: string): Promise<T> {
   const normalizedPath = relativePath.replace(/\\/g, '/')
-  const url = `${ASSET_URL}/${normalizedPath}`
+  const encodedPath = normalizedPath
+    .split('/')
+    .map(segment => encodeURIComponent(segment))
+    .join('/')
+  const url = `${ASSET_URL}/${encodedPath}`
 
   await acquireSlot()
   try {
+    // Add a 50ms delay to smooth out traffic and prevent rate limiting from CDN
+    await new Promise(resolve => setTimeout(resolve, 50))
     return await readJsonFileWithRetry<T>(url)
   }
   finally {
@@ -260,21 +248,11 @@ async function readJsonFile<T>(relativePath: string): Promise<T> {
   }
 }
 
-// Memory Cache
-let simplePokedexCache: SimplePokemon[] | null = null
 let nationalPokedexCache: NationalPokemon[] | null = null
-let combinedPokedexCache: CombinedPokemon[] | null = null
 
 let abilityListCache: SimpleAbility[] | null = null
 let moveListCache: SimpleMove[] | null = null
 let itemListCache: ItemNode[] | null = null
-
-export async function getSimplePokedex(): Promise<SimplePokemon[]> {
-  if (simplePokedexCache)
-    return simplePokedexCache
-  simplePokedexCache = await readJsonFile<SimplePokemon[]>('simple_pokedex.json')
-  return simplePokedexCache
-}
 
 export async function getNationalPokedex(): Promise<NationalPokemon[]> {
   if (nationalPokedexCache)
@@ -283,32 +261,8 @@ export async function getNationalPokedex(): Promise<NationalPokemon[]> {
   return nationalPokedexCache
 }
 
-export async function getCombinedPokedex(): Promise<CombinedPokemon[]> {
-  if (combinedPokedexCache)
-    return combinedPokedexCache
-
-  const [national, simple] = await Promise.all([
-    getNationalPokedex(),
-    getSimplePokedex(),
-  ])
-
-  const simpleMap = new Map(simple.map(p => [p.index, p]))
-
-  combinedPokedexCache = national.map((p) => {
-    const s = simpleMap.get(p.id)
-    return {
-      id: p.id,
-      name: p.name,
-      name_jp: s?.name_jp || '',
-      name_en: s?.name_en || '',
-      types: p.types,
-      icon: p.icon,
-      filter: p.filter,
-      gen: p.gen,
-    }
-  })
-
-  return combinedPokedexCache
+export async function getCombinedPokedex(): Promise<NationalPokemon[]> {
+  return getNationalPokedex()
 }
 
 // Region key → file url mapping (mirrors POKEDEX_LIST in constants.ts)
@@ -384,12 +338,12 @@ export async function getRegionalPokedexMap(): Promise<RegionalPokedexMap> {
 
 export async function getPokemonDetail(index: string): Promise<PokemonDetail | null> {
   try {
-    const list = await getSimplePokedex()
-    const pokemon = list.find(p => p.index === index)
+    const list = await getNationalPokedex()
+    const pokemon = list.find(p => p.id === index)
     if (!pokemon)
       return null
 
-    const fileName = `${index}-${pokemon.name_zh}.json`
+    const fileName = `${index}-${pokemon.name}.json`
     const detail = await readJsonFile<PokemonDetail>(path.join('pokemon', fileName))
     return detail
   }

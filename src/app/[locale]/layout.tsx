@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
+import { GoogleAnalytics } from '@next/third-parties/google'
 import { List } from '@phosphor-icons/react/dist/ssr'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import localFont from 'next/font/local'
 import { AppLayoutClient } from '@/components/app-layout-client'
-import { RegisterSW } from '@/components/register-sw'
 import { PokeballIcon, SidebarLinks } from '@/components/sidebar-nav'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Button } from '@/components/ui/button'
@@ -51,6 +51,8 @@ export default async function RootLayout({
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }>) {
+  const gaId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID
+
   const { locale } = await params
   setRequestLocale(locale)
   const messages = await getMessages()
@@ -62,7 +64,6 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="h-screen overflow-hidden flex flex-col md:flex-row bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 transition-colors duration-200">
-        <RegisterSW />
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider
             attribute="class"
@@ -110,6 +111,7 @@ export default async function RootLayout({
             </AppLayoutClient>
           </ThemeProvider>
         </NextIntlClientProvider>
+        <GoogleAnalytics gaId={gaId || ''} />
       </body>
     </html>
   )

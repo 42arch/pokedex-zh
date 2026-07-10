@@ -1,6 +1,6 @@
 'use client'
 
-import type { CombinedPokemon } from '@/services/pokemon'
+import type { NationalPokemon } from '@/services/pokemon'
 import { IdentificationCardIcon, ShieldCheckIcon, ShieldIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
 import * as React from 'react'
@@ -11,7 +11,7 @@ import { TeamPlanner } from './tools/team-planner'
 import { TypeMatchupCalc } from './tools/type-matchup-calc'
 
 interface ToolsLayoutProps {
-  pokemonList: CombinedPokemon[]
+  pokemonList: NationalPokemon[]
 }
 
 type TabType = 'matchup' | 'nature' | 'team'
