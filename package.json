@@ -1,7 +1,8 @@
 {
   "name": "pokedex-next",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
+  "description": "https://pokedex.starllow.com",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

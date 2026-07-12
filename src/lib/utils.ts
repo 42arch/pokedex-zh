@@ -5,3 +5,7 @@ import { twMerge } from 'tailwind-merge'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+export function getLocalizedPath(path: string, locale: string): string {
+  return locale === 'zh' ? path : `/${locale}${path}`
+}

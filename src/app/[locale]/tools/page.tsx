@@ -4,9 +4,25 @@ import * as React from 'react'
 import { ToolsLayout } from '@/components/tools-layout'
 import { getCombinedPokedex } from '@/services/pokemon'
 
-export const metadata: Metadata = {
-  title: '宝可梦工具箱 | 宝可梦图鉴 Pokedex',
-  description: '提供宝可梦队伍规划器、性格加成对照表、属性克制计算器等辅助工具，助您轻松培育宝可梦。',
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params
+  const baseUrl = 'https://pokedex.starllow.com'
+  const isHant = locale === 'zh-Hant'
+  const alternates = {
+    canonical: `${baseUrl}/tools`,
+    languages: {
+      'zh-Hans': `${baseUrl}/tools`,
+      'zh-Hant': `${baseUrl}/zh-Hant/tools`,
+      'x-default': `${baseUrl}/tools`,
+    },
+  }
+  return {
+    title: isHant ? '寶可夢工具箱 | 寶可夢圖鑑 Pokedex' : '宝可梦工具箱 | 宝可梦图鉴 Pokedex',
+    description: isHant
+      ? '提供寶可夢隊伍規劃器、性格加成對照表、屬性克製計算器等輔助工具，助您輕鬆培育寶可夢。'
+      : '提供宝可梦队伍规划器、性格加成对照表、属性克制计算器等辅助工具，助您轻松培育宝可梦。',
+    alternates,
+  }
 }
 
 interface PageProps {

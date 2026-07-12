@@ -12,10 +12,23 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, name } = await params
   const activeName = name?.[0] ? decodeURIComponent(name[0]) : ''
+  const baseUrl = 'https://pokedex.starllow.com'
+  const path = activeName ? `/moves/${encodeURIComponent(activeName)}` : '/moves'
+
+  const alternates = {
+    canonical: `${baseUrl}${path}`,
+    languages: {
+      'zh-Hans': `${baseUrl}${path}`,
+      'zh-Hant': `${baseUrl}/zh-Hant${path}`,
+      'x-default': `${baseUrl}${path}`,
+    },
+  }
+
   if (!activeName) {
     return {
       title: '宝可梦招式列表 | 宝可梦图鉴 Pokedex',
       description: '查询宝可梦的全部招式（技能）列表，包括物理、特殊、变化类招式的属性、威力、命中、PP等参数。',
+      alternates,
     }
   }
 
@@ -23,6 +36,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!detail) {
     return {
       title: '未找到招式 | 宝可梦图鉴 Pokedex',
+      alternates,
     }
   }
 
@@ -32,6 +46,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${nameZh} (招式) | 宝可梦图鉴 Pokedex`,
     description: description.slice(0, 150),
+    alternates,
   }
 }
 

@@ -5,6 +5,7 @@ import * as React from 'react'
 import { PokemonDetailView } from '@/components/pokemon-detail'
 import { translateText } from '@/lib/chinese'
 import { ASSET_URL } from '@/lib/constants'
+import { getLocalizedPath } from '@/lib/utils'
 import { getCombinedPokedex, getPokemonDetail } from '@/services/pokemon'
 
 interface PageProps {
@@ -14,10 +15,23 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, id } = await params
   const activeId = id?.[0]
+  const baseUrl = 'https://pokedex.starllow.com'
+  const path = activeId ? `/pokemon/${activeId}` : '/pokemon'
+
+  const alternates = {
+    canonical: `${baseUrl}${path}`,
+    languages: {
+      'zh-Hans': `${baseUrl}${path}`,
+      'zh-Hant': `${baseUrl}/zh-Hant${path}`,
+      'x-default': `${baseUrl}${path}`,
+    },
+  }
+
   if (!activeId) {
     return {
       title: '宝可梦图鉴 Pokedex | 宝可梦中文资料站',
       description: '浏览全国图鉴及地区图鉴宝可梦列表，按属性、世代、分类进行检索筛选。',
+      alternates,
     }
   }
 
@@ -25,6 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!detail) {
     return {
       title: '未找到宝可梦 | 宝可梦图鉴 Pokedex',
+      alternates,
     }
   }
 
@@ -37,6 +52,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: `${name} (#${activeId}) | 宝可梦图鉴 Pokedex`,
     description: description.slice(0, 150),
+    alternates,
     openGraph: ogImageUrl
       ? {
           title: `${name} (#${activeId}) | 宝可梦图鉴 Pokedex`,
@@ -101,7 +117,7 @@ export default async function PokemonPage({ params }: PageProps) {
     <div className="relative h-full flex flex-col">
       {/* Mobile Back Button */}
       <div className="md:hidden p-4 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/75 dark:bg-zinc-950/75 backdrop-blur-md sticky top-0 z-20">
-        <Link href={`/${locale}/pokemon`} className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50">
+        <Link href={getLocalizedPath('/pokemon', locale)} className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50">
           <span>←</span>
           {' '}
           {translateText('返回图鉴列表', locale)}

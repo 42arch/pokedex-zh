@@ -12,7 +12,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { translateText } from '@/lib/chinese'
 import { getGenerationName, getTypeColor } from '@/lib/pokemon-helpers'
-import { cn } from '@/lib/utils'
+import { cn, getLocalizedPath } from '@/lib/utils'
 import { ResizableLayout } from './resizable-layout'
 import { CategoryBadge, TypeBadge } from './type-badge'
 
@@ -76,7 +76,7 @@ export function MovesLayout({ moveList, children }: MovesLayoutProps) {
   }, [moveList, searchQuery, selectedType, selectedCategory])
 
   const handleSelect = (name: string) => {
-    router.push(`/${locale}/moves/${encodeURIComponent(name)}`)
+    router.push(getLocalizedPath(`/moves/${encodeURIComponent(name)}`, locale))
   }
 
   const resetFilters = () => {
@@ -304,7 +304,7 @@ export function MoveDetailView({ activeDetail, locale }: { activeDetail: MoveDet
     <div className="relative h-full flex flex-col">
       {/* Mobile Back Button */}
       <div className="md:hidden p-4 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/75 dark:bg-zinc-950/75 backdrop-blur-md sticky top-0 z-20">
-        <Link href={`/${locale}/moves`} className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-400">
+        <Link href={getLocalizedPath('/moves', locale)} className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-400">
           <span>←</span>
           {' '}
           {translateText('返回招式列表', locale)}
@@ -434,7 +434,7 @@ export function MoveDetailView({ activeDetail, locale }: { activeDetail: MoveDet
                   ).map((pk, idx) => (
                     <Link
                       key={idx}
-                      href={`/${locale}/pokemon/${pk.id.padStart(4, '0')}`}
+                      href={getLocalizedPath(`/pokemon/${pk.id.padStart(4, '0')}`, locale)}
                       className="flex items-center gap-3 p-2.5 rounded-xl border border-zinc-150/40 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 hover:border-zinc-300 transition-all shadow-sm"
                     >
                       <span className="font-mono text-[10px] font-bold bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 px-1.5 py-0.5 rounded-md">
@@ -470,7 +470,7 @@ export function MoveDetailView({ activeDetail, locale }: { activeDetail: MoveDet
                   ).map((pk, idx) => (
                     <Link
                       key={idx}
-                      href={`/${locale}/pokemon/${pk.id.padStart(4, '0')}`}
+                      href={getLocalizedPath(`/pokemon/${pk.id.padStart(4, '0')}`, locale)}
                       className="flex items-center gap-3 p-2.5 rounded-xl border border-zinc-150/40 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 hover:border-zinc-300 transition-all shadow-sm"
                     >
                       <span className="font-mono text-[9px] font-bold bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 px-1.5 py-0.5 rounded-md">
@@ -505,7 +505,7 @@ export function MoveDetailView({ activeDetail, locale }: { activeDetail: MoveDet
                   ).map((pk, idx) => (
                     <Link
                       key={idx}
-                      href={`/${locale}/pokemon/${pk.id.padStart(4, '0')}`}
+                      href={getLocalizedPath(`/pokemon/${pk.id.padStart(4, '0')}`, locale)}
                       className="flex items-center gap-3 p-2.5 rounded-xl border border-zinc-150/40 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 hover:border-zinc-300 transition-all shadow-sm"
                     >
                       <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-900 px-1.5 py-0.5 rounded-md">

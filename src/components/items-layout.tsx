@@ -11,7 +11,7 @@ import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { translateText } from '@/lib/chinese'
 import { ASSET_URL } from '@/lib/constants'
-import { cn } from '@/lib/utils'
+import { cn, getLocalizedPath } from '@/lib/utils'
 import { ResizableLayout } from './resizable-layout'
 
 export interface FlattenedItem {
@@ -145,7 +145,7 @@ export function ItemsLayout({ itemList, children }: ItemsLayoutProps) {
   }, [allItems, searchQuery, selectedCategory])
 
   const handleSelect = (name: string) => {
-    router.push(`/${locale}/items/${encodeURIComponent(name)}`)
+    router.push(getLocalizedPath(`/items/${encodeURIComponent(name)}`, locale))
   }
 
   const resetFilters = () => {
@@ -338,7 +338,7 @@ export function ItemDetailView({
       {/* Mobile Back Button */}
       <div className="md:hidden p-4 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/75 dark:bg-zinc-950/75 backdrop-blur-md sticky top-0 z-20">
         <Link
-          href={`/${locale}/items`}
+          href={getLocalizedPath('/items', locale)}
           className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-400"
         >
           <span>←</span>

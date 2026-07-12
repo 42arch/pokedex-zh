@@ -27,17 +27,32 @@ const geistHeading = localFont({
   variable: '--font-heading',
 })
 
-export const metadata: Metadata = {
-  title: '宝可梦图鉴 Pokedex | 宝可梦中文资料站',
-  description: '全面收录宝可梦（神奇宝贝）全国图鉴、地区图鉴、属性克制、性格修正，以及招式、特性、道具的详细中英文资料，为您提供便捷的队伍规划与属性克制查询服务。',
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'default',
-    title: '宝可梦图鉴',
-  },
-  formatDetection: {
-    telephone: false,
-  },
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const baseUrl = 'https://pokedex.starllow.com'
+  const isHant = locale === 'zh-Hant'
+  return {
+    title: isHant ? '寶可夢圖鑑 Pokedex | 寶可夢中文資料站' : '宝可梦图鉴 Pokedex | 宝可梦中文资料站',
+    description: isHant
+      ? '全面收錄寶可夢（神奇寶貝）全國圖鑑、地區圖鑑、屬性克製、性格修正，以及招式、特性、道具的詳細中英文資料，為您提供便捷的隊伍規劃與屬性克製查詢服務。'
+      : '全面收录宝可梦（神奇宝贝）全国图鉴、地区图鉴、属性克制、性格修正，以及招式、特性、道具的详细中英文资料，为您提供便捷的队伍规划与属性克制查询服务。',
+    alternates: {
+      canonical: baseUrl,
+      languages: {
+        'zh-Hans': baseUrl,
+        'zh-Hant': `${baseUrl}/zh-Hant`,
+        'x-default': baseUrl,
+      },
+    },
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: 'default',
+      title: isHant ? '寶可夢圖鑑' : '宝可梦图鉴',
+    },
+    formatDetection: {
+      telephone: false,
+    },
+  }
 }
 
 export function generateStaticParams() {
@@ -64,7 +79,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="h-screen overflow-hidden flex flex-col md:flex-row bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 transition-colors duration-200">
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

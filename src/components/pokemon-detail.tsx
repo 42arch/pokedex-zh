@@ -11,7 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { translateText } from '@/lib/chinese'
 import { ASSET_URL, GENERATION_COLORS, VERSION_COLORS } from '@/lib/constants'
 import { getStatColor, getStatName, getTypeGradient } from '@/lib/pokemon-helpers'
-import { cn } from '@/lib/utils'
+import { cn, getLocalizedPath } from '@/lib/utils'
 import { CategoryBadge, TypeBadge } from './type-badge'
 
 function AbilityCard({ ability, locale }: { ability: { name: string, is_hidden: boolean }, locale: string }) {
@@ -58,7 +58,7 @@ function AbilityCard({ ability, locale }: { ability: { name: string, is_hidden: 
           </span>
         </div>
         <Link
-          href={`/${locale}/abilities/${encodeURIComponent(ability.name)}`}
+          href={getLocalizedPath(`/abilities/${encodeURIComponent(ability.name)}`, locale)}
           className="font-bold text-zinc-900 dark:text-zinc-100 hover:text-red-500 dark:hover:text-red-400 transition-colors flex items-center gap-1.5 text-sm"
         >
           {translatedAbility}
@@ -335,7 +335,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                     return (
                       <Link
                         key={group}
-                        href={`/${locale}/pokemon?egg_group=${encodeURIComponent(group)}`}
+                        href={getLocalizedPath(`/pokemon?egg_group=${encodeURIComponent(group)}`, locale)}
                         className="font-bold text-xs text-zinc-800 dark:text-zinc-200 hover:text-red-500 dark:hover:text-red-400 transition-colors bg-white/80 dark:bg-zinc-950/80 px-2 py-0.5 rounded-lg border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm"
                       >
                         {translatedGroup}
@@ -725,7 +725,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                             onClick={async () => {
                               const matchedId = stage.image.match(/^(\d+)/)?.[1]
                               if (matchedId) {
-                                router.push(`/${locale}/pokemon/${matchedId.padStart(4, '0')}`)
+                                router.push(getLocalizedPath(`/pokemon/${matchedId.padStart(4, '0')}`, locale))
                               }
                             }}
                             className={cn(
@@ -1020,7 +1020,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                             <td className="py-3 px-3 font-mono font-bold text-zinc-500 dark:text-zinc-400">{move.level}</td>
                             <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-50 whitespace-nowrap">
                               <Link
-                                href={`/${locale}/moves/${encodeURIComponent(move.name)}`}
+                                href={getLocalizedPath(`/moves/${encodeURIComponent(move.name)}`, locale)}
                                 className="hover:text-red-500 dark:hover:text-red-400 transition-colors"
                               >
                                 {translatedMoveName}
@@ -1068,7 +1068,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                             <td className="py-3 px-3 font-semibold text-zinc-500 dark:text-zinc-400 whitespace-nowrap">{translatedMachine}</td>
                             <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-55 animate-pulse-none whitespace-nowrap">
                               <Link
-                                href={`/${locale}/moves/${encodeURIComponent(move.name)}`}
+                                href={getLocalizedPath(`/moves/${encodeURIComponent(move.name)}`, locale)}
                                 className="hover:text-red-500 dark:hover:text-red-400 transition-colors"
                               >
                                 {translatedMoveName}
@@ -1115,7 +1115,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                           <tr key={idx} className="border-b border-zinc-100 dark:border-zinc-900/60 hover:bg-zinc-50 dark:hover:bg-zinc-900/20 font-medium font-medium">
                             <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-55 animate-pulse-none whitespace-nowrap">
                               <Link
-                                href={`/${locale}/moves/${encodeURIComponent(move.name)}`}
+                                href={getLocalizedPath(`/moves/${encodeURIComponent(move.name)}`, locale)}
                                 className="hover:text-red-500 dark:hover:text-red-400 transition-colors"
                               >
                                 {translatedMoveName}

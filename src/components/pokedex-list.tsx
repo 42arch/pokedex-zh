@@ -11,7 +11,7 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { translateText } from '@/lib/chinese'
 import { FILTER_LIST, POKEDEX_COLORS, POKEDEX_LIST, TYPE_COLORS } from '@/lib/constants'
 import { getTypeColor } from '@/lib/pokemon-helpers'
-import { cn } from '@/lib/utils'
+import { cn, getLocalizedPath } from '@/lib/utils'
 import { TypeBadge } from './type-badge'
 
 // Sprite Icon Component using sprites.webp
@@ -136,7 +136,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
   }, [pokemonList, searchQuery, selectedGen, selectedTypes, selectedRegion, selectedSubDex, selectedFilter, regionalMap])
 
   const handleSelect = (id: string) => {
-    router.push(`/${locale}/pokemon/${id}`)
+    router.push(getLocalizedPath(`/pokemon/${id}`, locale))
   }
 
   const resetFilters = () => {

@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { translateText } from '@/lib/chinese'
-import { cn } from '@/lib/utils'
+import { cn, getLocalizedPath } from '@/lib/utils'
 import { ResizableLayout } from './resizable-layout'
 
 interface AbilitiesLayoutProps {
@@ -49,7 +49,7 @@ export function AbilitiesLayout({ abilityList, children }: AbilitiesLayoutProps)
   }, [abilityList, searchQuery, selectedGen])
 
   const handleSelect = (name: string) => {
-    router.push(`/${locale}/abilities/${encodeURIComponent(name)}`)
+    router.push(getLocalizedPath(`/abilities/${encodeURIComponent(name)}`, locale))
   }
 
   const resetFilters = () => {
@@ -232,7 +232,7 @@ export function AbilityDetailView({ activeDetail, locale }: { activeDetail: Abil
     <div className="relative h-full flex flex-col">
       {/* Mobile Back Button */}
       <div className="md:hidden p-4 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/75 dark:bg-zinc-950/75 backdrop-blur-md sticky top-0 z-20">
-        <Link href={`/${locale}/abilities`} className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-400">
+        <Link href={getLocalizedPath('/abilities', locale)} className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-400">
           <span>←</span>
           {' '}
           {translateText('返回特性列表', locale)}
@@ -317,7 +317,7 @@ export function AbilityDetailView({ activeDetail, locale }: { activeDetail: Abil
               {activeDetail.pokemons.map((pk, idx) => (
                 <Link
                   key={idx}
-                  href={`/${locale}/pokemon/${pk.id.padStart(4, '0')}`}
+                  href={getLocalizedPath(`/pokemon/${pk.id.padStart(4, '0')}`, locale)}
                   className="flex flex-col gap-2 p-3.5 rounded-2xl border border-zinc-150/40 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 hover:border-zinc-300 transition-all shadow-sm group"
                 >
                   <div className="flex items-center justify-between gap-1">

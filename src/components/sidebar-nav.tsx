@@ -12,7 +12,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
+import { cn, getLocalizedPath } from '@/lib/utils'
 import { LanguageSwitcher } from './language-switcher'
 import { ModeToggle } from './mode-toggle'
 
@@ -49,12 +49,14 @@ export function SidebarLinks({ onItemClick, isCollapsed }: { onItemClick?: () =>
   const t = useTranslations('Navbar')
   const locale = useLocale()
 
+  const getHref = (path: string) => getLocalizedPath(path, locale)
+
   const navItems: NavItem[] = [
-    { name: t('pokemon'), href: `/${locale}/pokemon`, icon: SwordIcon },
-    { name: t('moves'), href: `/${locale}/moves`, icon: LightningIcon },
-    { name: t('abilities'), href: `/${locale}/abilities`, icon: SparkleIcon },
-    { name: t('items'), href: `/${locale}/items`, icon: BagIcon },
-    { name: t('tools'), href: `/${locale}/tools`, icon: WrenchIcon },
+    { name: t('pokemon'), href: getHref('/pokemon'), icon: SwordIcon },
+    { name: t('moves'), href: getHref('/moves'), icon: LightningIcon },
+    { name: t('abilities'), href: getHref('/abilities'), icon: SparkleIcon },
+    { name: t('items'), href: getHref('/items'), icon: BagIcon },
+    { name: t('tools'), href: getHref('/tools'), icon: WrenchIcon },
   ]
 
   return (
@@ -142,7 +144,7 @@ export function SidebarNav({ isCollapsed }: { isCollapsed?: boolean }) {
       )}
       >
         <div className={cn('flex items-center gap-1.5', isCollapsed && 'flex-col gap-2')}>
-          <LanguageSwitcher />
+          <LanguageSwitcher isCollapsed={isCollapsed} />
           <ModeToggle />
         </div>
         {!isCollapsed && (
