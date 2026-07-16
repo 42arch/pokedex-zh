@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import * as React from 'react'
-import { AbilityDetailView, AbilityEmptyView } from '@/components/abilities-layout'
+import { AbilityDetailView, AbilityEmptyView } from '@/components/ability-detail-view'
 import { translateText } from '@/lib/chinese'
 import { getAbilityDetail } from '@/services/pokemon'
 

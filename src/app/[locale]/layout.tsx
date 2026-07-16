@@ -4,12 +4,13 @@ import { List } from '@phosphor-icons/react/dist/ssr'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages, setRequestLocale } from 'next-intl/server'
 import localFont from 'next/font/local'
+import Link from 'next/link'
 import { AppLayoutClient } from '@/components/app-layout-client'
 import { PokeballIcon, SidebarLinks } from '@/components/sidebar-nav'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
-import { cn } from '@/lib/utils'
+import { cn, getLocalizedPath } from '@/lib/utils'
 import '../globals.css'
 
 const geistSans = localFont({
@@ -32,10 +33,10 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const baseUrl = 'https://pokedex.starllow.com'
   const isHant = locale === 'zh-Hant'
   return {
-    title: isHant ? '寶可夢圖鑑 Pokedex | 寶可夢中文資料站' : '宝可梦图鉴 Pokedex | 宝可梦中文资料站',
+    title: isHant ? '寶可夢中文圖鑑 Pokedex | 寶可夢中文資料站' : '宝可梦中文图鉴 Pokedex | 宝可梦中文资料站',
     description: isHant
-      ? '全面收錄寶可夢（神奇寶貝）全國圖鑑、地區圖鑑、屬性克製、性格修正，以及招式、特性、道具的詳細中英文資料，為您提供便捷的隊伍規劃與屬性克製查詢服務。'
-      : '全面收录宝可梦（神奇宝贝）全国图鉴、地区图鉴、属性克制、性格修正，以及招式、特性、道具的详细中英文资料，为您提供便捷的队伍规划与属性克制查询服务。',
+      ? '快速查询，随时了解你的宝可梦伙伴！ 全面收錄寶可夢（神奇寶貝）全國圖鑑、地區圖鑑、屬性克製、性格修正，以及招式、特性、道具的詳細中英文資料，為您提供便捷的隊伍規劃與屬性克製查詢服務。'
+      : '快速查询，随时了解你的宝可梦伙伴！ 全面收录宝可梦（神奇宝贝）全国图鉴、地区图鉴、属性克制、性格修正，以及招式、特性、道具的详细中英文资料，为您提供便捷的队伍规划与属性克制查询服务。',
     alternates: {
       canonical: baseUrl,
       languages: {
@@ -47,7 +48,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
     appleWebApp: {
       capable: true,
       statusBarStyle: 'default',
-      title: isHant ? '寶可夢圖鑑' : '宝可梦图鉴',
+      title: isHant ? '寶可夢中文圖鑑' : '宝可梦中文图鉴',
     },
     formatDetection: {
       telephone: false,
@@ -78,7 +79,10 @@ export default async function RootLayout({
       className={cn('h-full', 'antialiased', geistSans.variable, geistMono.variable, geistHeading.variable, 'font-sans')}
       suppressHydrationWarning
     >
-      <body className="h-screen overflow-hidden flex flex-col md:flex-row bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 transition-colors duration-200">
+      <body
+        className="h-screen overflow-hidden flex flex-col md:flex-row bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 transition-colors duration-200"
+        suppressHydrationWarning
+      >
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider
             attribute="class"
@@ -89,14 +93,18 @@ export default async function RootLayout({
             <AppLayoutClient
               mobileHeader={(
                 <header className="md:hidden h-16 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md sticky top-0 flex items-center justify-between px-6 z-20">
-                  <div className="flex items-center gap-2.5">
+                  <Link
+                    prefetch={false}
+                    href={getLocalizedPath('/', locale)}
+                    className="flex items-center gap-2.5 hover:opacity-90 active:scale-95 transition-all"
+                  >
                     <div className="flex items-center justify-center w-8.5 h-8.5 rounded-lg bg-red-500/10 dark:bg-red-500/20 text-red-500 shadow-sm">
                       <PokeballIcon className="w-4.5 h-4.5" />
                     </div>
                     <span className="font-bold text-base tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
                       宝可梦图鉴
                     </span>
-                  </div>
+                  </Link>
 
                   <Sheet>
                     <SheetTrigger asChild>

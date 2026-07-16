@@ -6,7 +6,7 @@ import { PokemonDetailView } from '@/components/pokemon-detail'
 import { translateText } from '@/lib/chinese'
 import { ASSET_URL } from '@/lib/constants'
 import { getLocalizedPath } from '@/lib/utils'
-import { getCombinedPokedex, getPokemonDetail } from '@/services/pokemon'
+import { getAbilityDetail, getCombinedPokedex, getPokemonDetail } from '@/services/pokemon'
 
 interface PageProps {
   params: Promise<{ locale: string, id?: string[] }>
@@ -113,11 +113,34 @@ export default async function PokemonPage({ params }: PageProps) {
 
   const pokemonDetail = await getPokemonDetail(activeId)
 
+  // Pre-fetch ability details for abilityMap to optimize SEO
+  const abilityMap: Record<string, string> = {}
+  if (pokemonDetail) {
+    const uniqueAbilities = Array.from(
+      new Set(
+        pokemonDetail.forms.flatMap(f => f.abilities.map(a => a.name)),
+      ),
+    )
+    await Promise.all(
+      uniqueAbilities.map(async (name) => {
+        try {
+          const detail = await getAbilityDetail(name)
+          if (detail) {
+            abilityMap[name] = detail.description || detail.effect || ''
+          }
+        }
+        catch (error) {
+          console.error(`Failed to prefetch ability ${name} on server:`, error)
+        }
+      }),
+    )
+  }
+
   return (
     <div className="relative h-full flex flex-col">
       {/* Mobile Back Button */}
       <div className="md:hidden p-4 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/75 dark:bg-zinc-950/75 backdrop-blur-md sticky top-0 z-20">
-        <Link href={getLocalizedPath('/pokemon', locale)} className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50">
+        <Link prefetch={false} href={getLocalizedPath('/pokemon', locale)} className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-600 dark:text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-50">
           <span>←</span>
           {' '}
           {translateText('返回图鉴列表', locale)}
@@ -126,7 +149,7 @@ export default async function PokemonPage({ params }: PageProps) {
 
       {pokemonDetail
         ? (
-            <PokemonDetailView detail={pokemonDetail} />
+            <PokemonDetailView detail={pokemonDetail} abilityMap={abilityMap} />
           )
         : (
             <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">

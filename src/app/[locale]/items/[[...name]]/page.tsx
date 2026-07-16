@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import type { FlattenedItem } from '@/components/items-layout'
 import type { ItemNode } from '@/services/pokemon'
 import { setRequestLocale } from 'next-intl/server'
-import { ItemDetailView, ItemEmptyView } from '@/components/items-layout'
+import { ItemDetailView, ItemEmptyView } from '@/components/item-detail-view'
 import { translateText } from '@/lib/chinese'
 import { getItemList } from '@/services/pokemon'
 

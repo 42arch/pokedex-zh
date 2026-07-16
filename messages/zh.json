@@ -1,31 +1,21 @@
 {
   "Home": {
-    "title": "Next.js 16 + Tailwind v4",
-    "description": "一个集成了 shadcn-ui (v4)、Phosphor 图标和严格 ESLint 配置的高性能 Web 开发脚手架模板。",
-    "cards": {
-      "nextjs": {
-        "title": "Next.js 16",
-        "description": "基于 App Router 和 React 服务端组件构建。",
-        "content": "利用最新的框架特性，获得极致的性能优化与绝佳的开发体验。"
-      },
-      "tailwind": {
-        "title": "Tailwind v4",
-        "description": "开箱即用的现代化 CSS 开发引擎。",
-        "content": "感受 Tailwind 下一代编译器带来的闪电般的 CSS 处理速度。"
-      },
-      "typesafety": {
-        "title": "类型安全",
-        "description": "严格的 TypeScript 和 ESLint 配置。",
-        "content": "通过 @antfu/eslint-config 和完整的 TS 支持，保持卓越的代码质量。"
-      }
-    },
-    "cta": {
-      "getStarted": "开始使用",
-      "viewComponents": "查看组件"
-    },
-    "footer": {
-      "text": "准备好构建令人惊叹的应用了吗？从运行 <code>pnpm dev</code> 开始。"
-    }
+    "title": "宝可梦中文图鉴",
+    "subtitle": "快速查询，随时了解你的宝可梦伙伴！",
+    "searchPlaceholder": "搜索宝可梦 (名称/编号/英文)...",
+    "pokedex": "宝可梦图鉴",
+    "pokedexDesc": "浏览全国图鉴，按属性、世代、分类检索筛选所有宝可梦。",
+    "moves": "招式列表",
+    "movesDesc": "查询宝可梦招式的属性、威力、PP值与效果详情。",
+    "abilities": "特性大全",
+    "abilitiesDesc": "检索每个特性的战斗效果、非战斗效果及拥有者。",
+    "items": "道具指南",
+    "itemsDesc": "探索树果、怪兽球、携带道具、关键道具等物品资料。",
+    "tools": "辅助工具",
+    "toolsDesc": "使用队伍规划器、性格加成表与属性克制计算器。",
+    "wechatPromoBadge": "微信小程序版现已上线",
+    "wechatPromoTitle": "我们开发了微信小程序版的宝可梦中文图鉴，欢迎扫码访问！",
+    "wechatPromoSearch": "或者微信搜索<bold>“训练家口袋图鉴”</bold>，功能更全，更新更及时！"
   },
   "LanguageSwitcher": {
     "label": "语言",
@@ -33,6 +23,7 @@
     "zh-Hant": "繁体中文"
   },
   "Navbar": {
+    "home": "首页",
     "pokemon": "宝可梦",
     "moves": "招式",
     "abilities": "特性",

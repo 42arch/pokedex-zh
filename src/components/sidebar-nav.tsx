@@ -2,6 +2,7 @@
 
 import {
   BagIcon,
+  HouseIcon,
   LightningIcon,
   SparkleIcon,
   SwordIcon,
@@ -52,6 +53,7 @@ export function SidebarLinks({ onItemClick, isCollapsed }: { onItemClick?: () =>
   const getHref = (path: string) => getLocalizedPath(path, locale)
 
   const navItems: NavItem[] = [
+    { name: t('home'), href: getHref('/'), icon: HouseIcon },
     { name: t('pokemon'), href: getHref('/pokemon'), icon: SwordIcon },
     { name: t('moves'), href: getHref('/moves'), icon: LightningIcon },
     { name: t('abilities'), href: getHref('/abilities'), icon: SparkleIcon },
@@ -63,11 +65,15 @@ export function SidebarLinks({ onItemClick, isCollapsed }: { onItemClick?: () =>
     <TooltipProvider>
       <nav className={cn('space-y-1.5 px-3 py-4 flex-1', isCollapsed && 'px-1.5')}>
         {navItems.map((item) => {
-          const isActive = pathname.startsWith(item.href)
+          const normalizePath = (p: string) => p.replace(/\/$/, '') || '/'
+          const isActive = item.href === getHref('/')
+            ? normalizePath(pathname) === normalizePath(item.href)
+            : pathname.startsWith(item.href)
           const Icon = item.icon
 
           const linkContent = (
             <Link
+              prefetch={false}
               href={item.href}
               onClick={onItemClick}
               className={cn(
@@ -113,16 +119,20 @@ export function SidebarLinks({ onItemClick, isCollapsed }: { onItemClick?: () =>
 }
 
 export function SidebarNav({ isCollapsed }: { isCollapsed?: boolean }) {
+  const locale = useLocale()
   return (
     <aside className={cn(
       'flex flex-col h-full w-full bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md z-30 transition-all duration-300',
     )}
     >
       {/* Brand Header */}
-      <div className={cn(
-        'h-16 flex items-center border-b border-zinc-200/50 dark:border-zinc-800/50',
-        isCollapsed ? 'justify-center px-0' : 'gap-3 px-6',
-      )}
+      <Link
+        prefetch={false}
+        href={getLocalizedPath('/', locale)}
+        className={cn(
+          'h-16 flex items-center border-b border-zinc-200/50 dark:border-zinc-800/50 hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30 transition-all duration-200',
+          isCollapsed ? 'justify-center w-full' : 'gap-3 px-6 w-full',
+        )}
       >
         <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-red-500/10 dark:bg-red-500/20 text-red-500 shadow-sm animate-pulse-slow">
           <PokeballIcon className="w-5 h-5" />
@@ -132,7 +142,7 @@ export function SidebarNav({ isCollapsed }: { isCollapsed?: boolean }) {
             宝可梦图鉴
           </span>
         )}
-      </div>
+      </Link>
 
       {/* Navigation Menu */}
       <SidebarLinks isCollapsed={isCollapsed} />

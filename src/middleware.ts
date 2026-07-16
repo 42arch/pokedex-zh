@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 const locales = ['zh', 'zh-Hant']
 const defaultLocale = 'zh'
@@ -9,17 +9,12 @@ export function middleware(request: NextRequest) {
 
   // Skip static assets, APIs, and next internals
   if (
-    pathname.startsWith('/_next') ||
-    pathname.startsWith('/api') ||
-    pathname.includes('.') ||
-    pathname === '/favicon.ico'
+    pathname.startsWith('/_next')
+    || pathname.startsWith('/api')
+    || pathname.includes('.')
+    || pathname === '/favicon.ico'
   ) {
     return NextResponse.next()
-  }
-
-  // Handle root route: redirect '/' to '/pokemon'
-  if (pathname === '/') {
-    return NextResponse.redirect(new URL('/pokemon', request.url))
   }
 
   // Check if pathname starts with a supported locale

@@ -4,7 +4,7 @@ import type { PokemonDetail } from '@/services/pokemon'
 import { HeartIcon, InfoIcon, LightningIcon, ShieldIcon, SparkleIcon, SwordIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+
 import * as React from 'react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -14,11 +14,25 @@ import { getStatColor, getStatName, getTypeGradient } from '@/lib/pokemon-helper
 import { cn, getLocalizedPath } from '@/lib/utils'
 import { CategoryBadge, TypeBadge } from './type-badge'
 
-function AbilityCard({ ability, locale }: { ability: { name: string, is_hidden: boolean }, locale: string }) {
-  const [desc, setDesc] = React.useState<string>('')
-  const [loading, setLoading] = React.useState(true)
+function AbilityCard({
+  ability,
+  locale,
+  preloadedDesc,
+}: {
+  ability: { name: string, is_hidden: boolean }
+  locale: string
+  preloadedDesc?: string
+}) {
+  const [desc, setDesc] = React.useState<string>(preloadedDesc || '')
+  const [loading, setLoading] = React.useState(!preloadedDesc)
 
   React.useEffect(() => {
+    if (preloadedDesc) {
+      setDesc(preloadedDesc)
+      setLoading(false)
+      return
+    }
+
     let active = true
     setLoading(true)
     const fetchDesc = async () => {
@@ -45,7 +59,7 @@ function AbilityCard({ ability, locale }: { ability: { name: string, is_hidden: 
     return () => {
       active = false
     }
-  }, [ability.name])
+  }, [ability.name, preloadedDesc])
 
   const translatedAbility = translateText(ability.name, locale)
 
@@ -58,6 +72,7 @@ function AbilityCard({ ability, locale }: { ability: { name: string, is_hidden: 
           </span>
         </div>
         <Link
+          prefetch={false}
           href={getLocalizedPath(`/abilities/${encodeURIComponent(ability.name)}`, locale)}
           className="font-bold text-zinc-900 dark:text-zinc-100 hover:text-red-500 dark:hover:text-red-400 transition-colors flex items-center gap-1.5 text-sm"
         >
@@ -104,10 +119,10 @@ function getBasePointStatName(statKey: string) {
 
 interface PokemonDetailProps {
   detail: PokemonDetail
+  abilityMap?: Record<string, string>
 }
 
-export function PokemonDetailView({ detail }: PokemonDetailProps) {
-  const router = useRouter()
+export function PokemonDetailView({ detail, abilityMap }: PokemonDetailProps) {
   const locale = useLocale()
 
   // State
@@ -334,6 +349,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                     const translatedGroup = translateText(group, locale)
                     return (
                       <Link
+                        prefetch={false}
                         key={group}
                         href={getLocalizedPath(`/pokemon?egg_group=${encodeURIComponent(group)}`, locale)}
                         className="font-bold text-xs text-zinc-800 dark:text-zinc-200 hover:text-red-500 dark:hover:text-red-400 transition-colors bg-white/80 dark:bg-zinc-950/80 px-2 py-0.5 rounded-lg border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm"
@@ -379,7 +395,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
 
           {/* 2. 特性 (每个特性一个卡片) */}
           {activeForm.abilities.map(ability => (
-            <AbilityCard key={ability.name} ability={ability} locale={locale} />
+            <AbilityCard key={ability.name} ability={ability} locale={locale} preloadedDesc={abilityMap?.[ability.name]} />
           ))}
 
           {/* 4. 简介 */}
@@ -721,13 +737,12 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
 
                           {/* Pokemon node card */}
                           {/* Clicking on it will search the list or trigger route change */}
-                          <div
-                            onClick={async () => {
+                          <Link
+                            prefetch={false}
+                            href={(() => {
                               const matchedId = stage.image.match(/^(\d+)/)?.[1]
-                              if (matchedId) {
-                                router.push(getLocalizedPath(`/pokemon/${matchedId.padStart(4, '0')}`, locale))
-                              }
-                            }}
+                              return matchedId ? getLocalizedPath(`/pokemon/${matchedId.padStart(4, '0')}`, locale) : '#'
+                            })()}
                             className={cn(
                               'flex flex-col items-center gap-2 p-3 rounded-2xl border transition-all duration-300 cursor-pointer shadow-sm select-none hover:scale-[1.03]',
                               isCurrent
@@ -758,7 +773,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                                 {translateText(stage.stage, locale)}
                               </p>
                             </div>
-                          </div>
+                          </Link>
                         </React.Fragment>
                       )
                     })}
@@ -1020,6 +1035,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                             <td className="py-3 px-3 font-mono font-bold text-zinc-500 dark:text-zinc-400">{move.level}</td>
                             <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-50 whitespace-nowrap">
                               <Link
+                                prefetch={false}
                                 href={getLocalizedPath(`/moves/${encodeURIComponent(move.name)}`, locale)}
                                 className="hover:text-red-500 dark:hover:text-red-400 transition-colors"
                               >
@@ -1068,6 +1084,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                             <td className="py-3 px-3 font-semibold text-zinc-500 dark:text-zinc-400 whitespace-nowrap">{translatedMachine}</td>
                             <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-55 animate-pulse-none whitespace-nowrap">
                               <Link
+                                prefetch={false}
                                 href={getLocalizedPath(`/moves/${encodeURIComponent(move.name)}`, locale)}
                                 className="hover:text-red-500 dark:hover:text-red-400 transition-colors"
                               >
@@ -1115,6 +1132,7 @@ export function PokemonDetailView({ detail }: PokemonDetailProps) {
                           <tr key={idx} className="border-b border-zinc-100 dark:border-zinc-900/60 hover:bg-zinc-50 dark:hover:bg-zinc-900/20 font-medium font-medium">
                             <td className="py-3 px-3 font-bold text-zinc-900 dark:text-zinc-55 animate-pulse-none whitespace-nowrap">
                               <Link
+                                prefetch={false}
                                 href={getLocalizedPath(`/moves/${encodeURIComponent(move.name)}`, locale)}
                                 className="hover:text-red-500 dark:hover:text-red-400 transition-colors"
                               >

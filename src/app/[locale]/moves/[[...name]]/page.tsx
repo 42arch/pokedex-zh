@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import * as React from 'react'
-import { MoveDetailView, MoveEmptyView } from '@/components/moves-layout'
+import { MoveDetailView, MoveEmptyView } from '@/components/move-detail-view'
 import { translateText } from '@/lib/chinese'
 import { getMoveDetail } from '@/services/pokemon'
 
