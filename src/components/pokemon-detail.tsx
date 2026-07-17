@@ -17,16 +17,23 @@ import { CategoryBadge, TypeBadge } from './type-badge'
 function AbilityCard({
   ability,
   locale,
-  preloadedDesc,
+  preloadedDesc: _preloadedDesc,
 }: {
   ability: { name: string, is_hidden: boolean }
   locale: string
   preloadedDesc?: string
 }) {
+  const isUnknown = ability.name === '未知'
+  /*
   const [desc, setDesc] = React.useState<string>(preloadedDesc || '')
-  const [loading, setLoading] = React.useState(!preloadedDesc)
+  const [loading, setLoading] = React.useState(!preloadedDesc && !isUnknown)
 
   React.useEffect(() => {
+    if (isUnknown) {
+      setLoading(false)
+      return
+    }
+
     if (preloadedDesc) {
       setDesc(preloadedDesc)
       setLoading(false)
@@ -59,43 +66,36 @@ function AbilityCard({
     return () => {
       active = false
     }
-  }, [ability.name, preloadedDesc])
+  }, [ability.name, preloadedDesc, isUnknown])
+  */
 
   const translatedAbility = translateText(ability.name, locale)
 
   return (
-    <div className="bg-white dark:bg-zinc-950 p-4 md:p-5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm space-y-2">
-      <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-900 pb-1.5">
+    <div className="bg-white dark:bg-zinc-950 p-4 md:p-5 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="text-[10px] font-bold text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
             {translateText(ability.is_hidden ? '隐藏特性' : '一般特性', locale)}
           </span>
         </div>
-        <Link
-          prefetch={false}
-          href={getLocalizedPath(`/abilities/${encodeURIComponent(ability.name)}`, locale)}
-          className="font-bold text-zinc-900 dark:text-zinc-100 hover:text-red-500 dark:hover:text-red-400 transition-colors flex items-center gap-1.5 text-sm"
-        >
-          {translatedAbility}
-          <InfoIcon className="w-3.5 h-3.5 opacity-60" />
-        </Link>
-      </div>
-
-      {loading
-        ? (
-            <div className="h-4 w-2/3 bg-zinc-100/50 dark:bg-zinc-900/40 rounded animate-pulse" />
-          )
-        : desc
+        {isUnknown
           ? (
-              <p className="text-sm text-zinc-650 dark:text-zinc-350 leading-relaxed font-medium">
-                {translateText(desc, locale)}
-              </p>
+              <span className="font-bold text-zinc-900 dark:text-zinc-100 text-sm">
+                {translatedAbility}
+              </span>
             )
           : (
-              <p className="text-xs text-zinc-400 italic">
-                {translateText('暂无描述', locale)}
-              </p>
+              <Link
+                prefetch={false}
+                href={getLocalizedPath(`/abilities/${encodeURIComponent(ability.name)}`, locale)}
+                className="font-bold text-zinc-900 dark:text-zinc-100 hover:text-red-500 dark:hover:text-red-400 transition-colors flex items-center gap-1.5 text-sm"
+              >
+                {translatedAbility}
+                <InfoIcon className="w-3.5 h-3.5 opacity-60" />
+              </Link>
             )}
+      </div>
     </div>
   )
 }

@@ -6,7 +6,7 @@ import { PokemonDetailView } from '@/components/pokemon-detail'
 import { translateText } from '@/lib/chinese'
 import { ASSET_URL } from '@/lib/constants'
 import { getLocalizedPath } from '@/lib/utils'
-import { getAbilityDetail, getCombinedPokedex, getPokemonDetail } from '@/services/pokemon'
+import { getCombinedPokedex, getPokemonDetail } from '@/services/pokemon'
 
 interface PageProps {
   params: Promise<{ locale: string, id?: string[] }>
@@ -115,12 +115,13 @@ export default async function PokemonPage({ params }: PageProps) {
 
   // Pre-fetch ability details for abilityMap to optimize SEO
   const abilityMap: Record<string, string> = {}
+  /*
   if (pokemonDetail) {
     const uniqueAbilities = Array.from(
       new Set(
         pokemonDetail.forms.flatMap(f => f.abilities.map(a => a.name)),
       ),
-    )
+    ).filter(name => name !== '未知')
     await Promise.all(
       uniqueAbilities.map(async (name) => {
         try {
@@ -135,6 +136,7 @@ export default async function PokemonPage({ params }: PageProps) {
       }),
     )
   }
+  */
 
   return (
     <div className="relative h-full flex flex-col">
