@@ -1,8 +1,10 @@
 import type { MetadataRoute } from 'next'
+import { translateText } from '@/lib/chinese'
+import { BASE_URL } from '@/lib/constants'
 import { getAbilityList, getItemList, getMoveList, getNationalPokedex } from '@/services/pokemon'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://pokedex.starllow.com'
+  const baseUrl = BASE_URL
 
   // 1. Static routes
   const staticRoutes = [
@@ -36,14 +38,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const pokemons = await getNationalPokedex()
     for (const p of pokemons) {
+      const nameHans = translateText(p.name, 'zh-Hans')
+      const nameHant = translateText(p.name, 'zh-Hant')
       sitemapEntries.push({
-        url: `${baseUrl}/pokemon/${p.id}`,
+        url: `${baseUrl}/pokemon/${encodeURIComponent(nameHans)}`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.8,
       })
       sitemapEntries.push({
-        url: `${baseUrl}/zh-Hant/pokemon/${p.id}`,
+        url: `${baseUrl}/zh-Hant/pokemon/${encodeURIComponent(nameHant)}`,
         lastModified: new Date(),
         changeFrequency: 'weekly',
         priority: 0.7,

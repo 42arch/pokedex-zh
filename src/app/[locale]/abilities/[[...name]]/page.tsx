@@ -1,9 +1,12 @@
 import type { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import * as React from 'react'
-import { AbilityDetailView, AbilityEmptyView } from '@/components/ability-detail-view'
+import { AbilityDetailClient } from '@/components/ability-detail-view'
 import { translateText } from '@/lib/chinese'
+import { BASE_URL } from '@/lib/constants'
 import { getAbilityDetail } from '@/services/pokemon'
+
+export const dynamic = 'force-static'
 
 interface PageProps {
   params: Promise<{ locale: string, name?: string[] }>
@@ -12,7 +15,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, name } = await params
   const activeName = name?.[0] ? decodeURIComponent(name[0]) : ''
-  const baseUrl = 'https://pokedex.starllow.com'
+  const baseUrl = BASE_URL
   const path = activeName ? `/abilities/${encodeURIComponent(activeName)}` : '/abilities'
 
   const alternates = {
@@ -59,11 +62,6 @@ export default async function AbilitiesPage({ params }: PageProps) {
   setRequestLocale(locale)
 
   const activeName = name?.[0] ? decodeURIComponent(name[0]) : ''
-  const activeDetail = activeName ? await getAbilityDetail(activeName) : null
 
-  if (activeDetail) {
-    return <AbilityDetailView activeDetail={activeDetail} locale={locale} />
-  }
-
-  return <AbilityEmptyView locale={locale} />
+  return <AbilityDetailClient activeName={activeName} locale={locale} />
 }

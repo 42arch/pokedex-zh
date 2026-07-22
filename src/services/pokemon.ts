@@ -1,4 +1,3 @@
-import path from 'node:path'
 import { ASSET_URL } from '@/lib/constants'
 
 export interface NationalPokemon {
@@ -24,7 +23,7 @@ export interface PokemonDetail {
     name: string
     types: string[]
     category: string
-    abilities: { name: string, is_hidden: boolean }[]
+    abilities: { name: string, is_hidden: boolean, info?: string }[]
     height: string
     weight: string
     color: string
@@ -257,7 +256,7 @@ let itemListCache: ItemNode[] | null = null
 export async function getNationalPokedex(): Promise<NationalPokemon[]> {
   if (nationalPokedexCache)
     return nationalPokedexCache
-  nationalPokedexCache = await readJsonFile<NationalPokemon[]>(path.join('pokedex', 'national.json'))
+  nationalPokedexCache = await readJsonFile<NationalPokemon[]>('pokedex/national.json')
   return nationalPokedexCache
 }
 
@@ -309,7 +308,7 @@ export async function getRegionalPokedexMap(): Promise<RegionalPokedexMap> {
 
   const results = await Promise.all(
     REGION_FILES.map(({ regionKey, subKey, url }) =>
-      readJsonFile<{ national_id: string }[]>(path.join('pokedex', url))
+      readJsonFile<{ national_id: string }[]>(`pokedex/${url}`)
         .then(entries => ({ regionKey, subKey, entries }))
         .catch(() => ({ regionKey, subKey, entries: [] as { national_id: string }[] })),
     ),
@@ -336,15 +335,58 @@ export async function getRegionalPokedexMap(): Promise<RegionalPokedexMap> {
   return regionalPokedexMapCache
 }
 
+let englishNameToIdCache: Record<string, string> | null = null
+
 export async function getPokemonDetail(index: string): Promise<PokemonDetail | null> {
   try {
     const list = await getNationalPokedex()
-    const pokemon = list.find(p => p.id === index)
+    const decoded = decodeURIComponent(index).trim()
+    const baseSearchName = decoded.split('-')[0]
+
+    let pokemon = list.find(p => p.id === decoded || p.name === decoded)
+
+    // Fallback 1: Base Chinese name match (e.g. "泥巴鱼-伽勒尔的样子" -> "泥巴鱼")
+    if (!pokemon && baseSearchName) {
+      pokemon = list.find(p => p.name === baseSearchName || p.name.split('-')[0] === baseSearchName)
+    }
+
+    // Fallback 2: Numeric ID (e.g. "25" -> "0025")
+    if (!pokemon && /^\d+$/.test(decoded)) {
+      const formatted = decoded.padStart(4, '0')
+      pokemon = list.find(p => p.id === formatted)
+    }
+
+    // Fallback 3: English name / slug match (e.g. "pikachu" -> "0025")
+    if (!pokemon && /^[a-z0-9\-\s]+$/i.test(decoded)) {
+      const slug = decoded.toLowerCase().replace(/[^a-z0-9]/g, '')
+      if (englishNameToIdCache && englishNameToIdCache[slug]) {
+        pokemon = list.find(p => p.id === englishNameToIdCache![slug])
+      }
+      else {
+        if (!englishNameToIdCache)
+          englishNameToIdCache = {}
+        for (const item of list) {
+          try {
+            const baseName = item.name.split('-')[0]
+            const detail = await readJsonFile<PokemonDetail>(`pokemon/${item.id}-${baseName}.json`)
+            const itemSlug = detail.name_en.toLowerCase().replace(/[^a-z0-9]/g, '')
+            englishNameToIdCache[itemSlug] = item.id
+            if (itemSlug === slug) {
+              pokemon = item
+              break
+            }
+          }
+          catch {}
+        }
+      }
+    }
+
     if (!pokemon)
       return null
 
-    const fileName = `${index}-${pokemon.name}.json`
-    const detail = await readJsonFile<PokemonDetail>(path.join('pokemon', fileName))
+    const baseName = pokemon.name.split('-')[0]
+    const fileName = `${pokemon.id}-${baseName}.json`
+    const detail = await readJsonFile<PokemonDetail>(`pokemon/${fileName}`)
     return detail
   }
   catch (error) {
@@ -362,7 +404,7 @@ export async function getAbilityList(): Promise<SimpleAbility[]> {
 
 export async function getAbilityDetail(name: string): Promise<AbilityDetail | null> {
   try {
-    const raw = await readJsonFile<any>(path.join('abilities', `${name}.json`))
+    const raw = await readJsonFile<any>(`abilities/${name}.json`)
 
     // Map pokemon_list to pokemons
     const pokemons = (raw.pokemon_list || []).map((item: any) => ({
@@ -398,7 +440,7 @@ export async function getMoveList(): Promise<SimpleMove[]> {
 
 export async function getMoveDetail(name: string): Promise<MoveDetail | null> {
   try {
-    const raw = await readJsonFile<any>(path.join('moves', `${name}.json`))
+    const raw = await readJsonFile<any>(`moves/${name}.json`)
 
     const pokemonMap = new Map<string, {
       id: string

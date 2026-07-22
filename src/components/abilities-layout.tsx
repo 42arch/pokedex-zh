@@ -8,19 +8,23 @@ import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useAbilityList } from '@/hooks/use-pokemon-queries'
 import { translateText } from '@/lib/chinese'
 import { cn, getLocalizedPath } from '@/lib/utils'
 import { ResizableLayout } from './resizable-layout'
 
 interface AbilitiesLayoutProps {
-  abilityList: SimpleAbility[]
+  abilityList?: SimpleAbility[]
   children: React.ReactNode
 }
 
-export function AbilitiesLayout({ abilityList, children }: AbilitiesLayoutProps) {
+export function AbilitiesLayout({ abilityList: initialAbilityList, children }: AbilitiesLayoutProps) {
   const router = useRouter()
   const locale = useLocale()
   const params = useParams()
+
+  const { data: fetchedAbilityList, isLoading } = useAbilityList()
+  const abilityList = fetchedAbilityList || initialAbilityList || []
 
   const activeName = params?.name ? (Array.isArray(params.name) ? decodeURIComponent(params.name[0]) : decodeURIComponent(params.name)) : ''
   const isActiveDetail = !!activeName
@@ -32,7 +36,7 @@ export function AbilitiesLayout({ abilityList, children }: AbilitiesLayoutProps)
 
   // Filter list
   const filteredAbilities = React.useMemo(() => {
-    return abilityList.filter((ability) => {
+    return abilityList.filter((ability: SimpleAbility) => {
       const q = searchQuery.toLowerCase().trim()
       const matchesSearch = !q
         || ability.name_zh.toLowerCase().includes(q)
@@ -116,7 +120,7 @@ export function AbilitiesLayout({ abilityList, children }: AbilitiesLayoutProps)
                       className={cn(
                         'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                         selectedGen === 'all'
-                          ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
+                          ? 'bg-red-500 text-red-foreground'
                           : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60',
                       )}
                     >
@@ -129,7 +133,7 @@ export function AbilitiesLayout({ abilityList, children }: AbilitiesLayoutProps)
                         className={cn(
                           'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                           selectedGen === gen
-                            ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
+                            ? 'bg-red-500 text-red-foreground'
                             : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60',
                         )}
                       >
@@ -168,48 +172,67 @@ export function AbilitiesLayout({ abilityList, children }: AbilitiesLayoutProps)
           {/* Scroll list */}
           <ScrollArea className="flex-1 w-full">
             <div className="p-3 space-y-1.5 w-full">
-              {filteredAbilities.map((ability, idx) => {
-                const isSelected = activeName === ability.name_zh
-                const nameLabel = translateText(ability.name_zh, locale)
+              {isLoading && abilityList.length === 0
+                ? (
+                    Array.from({ length: 10 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className="w-full flex flex-col gap-2 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800/60 animate-pulse bg-zinc-50/50 dark:bg-zinc-900/20"
+                      >
+                        <div className="flex justify-between items-center">
+                          <div className="h-3 w-10 bg-zinc-200 dark:bg-zinc-800 rounded" />
+                          <div className="h-3 w-8 bg-zinc-200 dark:bg-zinc-800 rounded" />
+                        </div>
+                        <div className="h-4 w-28 bg-zinc-200 dark:bg-zinc-800 rounded" />
+                        <div className="h-3 w-36 bg-zinc-100 dark:bg-zinc-900 rounded" />
+                        <div className="h-3 w-full bg-zinc-100 dark:bg-zinc-900 rounded mt-1" />
+                      </div>
+                    ))
+                  )
+                : (
+                    filteredAbilities.map((ability: SimpleAbility, idx: number) => {
+                      const isSelected = activeName === ability.name_zh
+                      const nameLabel = translateText(ability.name_zh, locale)
 
-                return (
-                  <div
-                    key={`${ability.id}-${ability.name_zh}-${idx}`}
-                    onClick={() => handleSelect(ability.name_zh)}
-                    className={cn(
-                      'w-full flex flex-col gap-1 p-3 rounded-2xl cursor-pointer transition-all duration-200 border',
-                      isSelected
-                        ? 'border-zinc-900/10 dark:border-zinc-100/10 shadow-sm bg-zinc-50 dark:bg-zinc-900/40'
-                        : 'border-zinc-100 dark:border-zinc-800/60 bg-transparent hover:bg-zinc-100/60 dark:hover:bg-zinc-900/40 hover:border-zinc-200 dark:hover:border-zinc-700/60 text-zinc-700 dark:text-zinc-300',
-                    )}
-                  >
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-mono text-[10px] font-bold text-zinc-400 dark:text-zinc-500">
-                        No.
-                        {ability.id}
-                      </span>
-                      <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400">
-                        G
-                        {ability.generation}
-                      </span>
-                    </div>
-                    <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 truncate mt-0.5">
-                      {nameLabel}
-                    </h4>
-                    <p className="text-[11px] text-zinc-455 dark:text-zinc-500 truncate">
-                      {ability.name_en}
-                      {' '}
-                      ·
-                      {ability.name_ja}
-                    </p>
-                    <p className="text-[11px] text-zinc-500 dark:text-zinc-450 line-clamp-2 mt-1 border-t border-zinc-100/40 dark:border-zinc-900/40 pt-1 whitespace-normal break-all">
-                      {translateText(ability.description, locale)}
-                    </p>
-                  </div>
-                )
-              })}
+                      return (
+                        <div
+                          key={`${ability.id}-${ability.name_zh}-${idx}`}
+                          onClick={() => handleSelect(ability.name_zh)}
+                          className={cn(
+                            'w-full flex flex-col gap-1 p-3 rounded-2xl cursor-pointer transition-all duration-200 border',
+                            isSelected
+                              ? 'border-zinc-900/10 dark:border-zinc-100/10 shadow-sm bg-zinc-50 dark:bg-zinc-900/40'
+                              : 'border-zinc-100 dark:border-zinc-800/60 bg-transparent hover:bg-zinc-100/60 dark:hover:bg-zinc-900/40 hover:border-zinc-200 dark:hover:border-zinc-700/60 text-zinc-700 dark:text-zinc-300',
+                          )}
+                        >
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="font-mono text-[10px] font-bold text-zinc-400 dark:text-zinc-500">
+                              No.
+                              {ability.id}
+                            </span>
+                            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400">
+                              G
+                              {ability.generation}
+                            </span>
+                          </div>
+                          <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 truncate mt-0.5">
+                            {nameLabel}
+                          </h4>
+                          <p className="text-[11px] text-zinc-455 dark:text-zinc-500 truncate">
+                            {ability.name_en}
+                            {' '}
+                            ·
+                            {ability.name_ja}
+                          </p>
+                          <p className="text-[11px] text-zinc-500 dark:text-zinc-450 line-clamp-2 mt-1 border-t border-zinc-100/40 dark:border-zinc-900/40 pt-1 whitespace-normal break-all">
+                            {translateText(ability.description, locale)}
+                          </p>
+                        </div>
+                      )
+                    })
+                  )}
 
-              {filteredAbilities.length === 0 && (
+              {!isLoading && filteredAbilities.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
                   <span className="text-zinc-300 dark:text-zinc-700 text-4xl">🔍</span>
                   <p className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 mt-3">

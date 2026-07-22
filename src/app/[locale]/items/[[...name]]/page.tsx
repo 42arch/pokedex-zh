@@ -4,7 +4,10 @@ import type { ItemNode } from '@/services/pokemon'
 import { setRequestLocale } from 'next-intl/server'
 import { ItemDetailView, ItemEmptyView } from '@/components/item-detail-view'
 import { translateText } from '@/lib/chinese'
+import { BASE_URL } from '@/lib/constants'
 import { getItemList } from '@/services/pokemon'
+
+export const dynamic = 'force-static'
 
 interface PageProps {
   params: Promise<{ locale: string, name?: string[] }>
@@ -13,7 +16,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, name } = await params
   const activeName = name?.[0] ? decodeURIComponent(name[0]) : ''
-  const baseUrl = 'https://pokedex.starllow.com'
+  const baseUrl = BASE_URL
   const path = activeName ? `/items/${encodeURIComponent(activeName)}` : '/items'
 
   const alternates = {

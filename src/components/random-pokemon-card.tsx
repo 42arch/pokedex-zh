@@ -161,7 +161,7 @@ export function RandomPokemonCard({
 
             <Link
               prefetch={false}
-              href={localPath(`/pokemon/${randomPoke.id}`)}
+              href={localPath(`/pokemon/${encodeURIComponent(translateText(randomPoke.name, locale))}`)}
               className="w-full mt-6 z-10"
             >
               <Button

@@ -8,6 +8,7 @@ import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useItemList } from '@/hooks/use-pokemon-queries'
 import { translateText } from '@/lib/chinese'
 import { ASSET_URL } from '@/lib/constants'
 import { cn, getLocalizedPath } from '@/lib/utils'
@@ -23,7 +24,7 @@ export interface FlattenedItem {
 }
 
 interface ItemsLayoutProps {
-  itemList: ItemNode[]
+  itemList?: ItemNode[]
   children: React.ReactNode
 }
 
@@ -92,10 +93,13 @@ export function ItemSprite({
   )
 }
 
-export function ItemsLayout({ itemList, children }: ItemsLayoutProps) {
+export function ItemsLayout({ itemList: initialItemList, children }: ItemsLayoutProps) {
   const router = useRouter()
   const locale = useLocale()
   const params = useParams()
+
+  const { data: fetchedItemList, isLoading } = useItemList()
+  const itemList = fetchedItemList || initialItemList || []
 
   // Flatten once
   const allItems = React.useMemo(() => flattenItems(itemList), [itemList])
@@ -210,8 +214,8 @@ export function ItemsLayout({ itemList, children }: ItemsLayoutProps) {
                       className={cn(
                         'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                         selectedCategory === 'all'
-                          ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
-                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60',
+                          ? 'bg-red-500 text-red-foreground'
+                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-650 dark:text-zinc-400 hover:bg-zinc-200/60',
                       )}
                     >
                       {translateText('全部', locale)}
@@ -223,7 +227,7 @@ export function ItemsLayout({ itemList, children }: ItemsLayoutProps) {
                         className={cn(
                           'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                           selectedCategory === cat
-                            ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
+                            ? 'bg-red-500 text-red-foreground'
                             : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60',
                         )}
                       >
@@ -261,50 +265,68 @@ export function ItemsLayout({ itemList, children }: ItemsLayoutProps) {
           {/* Scroll list */}
           <ScrollArea className="flex-1 w-full">
             <div className="p-3 space-y-1.5 w-full">
-              {filteredItems.map((item, idx) => {
-                const isSelected = activeName === item.name_zh
-                const nameLabel = translateText(item.name_zh, locale)
-                const firstDesc = Array.isArray(item.description) ? item.description[0] : item.description
-                const lastCategory = item.categoryPath[item.categoryPath.length - 1] || ''
-
-                return (
-                  <div
-                    key={`${item.name_zh}-${idx}`}
-                    onClick={() => handleSelect(item.name_zh)}
-                    className={cn(
-                      'w-full flex items-start gap-3.5 p-3 rounded-2xl cursor-pointer transition-all duration-200 border group',
-                      isSelected
-                        ? 'border-zinc-900/10 dark:border-zinc-100/10 shadow-sm bg-zinc-50 dark:bg-zinc-900/40'
-                        : 'border-zinc-100 dark:border-zinc-800/60 bg-transparent hover:bg-zinc-100/60 dark:hover:bg-zinc-900/40 hover:border-zinc-200 dark:hover:border-zinc-700/60 text-zinc-700 dark:text-zinc-300',
-                    )}
-                  >
-                    <div className="shrink-0 mt-0.5">
-                      <ItemSprite name={item.name_zh} icon={item.icon} size={36} />
-                    </div>
-
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-1.5">
-                        <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 truncate">
-                          {nameLabel}
-                        </h4>
-                        {lastCategory && (
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-500 whitespace-nowrap">
-                            {translateText(lastCategory, locale)}
-                          </span>
-                        )}
+              {isLoading && allItems.length === 0
+                ? (
+                    Array.from({ length: 10 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className="w-full flex items-start gap-3.5 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800/60 animate-pulse bg-zinc-50/50 dark:bg-zinc-900/20"
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-zinc-200 dark:bg-zinc-800 shrink-0" />
+                        <div className="min-w-0 flex-1 space-y-2">
+                          <div className="h-4 w-28 bg-zinc-200 dark:bg-zinc-800 rounded" />
+                          <div className="h-3 w-20 bg-zinc-100 dark:bg-zinc-900 rounded" />
+                          <div className="h-3 w-full bg-zinc-100 dark:bg-zinc-900 rounded" />
+                        </div>
                       </div>
-                      <p className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-500 truncate mt-0.5">
-                        {item.name_en}
-                      </p>
-                      <p className="text-[11px] text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-1 border-t border-zinc-100/40 dark:border-zinc-900/40 pt-1">
-                        {translateText(firstDesc || '', locale)}
-                      </p>
-                    </div>
-                  </div>
-                )
-              })}
+                    ))
+                  )
+                : (
+                    filteredItems.map((item: FlattenedItem, idx: number) => {
+                      const isSelected = activeName === item.name_zh
+                      const nameLabel = translateText(item.name_zh, locale)
+                      const firstDesc = Array.isArray(item.description) ? item.description[0] : item.description
+                      const lastCategory = item.categoryPath[item.categoryPath.length - 1] || ''
 
-              {filteredItems.length === 0 && (
+                      return (
+                        <div
+                          key={`${item.name_zh}-${idx}`}
+                          onClick={() => handleSelect(item.name_zh)}
+                          className={cn(
+                            'w-full flex items-start gap-3.5 p-3 rounded-2xl cursor-pointer transition-all duration-200 border group',
+                            isSelected
+                              ? 'border-zinc-900/10 dark:border-zinc-100/10 shadow-sm bg-zinc-50 dark:bg-zinc-900/40'
+                              : 'border-zinc-100 dark:border-zinc-800/60 bg-transparent hover:bg-zinc-100/60 dark:hover:bg-zinc-900/40 hover:border-zinc-200 dark:hover:border-zinc-700/60 text-zinc-700 dark:text-zinc-300',
+                          )}
+                        >
+                          <div className="shrink-0 mt-0.5">
+                            <ItemSprite name={item.name_zh} icon={item.icon} size={36} />
+                          </div>
+
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center justify-between gap-1.5">
+                              <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 truncate">
+                                {nameLabel}
+                              </h4>
+                              {lastCategory && (
+                                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-900 text-zinc-400 dark:text-zinc-500 whitespace-nowrap">
+                                  {translateText(lastCategory, locale)}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[10px] font-semibold text-zinc-400 dark:text-zinc-500 truncate mt-0.5">
+                              {item.name_en}
+                            </p>
+                            <p className="text-[11px] text-zinc-500 dark:text-zinc-400 line-clamp-1 mt-1 border-t border-zinc-100/40 dark:border-zinc-900/40 pt-1">
+                              {translateText(firstDesc || '', locale)}
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    })
+                  )}
+
+              {!isLoading && filteredItems.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
                   <span className="text-zinc-300 dark:text-zinc-700 text-4xl">🎒</span>
                   <p className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 mt-3">

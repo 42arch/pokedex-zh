@@ -6,10 +6,13 @@ import { getMessages, setRequestLocale } from 'next-intl/server'
 import localFont from 'next/font/local'
 import Link from 'next/link'
 import { AppLayoutClient } from '@/components/app-layout-client'
+import { QueryProvider } from '@/components/query-provider'
+import { SettingsDialog } from '@/components/settings-dialog'
 import { PokeballIcon, SidebarLinks } from '@/components/sidebar-nav'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { BASE_URL } from '@/lib/constants'
 import { cn, getLocalizedPath } from '@/lib/utils'
 import '../globals.css'
 
@@ -30,7 +33,7 @@ const geistHeading = localFont({
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = 'https://pokedex.starllow.com'
+  const baseUrl = BASE_URL
   const isHant = locale === 'zh-Hant'
   return {
     title: isHant ? '寶可夢中文圖鑑 Pokedex | 寶可夢中文資料站' : '宝可梦中文图鉴 Pokedex | 宝可梦中文资料站',
@@ -83,56 +86,76 @@ export default async function RootLayout({
         className="h-screen overflow-hidden flex flex-col md:flex-row bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 transition-colors duration-200"
         suppressHydrationWarning
       >
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var color = localStorage.getItem('pokedex-theme-color') || 'kanto';
+                  document.documentElement.classList.add('theme-' + color);
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <AppLayoutClient
-              mobileHeader={(
-                <header className="md:hidden h-16 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md sticky top-0 flex items-center justify-between px-6 z-20">
-                  <Link
-                    prefetch={false}
-                    href={getLocalizedPath('/', locale)}
-                    className="flex items-center gap-2.5 hover:opacity-90 active:scale-95 transition-all"
-                  >
-                    <div className="flex items-center justify-center w-8.5 h-8.5 rounded-lg bg-red-500/10 dark:bg-red-500/20 text-red-500 shadow-sm">
-                      <PokeballIcon className="w-4.5 h-4.5" />
-                    </div>
-                    <span className="font-bold text-base tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
-                      宝可梦图鉴
-                    </span>
-                  </Link>
-
-                  <Sheet>
-                    <SheetTrigger asChild>
-                      <Button variant="ghost" size="icon" className="rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900">
-                        <List className="w-5 h-5" />
-                        <span className="sr-only">Toggle Menu</span>
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent side="left" className="w-64 p-0 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-r border-zinc-200/50 dark:border-zinc-800/50 flex flex-col">
-                      <div className="h-16 flex items-center gap-3 px-6 border-b border-zinc-200/50 dark:border-zinc-800/50">
-                        <div className="flex items-center justify-center w-8.5 h-8.5 rounded-lg bg-red-500/10 dark:bg-red-500/20 text-red-500">
-                          <PokeballIcon className="w-4.5 h-4.5" />
-                        </div>
-                        <span className="font-bold text-base tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
-                          宝可梦图鉴
-                        </span>
-                      </div>
-                      <div className="flex flex-col flex-1 justify-between">
-                        <SidebarLinks />
-                      </div>
-                    </SheetContent>
-                  </Sheet>
-                </header>
-              )}
+          <QueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
             >
-              {children}
-            </AppLayoutClient>
-          </ThemeProvider>
+              <AppLayoutClient
+                mobileHeader={(
+                  <header className="md:hidden h-16 border-b border-zinc-200/50 dark:border-zinc-800/50 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md sticky top-0 flex items-center justify-between px-6 z-20">
+                    <Link
+                      prefetch={false}
+                      href={getLocalizedPath('/', locale)}
+                      className="flex items-center gap-2.5 hover:opacity-90 active:scale-95 transition-all"
+                    >
+                      <div className="flex items-center justify-center w-8.5 h-8.5 rounded-lg bg-red-500/10 dark:bg-red-500/20 text-red-500 shadow-sm">
+                        <PokeballIcon className="w-4.5 h-4.5" />
+                      </div>
+                      <span className="font-bold text-base tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
+                        宝可梦图鉴
+                      </span>
+                    </Link>
+
+                    <div className="flex items-center gap-1">
+                      <SettingsDialog />
+                      <Sheet>
+                        <SheetTrigger asChild>
+                          <Button variant="ghost" size="icon" className="rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-900">
+                            <List className="w-5 h-5" />
+                            <span className="sr-only">Toggle Menu</span>
+                          </Button>
+                        </SheetTrigger>
+                        <SheetContent side="left" className="w-64 p-0 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md border-r border-zinc-200/50 dark:border-zinc-800/50 flex flex-col">
+                          <div className="h-16 flex items-center gap-3 px-6 border-b border-zinc-200/50 dark:border-zinc-800/50">
+                            <div className="flex items-center justify-center w-8.5 h-8.5 rounded-lg bg-red-500/10 dark:bg-red-500/20 text-red-500">
+                              <PokeballIcon className="w-4.5 h-4.5" />
+                            </div>
+                            <span className="font-bold text-base tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
+                              宝可梦图鉴
+                            </span>
+                          </div>
+                          <div className="flex flex-col flex-1 justify-between">
+                            <SidebarLinks />
+                            <div className="p-4 border-t border-zinc-200/50 dark:border-zinc-800/50">
+                              <SettingsDialog />
+                            </div>
+                          </div>
+                        </SheetContent>
+                      </Sheet>
+                    </div>
+                  </header>
+                )}
+              >
+                {children}
+              </AppLayoutClient>
+            </ThemeProvider>
+          </QueryProvider>
         </NextIntlClientProvider>
         <GoogleAnalytics gaId={gaId || ''} />
       </body>

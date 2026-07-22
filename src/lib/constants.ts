@@ -1,4 +1,5 @@
 export const ASSET_URL = 'https://s.starllow.com/pokedex'
+export const BASE_URL = 'https://pokedex.starllow.com'
 
 export const POKEDEX_LIST = [
   {

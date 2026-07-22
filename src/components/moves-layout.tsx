@@ -8,10 +8,12 @@ import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useMoveList } from '@/hooks/use-pokemon-queries'
 import { translateText } from '@/lib/chinese'
 import { getTypeColor } from '@/lib/pokemon-helpers'
 import { cn, getLocalizedPath } from '@/lib/utils'
 import { ResizableLayout } from './resizable-layout'
+
 import { CategoryBadge, TypeBadge } from './type-badge'
 
 // All Types for filter
@@ -37,14 +39,17 @@ const POKEMON_TYPES = [
 ]
 
 interface MovesLayoutProps {
-  moveList: SimpleMove[]
+  moveList?: SimpleMove[]
   children: React.ReactNode
 }
 
-export function MovesLayout({ moveList, children }: MovesLayoutProps) {
+export function MovesLayout({ moveList: initialMoveList, children }: MovesLayoutProps) {
   const router = useRouter()
   const locale = useLocale()
   const params = useParams()
+
+  const { data: fetchedMoveList, isLoading } = useMoveList()
+  const moveList = fetchedMoveList || initialMoveList || []
 
   const activeName = params?.name ? (Array.isArray(params.name) ? decodeURIComponent(params.name[0]) : decodeURIComponent(params.name)) : ''
   const isActiveDetail = !!activeName
@@ -57,7 +62,7 @@ export function MovesLayout({ moveList, children }: MovesLayoutProps) {
 
   // Filter moves
   const filteredMoves = React.useMemo(() => {
-    return moveList.filter((move) => {
+    return moveList.filter((move: SimpleMove) => {
       const q = searchQuery.toLowerCase().trim()
       const matchesSearch = !q
         || move.name_zh.toLowerCase().includes(q)
@@ -144,8 +149,8 @@ export function MovesLayout({ moveList, children }: MovesLayoutProps) {
                       className={cn(
                         'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                         selectedType === 'all'
-                          ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
-                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-650 dark:text-zinc-400 hover:bg-zinc-200/60',
+                          ? 'bg-red-500 text-red-foreground'
+                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-655 dark:text-zinc-400 hover:bg-zinc-200/60',
                       )}
                     >
                       {translateText('全部', locale)}
@@ -183,7 +188,7 @@ export function MovesLayout({ moveList, children }: MovesLayoutProps) {
                       className={cn(
                         'px-3 py-1 text-xs font-semibold rounded-lg transition-all',
                         selectedCategory === 'all'
-                          ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
+                          ? 'bg-red-500 text-red-foreground'
                           : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60',
                       )}
                     >
@@ -240,47 +245,64 @@ export function MovesLayout({ moveList, children }: MovesLayoutProps) {
           {/* Moves scroll list */}
           <ScrollArea className="flex-1 w-full">
             <div className="p-3 space-y-1.5 w-full">
-              {filteredMoves.map((move, idx) => {
-                const isSelected = activeName === move.name_zh
-                const nameLabel = translateText(move.name_zh, locale)
-
-                return (
-                  <div
-                    key={`${move.id}-${move.name_zh}-${idx}`}
-                    onClick={() => handleSelect(move.name_zh)}
-                    className={cn(
-                      'w-full flex items-center gap-3.5 p-3 rounded-2xl cursor-pointer transition-all duration-200 border',
-                      isSelected
-                        ? 'border-zinc-900/10 dark:border-zinc-100/10 shadow-sm bg-zinc-50 dark:bg-zinc-900/40'
-                        : 'border-zinc-100 dark:border-zinc-800/60 bg-transparent hover:bg-zinc-100/60 dark:hover:bg-zinc-900/40 hover:border-zinc-200 dark:hover:border-zinc-700/60 text-zinc-700 dark:text-zinc-300',
-                    )}
-                  >
-                    <div className="flex-1 min-w-0">
-                      <span className="font-mono text-[10px] font-bold text-zinc-400 dark:text-zinc-500">
-                        No.
-                        {move.id}
-                      </span>
-                      <div className="flex items-center justify-between gap-1.5 mt-0.5">
-                        <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 truncate">
-                          {nameLabel}
-                        </h4>
-                        <div className="flex items-center gap-1 shrink-0">
-                          <CategoryBadge category={move.category} variant="icon" />
-                          <TypeBadge type={move.type} variant="icon" />
+              {isLoading && moveList.length === 0
+                ? (
+                    Array.from({ length: 10 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className="w-full flex items-center gap-3.5 p-3 rounded-2xl border border-zinc-100 dark:border-zinc-800/60 animate-pulse bg-zinc-50/50 dark:bg-zinc-900/20"
+                      >
+                        <div className="flex-1 space-y-2">
+                          <div className="h-3 w-12 bg-zinc-200 dark:bg-zinc-800 rounded" />
+                          <div className="h-4 w-28 bg-zinc-200 dark:bg-zinc-800 rounded" />
+                          <div className="h-3 w-36 bg-zinc-100 dark:bg-zinc-900 rounded" />
                         </div>
                       </div>
-                      <p className="text-[11px] text-zinc-400 dark:text-zinc-500 truncate mt-0.5">
-                        {move.name_en}
-                        {' '}
-                        ·
-                        {move.name_jp}
-                      </p>
-                    </div>
-                  </div>
-                )
-              })}
+                    ))
+                  )
+                : (
+                    filteredMoves.map((move: SimpleMove, idx: number) => {
+                      const isSelected = activeName === move.name_zh
+                      const nameLabel = translateText(move.name_zh, locale)
 
-              {filteredMoves.length === 0 && (
+                      return (
+                        <div
+                          key={`${move.id}-${move.name_zh}-${idx}`}
+                          onClick={() => handleSelect(move.name_zh)}
+                          className={cn(
+                            'w-full flex items-center gap-3.5 p-3 rounded-2xl cursor-pointer transition-all duration-200 border',
+                            isSelected
+                              ? 'border-zinc-900/10 dark:border-zinc-100/10 shadow-sm bg-zinc-50 dark:bg-zinc-900/40'
+                              : 'border-zinc-100 dark:border-zinc-800/60 bg-transparent hover:bg-zinc-100/60 dark:hover:bg-zinc-900/40 hover:border-zinc-200 dark:hover:border-zinc-700/60 text-zinc-700 dark:text-zinc-300',
+                          )}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <span className="font-mono text-[10px] font-bold text-zinc-400 dark:text-zinc-500">
+                              No.
+                              {move.id}
+                            </span>
+                            <div className="flex items-center justify-between gap-1.5 mt-0.5">
+                              <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-100 truncate">
+                                {nameLabel}
+                              </h4>
+                              <div className="flex items-center gap-1 shrink-0">
+                                <CategoryBadge category={move.category} variant="icon" />
+                                <TypeBadge type={move.type} variant="icon" />
+                              </div>
+                            </div>
+                            <p className="text-[11px] text-zinc-400 dark:text-zinc-500 truncate mt-0.5">
+                              {move.name_en}
+                              {' '}
+                              ·
+                              {move.name_jp}
+                            </p>
+                          </div>
+                        </div>
+                      )
+                    })
+                  )}
+
+              {!isLoading && filteredMoves.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
                   <span className="text-zinc-300 dark:text-zinc-700 text-4xl">🔍</span>
                   <p className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 mt-3">

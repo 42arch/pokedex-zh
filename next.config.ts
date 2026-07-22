@@ -5,6 +5,9 @@ const withNextIntl = createNextIntlPlugin()
 
 const nextConfig: NextConfig = {
   /* config options here */
+  images: {
+    unoptimized: true,
+  },
   turbopack: {},
   experimental: {
     workerThreads: true,

@@ -240,3 +240,27 @@
 .type-未知 {
   background-position: 0 -660px;
 }
+
+/* --- Accent Themes Configuration --- */
+html[class*="theme-"] {
+  --color-red-50: color-mix(in srgb, var(--color-red-500) 10%, white);
+  --color-red-100: color-mix(in srgb, var(--color-red-500) 25%, white);
+  --color-red-200: color-mix(in srgb, var(--color-red-500) 45%, white);
+  --color-red-300: color-mix(in srgb, var(--color-red-500) 65%, white);
+  --color-red-400: color-mix(in srgb, var(--color-red-500) 85%, white);
+  --color-red-600: color-mix(in srgb, var(--color-red-500) 85%, black);
+  --color-red-700: color-mix(in srgb, var(--color-red-500) 70%, black);
+  --color-red-foreground: var(--theme-color-fg, #f8fafc);
+}
+
+html.theme-kanto { --color-red-500: #ffaaaa; --theme-color-fg: #4a3538; }
+html.theme-johto { --color-red-500: #FAE340; --theme-color-fg: #4c3f15; }
+html.theme-hoenn { --color-red-500: #18DD39; --theme-color-fg: #0f3d14; }
+html.theme-sinnoh { --color-red-500: #52A6D3; }
+html.theme-unova { --color-red-500: #F4C0BB; --theme-color-fg: #4f3b39; }
+html.theme-kalos { --color-red-500: #E1E6E6; --theme-color-fg: #3c4242; }
+html.theme-alola { --color-red-500: #8AD8FB; --theme-color-fg: #0f3c50; }
+html.theme-galar { --color-red-500: #C97DC0; }
+html.theme-hisui { --color-red-500: #38B48B; }
+html.theme-paldea { --color-red-500: #E39091; }
+html.theme-miare { --color-red-500: #35b574; }

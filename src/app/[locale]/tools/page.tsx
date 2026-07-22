@@ -2,11 +2,14 @@ import type { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import * as React from 'react'
 import { ToolsLayout } from '@/components/tools-layout'
+import { BASE_URL } from '@/lib/constants'
 import { getCombinedPokedex } from '@/services/pokemon'
+
+export const dynamic = 'force-static'
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params
-  const baseUrl = 'https://pokedex.starllow.com'
+  const baseUrl = BASE_URL
   const isHant = locale === 'zh-Hant'
   const alternates = {
     canonical: `${baseUrl}/tools`,

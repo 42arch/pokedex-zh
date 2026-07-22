@@ -1,22 +1,24 @@
 import type { Metadata } from 'next'
 import { setRequestLocale } from 'next-intl/server'
 import Link from 'next/link'
-import * as React from 'react'
+import { redirect } from 'next/navigation'
 import { PokemonDetailView } from '@/components/pokemon-detail'
 import { translateText } from '@/lib/chinese'
-import { ASSET_URL } from '@/lib/constants'
+import { ASSET_URL, BASE_URL } from '@/lib/constants'
 import { getLocalizedPath } from '@/lib/utils'
-import { getCombinedPokedex, getPokemonDetail } from '@/services/pokemon'
+import { getNationalPokedex, getPokemonDetail } from '@/services/pokemon'
+
+export const dynamic = 'force-static'
 
 interface PageProps {
-  params: Promise<{ locale: string, id?: string[] }>
+  params: Promise<{ locale: string, name?: string[] }>
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { locale, id } = await params
-  const activeId = id?.[0]
-  const baseUrl = 'https://pokedex.starllow.com'
-  const path = activeId ? `/pokemon/${activeId}` : '/pokemon'
+  const { locale, name } = await params
+  const activeName = name?.[0] ? decodeURIComponent(name[0]) : ''
+  const baseUrl = BASE_URL
+  const path = activeName ? `/pokemon/${encodeURIComponent(activeName)}` : '/pokemon'
 
   const alternates = {
     canonical: `${baseUrl}${path}`,
@@ -27,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
   }
 
-  if (!activeId) {
+  if (!activeName) {
     return {
       title: '宝可梦图鉴 Pokedex | 宝可梦中文资料站',
       description: '浏览全国图鉴及地区图鉴宝可梦列表，按属性、世代、分类进行检索筛选。',
@@ -35,7 +37,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  const detail = await getPokemonDetail(activeId)
+  const detail = await getPokemonDetail(activeName)
   if (!detail) {
     return {
       title: '未找到宝可梦 | 宝可梦图鉴 Pokedex',
@@ -43,24 +45,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  const name = translateText(detail.name_zh, locale)
-  const description = detail.description || `查看宝可梦 ${name} (#${activeId}) 的详细图鉴资料，包含属性、种族值、克制关系、进化链以及可学习招式。`
+  const localizedName = translateText(detail.name_zh, locale)
+  const description = detail.description || `查看宝可梦 ${localizedName} (#${detail.pokedex_id}) 的详细图鉴资料，包含属性、种族值、克制关系、进化链以及可学习招式。`
 
   const firstForm = detail.forms?.[0]
   const ogImageUrl = firstForm?.image ? `${ASSET_URL}/images/official/${firstForm.image}` : ''
 
   return {
-    title: `${name} (#${activeId}) | 宝可梦图鉴 Pokedex`,
+    title: `${localizedName} (#${detail.pokedex_id}) | 宝可梦图鉴 Pokedex`,
     description: description.slice(0, 150),
     alternates,
     openGraph: ogImageUrl
       ? {
-          title: `${name} (#${activeId}) | 宝可梦图鉴 Pokedex`,
+          title: `${localizedName} (#${detail.pokedex_id}) | 宝可梦图鉴 Pokedex`,
           description: description.slice(0, 150),
           images: [
             {
               url: ogImageUrl,
-              alt: name,
+              alt: localizedName,
             },
           ],
         }
@@ -68,7 +70,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     twitter: ogImageUrl
       ? {
           card: 'summary',
-          title: `${name} (#${activeId}) | 宝可梦图鉴 Pokedex`,
+          title: `${localizedName} (#${detail.pokedex_id}) | 宝可梦图鉴 Pokedex`,
           description: description.slice(0, 150),
           images: [ogImageUrl],
         }
@@ -78,27 +80,28 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export async function generateStaticParams() {
   const locales = ['zh', 'zh-Hant']
-  const pokemons = await getCombinedPokedex()
-  const params: { locale: string, id: string[] }[] = []
+  const pokemons = await getNationalPokedex()
+  const params: { locale: string, name: string[] }[] = []
 
   for (const locale of locales) {
     // For /pokemon
-    params.push({ locale, id: [] })
+    params.push({ locale, name: [] })
     for (const p of pokemons) {
-      params.push({ locale, id: [p.id] })
+      const localizedName = translateText(p.name, locale)
+      params.push({ locale, name: [localizedName] })
     }
   }
   return params
 }
 
 export default async function PokemonPage({ params }: PageProps) {
-  const { locale, id } = await params
+  const { locale, name } = await params
   setRequestLocale(locale)
 
-  // Get active Pokemon ID if any
-  const activeId = id?.[0]
+  // Get active Pokemon name if any
+  const activeName = name?.[0] ? decodeURIComponent(name[0]) : ''
 
-  if (!activeId) {
+  if (!activeName) {
     return (
       <div className="hidden md:flex h-full flex-col items-center justify-center p-8 text-center bg-zinc-50/50 dark:bg-zinc-900/5">
         <div className="w-16 h-16 rounded-2xl bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center shadow-sm text-zinc-450 border border-zinc-200/50 dark:border-zinc-800/50">
@@ -111,32 +114,15 @@ export default async function PokemonPage({ params }: PageProps) {
     )
   }
 
-  const pokemonDetail = await getPokemonDetail(activeId)
+  const pokemonDetail = await getPokemonDetail(activeName)
 
-  // Pre-fetch ability details for abilityMap to optimize SEO
-  const abilityMap: Record<string, string> = {}
-  /*
+  // 301 Permanent Redirect for non-canonical paths (e.g. /pokemon/0025 or /pokemon/pikachu -> /pokemon/皮卡丘)
   if (pokemonDetail) {
-    const uniqueAbilities = Array.from(
-      new Set(
-        pokemonDetail.forms.flatMap(f => f.abilities.map(a => a.name)),
-      ),
-    ).filter(name => name !== '未知')
-    await Promise.all(
-      uniqueAbilities.map(async (name) => {
-        try {
-          const detail = await getAbilityDetail(name)
-          if (detail) {
-            abilityMap[name] = detail.description || detail.effect || ''
-          }
-        }
-        catch (error) {
-          console.error(`Failed to prefetch ability ${name} on server:`, error)
-        }
-      }),
-    )
+    const canonicalName = translateText(pokemonDetail.name_zh, locale)
+    if (activeName !== canonicalName && activeName !== pokemonDetail.name_zh) {
+      redirect(getLocalizedPath(`/pokemon/${encodeURIComponent(canonicalName)}`, locale))
+    }
   }
-  */
 
   return (
     <div className="relative h-full flex flex-col">
@@ -151,7 +137,7 @@ export default async function PokemonPage({ params }: PageProps) {
 
       {pokemonDetail
         ? (
-            <PokemonDetailView detail={pokemonDetail} abilityMap={abilityMap} />
+            <PokemonDetailView detail={pokemonDetail} />
           )
         : (
             <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">

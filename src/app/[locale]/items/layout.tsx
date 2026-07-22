@@ -1,7 +1,6 @@
 import { setRequestLocale } from 'next-intl/server'
 import * as React from 'react'
 import { ItemsLayout } from '@/components/items-layout'
-import { getItemList } from '@/services/pokemon'
 
 export default async function ItemsLayoutContainer({
   children,
@@ -13,10 +12,8 @@ export default async function ItemsLayoutContainer({
   const { locale } = await params
   setRequestLocale(locale)
 
-  const itemList = await getItemList()
-
   return (
-    <ItemsLayout itemList={itemList}>
+    <ItemsLayout>
       {children}
     </ItemsLayout>
   )

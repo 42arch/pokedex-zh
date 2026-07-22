@@ -37,7 +37,7 @@ function AppLayoutClientInner({ children, mobileHeader }: AppLayoutClientProps) 
   return (
     <div className="flex flex-col h-screen w-full overflow-hidden">
       {showBanner && (
-        <div className="w-full bg-emerald-600 dark:bg-emerald-700 text-white text-xs font-bold py-2 px-4 relative flex items-center overflow-hidden shrink-0 z-40 select-none shadow-sm border-b border-emerald-750/30">
+        <div className="w-full bg-red-500 text-red-foreground text-xs font-bold py-2 px-4 relative flex items-center overflow-hidden shrink-0 z-40 select-none shadow-sm border-b border-red-600/15">
           <style dangerouslySetInnerHTML={{ __html: `
             @keyframes marquee {
               0% { transform: translateX(100%); }
@@ -70,7 +70,7 @@ function AppLayoutClientInner({ children, mobileHeader }: AppLayoutClientProps) 
               setShowBanner(false)
               localStorage.setItem('announcement-banner-closed', 'true')
             }}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-emerald-100 hover:text-white hover:bg-emerald-500/30 rounded-full transition-colors z-50 cursor-pointer"
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-red-foreground/80 hover:text-red-foreground hover:bg-red-600/20 rounded-full transition-colors z-50 cursor-pointer"
             title="关闭通知"
           >
             <XIcon className="w-4 h-4" weight="bold" />

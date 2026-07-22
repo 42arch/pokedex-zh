@@ -1,9 +1,12 @@
+'use client'
+
 import type { MoveDetail } from '@/services/pokemon'
-import { InfoIcon, ShieldCheckIcon } from '@phosphor-icons/react/dist/ssr'
+import { InfoIcon, ShieldCheckIcon } from '@phosphor-icons/react'
 import Link from 'next/link'
 import * as React from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useMoveDetail } from '@/hooks/use-pokemon-queries'
 import { translateText } from '@/lib/chinese'
 import { getGenerationName, getTypeColor } from '@/lib/pokemon-helpers'
 import { cn, getLocalizedPath } from '@/lib/utils'
@@ -145,7 +148,7 @@ export function MoveDetailView({ activeDetail, locale }: { activeDetail: MoveDet
                     <Link
                       prefetch={false}
                       key={idx}
-                      href={getLocalizedPath(`/pokemon/${pk.id.padStart(4, '0')}`, locale)}
+                      href={getLocalizedPath(`/pokemon/${encodeURIComponent(translateText(pk.name, locale))}`, locale)}
                       className="flex items-center gap-3 p-2.5 rounded-xl border border-zinc-150/40 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 hover:border-zinc-300 transition-all shadow-sm"
                     >
                       <span className="font-mono text-[10px] font-bold bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 px-1.5 py-0.5 rounded-md">
@@ -182,7 +185,7 @@ export function MoveDetailView({ activeDetail, locale }: { activeDetail: MoveDet
                     <Link
                       prefetch={false}
                       key={idx}
-                      href={getLocalizedPath(`/pokemon/${pk.id.padStart(4, '0')}`, locale)}
+                      href={getLocalizedPath(`/pokemon/${encodeURIComponent(translateText(pk.name, locale))}`, locale)}
                       className="flex items-center gap-3 p-2.5 rounded-xl border border-zinc-150/40 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 hover:border-zinc-300 transition-all shadow-sm"
                     >
                       <span className="font-mono text-[9px] font-bold bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400 px-1.5 py-0.5 rounded-md">
@@ -218,7 +221,7 @@ export function MoveDetailView({ activeDetail, locale }: { activeDetail: MoveDet
                     <Link
                       prefetch={false}
                       key={idx}
-                      href={getLocalizedPath(`/pokemon/${pk.id.padStart(4, '0')}`, locale)}
+                      href={getLocalizedPath(`/pokemon/${encodeURIComponent(translateText(pk.name, locale))}`, locale)}
                       className="flex items-center gap-3 p-2.5 rounded-xl border border-zinc-150/40 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-900/30 hover:border-zinc-300 transition-all shadow-sm"
                     >
                       <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500 bg-zinc-100 dark:bg-zinc-900 px-1.5 py-0.5 rounded-md">
@@ -257,4 +260,45 @@ export function MoveEmptyView({ locale }: { locale: string }) {
       </p>
     </div>
   )
+}
+
+export function MoveDetailClient({ activeName, locale }: { activeName: string, locale: string }) {
+  const { data: activeDetail, isLoading } = useMoveDetail(activeName)
+
+  if (!activeName) {
+    return <MoveEmptyView locale={locale} />
+  }
+
+  if (isLoading) {
+    return (
+      <div className="p-4 md:p-6 lg:p-8 max-w-4xl mx-auto w-full space-y-6 animate-pulse">
+        <div className="rounded-3xl border border-zinc-200/40 dark:border-zinc-800/40 p-6 bg-zinc-100/80 dark:bg-zinc-900/50 space-y-4">
+          <div className="flex gap-2">
+            <div className="h-6 w-16 bg-zinc-200 dark:bg-zinc-800 rounded-full" />
+            <div className="h-6 w-16 bg-zinc-200 dark:bg-zinc-800 rounded-full" />
+          </div>
+          <div className="h-8 w-48 bg-zinc-200 dark:bg-zinc-800 rounded" />
+          <div className="h-16 w-full bg-zinc-200/60 dark:bg-zinc-800/60 rounded-2xl" />
+          <div className="grid grid-cols-3 gap-3">
+            <div className="h-12 bg-zinc-200/80 dark:bg-zinc-800/80 rounded-xl" />
+            <div className="h-12 bg-zinc-200/80 dark:bg-zinc-800/80 rounded-xl" />
+            <div className="h-12 bg-zinc-200/80 dark:bg-zinc-800/80 rounded-xl" />
+          </div>
+        </div>
+        <div className="p-6 rounded-3xl border border-zinc-200/50 dark:border-zinc-800/50 bg-zinc-100/60 dark:bg-zinc-900/50 h-32" />
+      </div>
+    )
+  }
+
+  if (!activeDetail) {
+    return (
+      <div className="flex flex-col items-center justify-center p-8 text-center h-full">
+        <p className="text-sm font-bold text-zinc-400 dark:text-zinc-500">
+          {translateText('未找到招式详情', locale)}
+        </p>
+      </div>
+    )
+  }
+
+  return <MoveDetailView activeDetail={activeDetail} locale={locale} />
 }

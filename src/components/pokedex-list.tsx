@@ -60,7 +60,8 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
   const params = useParams()
   const locale = useLocale()
 
-  const currentId = params?.id ? (Array.isArray(params.id) ? params.id[0] : params.id) : ''
+  const rawParam = params?.name ? (Array.isArray(params.name) ? params.name[0] : params.name) : (params?.id ? (Array.isArray(params.id) ? params.id[0] : params.id) : '')
+  const activeName = rawParam ? decodeURIComponent(rawParam) : ''
 
   // Search and Filter States
   const [searchQuery, setSearchQuery] = React.useState('')
@@ -135,8 +136,9 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
     })
   }, [pokemonList, searchQuery, selectedGen, selectedTypes, selectedRegion, selectedSubDex, selectedFilter, regionalMap])
 
-  const handleSelect = (id: string) => {
-    router.push(getLocalizedPath(`/pokemon/${id}`, locale))
+  const handleSelect = (pokemon: NationalPokemon) => {
+    const localizedName = translateText(pokemon.name, locale)
+    router.push(getLocalizedPath(`/pokemon/${encodeURIComponent(localizedName)}`, locale))
   }
 
   const resetFilters = () => {
@@ -270,7 +272,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                   className={cn(
                     'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                     selectedGen === 'all'
-                      ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
+                      ? 'bg-red-500 text-red-foreground'
                       : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                   )}
                 >
@@ -283,7 +285,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                     className={cn(
                       'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                       selectedGen === gen
-                        ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
+                        ? 'bg-red-500 text-red-foreground'
                         : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                     )}
                   >
@@ -312,7 +314,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                   className={cn(
                     'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                     selectedTypes.length === 0
-                      ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
+                      ? 'bg-red-500 text-red-foreground'
                       : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                   )}
                 >
@@ -353,7 +355,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
                   className={cn(
                     'px-2.5 py-1 text-xs font-semibold rounded-lg transition-all',
                     selectedFilter === 'all'
-                      ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
+                      ? 'bg-red-500 text-red-foreground'
                       : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200/60 dark:hover:bg-zinc-800/60',
                   )}
                 >
@@ -415,15 +417,15 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
       <ScrollArea className="flex-1 w-full">
         <div className="p-3 space-y-1.5 w-full">
           {filteredList.map((pokemon, idx) => {
-            const isSelected = currentId === pokemon.id
             const translatedName = translateText(pokemon.name, locale)
+            const isSelected = activeName === pokemon.name || activeName === translatedName || activeName === pokemon.id
             const primaryType = pokemon.types[0] || '一般'
             const activeColor = getTypeColor(primaryType)
 
             return (
               <div
                 key={`${pokemon.id}-${pokemon.name}-${idx}`}
-                onClick={() => handleSelect(pokemon.id)}
+                onClick={() => handleSelect(pokemon)}
                 className={cn(
                   'w-full flex items-center gap-3.5 p-3 rounded-2xl cursor-pointer transition-all duration-200 group relative overflow-hidden border',
                   isSelected

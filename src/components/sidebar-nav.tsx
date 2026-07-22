@@ -14,8 +14,7 @@ import { usePathname } from 'next/navigation'
 import * as React from 'react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { cn, getLocalizedPath } from '@/lib/utils'
-import { LanguageSwitcher } from './language-switcher'
-import { ModeToggle } from './mode-toggle'
+import { SettingsDialog } from './settings-dialog'
 
 // Stylized Pokéball SVG Icon
 export function PokeballIcon({ className, ...props }: React.SVGProps<SVGSVGElement>) {
@@ -80,14 +79,14 @@ export function SidebarLinks({ onItemClick, isCollapsed }: { onItemClick?: () =>
                 'flex items-center rounded-2xl text-sm font-semibold transition-all duration-200 group relative',
                 isCollapsed ? 'justify-center w-11 h-11 p-0 mx-auto' : 'gap-3.5 px-4 py-3',
                 isActive
-                  ? 'bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 shadow-md shadow-zinc-900/10 dark:shadow-zinc-100/5'
+                  ? 'bg-red-500 text-red-foreground shadow-md shadow-red-500/15'
                   : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900/60 hover:text-zinc-900 dark:hover:text-zinc-100',
               )}
             >
               <Icon
                 className={cn(
                   'w-5 h-5 transition-transform duration-200 group-hover:scale-110',
-                  isActive ? 'text-zinc-50 dark:text-zinc-900' : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300',
+                  isActive ? 'text-red-foreground' : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300',
                 )}
                 weight={isActive ? 'fill' : 'regular'}
               />
@@ -153,10 +152,7 @@ export function SidebarNav({ isCollapsed }: { isCollapsed?: boolean }) {
         isCollapsed ? 'items-center px-2' : 'flex-row items-center justify-between',
       )}
       >
-        <div className={cn('flex items-center gap-1.5', isCollapsed && 'flex-col gap-2')}>
-          <LanguageSwitcher isCollapsed={isCollapsed} />
-          <ModeToggle />
-        </div>
+        <SettingsDialog />
         {!isCollapsed && (
           <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-mono font-medium">
             v1.0.0
