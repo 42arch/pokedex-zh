@@ -1,19 +1,33 @@
 import type { Metadata } from 'next'
-import { setRequestLocale } from 'next-intl/server'
 import * as React from 'react'
-import { MoveDetailClient } from '@/components/move-detail-view'
+import { StaticMoveDetailPage } from '@/components/static-detail-pages'
 import { translateText } from '@/lib/chinese'
 import { BASE_URL } from '@/lib/constants'
-import { getMoveDetail } from '@/services/pokemon'
+import { getMoveDetail, getMoveList } from '@/services/pokemon'
 
 export const dynamic = 'force-static'
+export const dynamicParams = false
 
 interface PageProps {
-  params: Promise<{ locale: string, name?: string[] }>
+  params: Promise<{ name?: string[] }>
+}
+
+async function resolveMoveSourceName(activeName: string, locale: string) {
+  if (!activeName)
+    return ''
+
+  const moves = await getMoveList()
+  const matchedMove = moves.find((move) => {
+    const localizedName = translateText(move.name_zh, locale)
+    return activeName === localizedName || activeName === move.name_zh
+  })
+
+  return matchedMove?.name_zh || activeName
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { locale, name } = await params
+  const { name } = await params
+  const locale = 'zh'
   const activeName = name?.[0] ? decodeURIComponent(name[0]) : ''
   const baseUrl = BASE_URL
   const path = activeName ? `/moves/${encodeURIComponent(activeName)}` : '/moves'
@@ -21,8 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const alternates = {
     canonical: `${baseUrl}${path}`,
     languages: {
-      'zh-Hans': `${baseUrl}${path}`,
-      'zh-Hant': `${baseUrl}/zh-Hant${path}`,
+      'zh': `${baseUrl}${path}`,
       'x-default': `${baseUrl}${path}`,
     },
   }
@@ -35,7 +48,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  const detail = await getMoveDetail(activeName)
+  const sourceName = await resolveMoveSourceName(activeName, locale)
+  const detail = await getMoveDetail(sourceName)
   if (!detail) {
     return {
       title: '未找到招式 | 宝可梦图鉴 Pokedex',
@@ -54,14 +68,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export async function generateStaticParams() {
-  return []
+  return [{ name: [] }]
 }
 
-export default async function MovesPage({ params }: PageProps) {
-  const { locale, name } = await params
-  setRequestLocale(locale)
-
-  const activeName = name?.[0] ? decodeURIComponent(name[0]) : ''
-
-  return <MoveDetailClient activeName={activeName} locale={locale} />
+export default async function MovesPage() {
+  return <StaticMoveDetailPage />
 }

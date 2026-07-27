@@ -4,7 +4,6 @@ import type { Locale } from '@/i18n/config'
 import { CheckIcon, GearIcon, MonitorIcon, MoonIcon, SparkleIcon, SunIcon, TranslateIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
 import { useTheme } from 'next-themes'
-import { usePathname } from 'next/navigation'
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,7 +16,6 @@ import {
 import { translateText } from '@/lib/chinese'
 import { POKEDEX_COLORS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import { setUserLocale } from '@/services/locale'
 
 const REGION_KEY_MAP: Record<string, string> = {
   关都: 'kanto',
@@ -35,9 +33,7 @@ const REGION_KEY_MAP: Record<string, string> = {
 
 export function SettingsDialog() {
   const locale = useLocale()
-  const pathname = usePathname()
   const { theme, setTheme } = useTheme()
-  const [isPending, startTransition] = React.useTransition()
   const [isOpen, setIsOpen] = React.useState(false)
   const [activeColor, setActiveColor] = React.useState('kanto')
 
@@ -48,28 +44,6 @@ export function SettingsDialog() {
     const savedColor = localStorage.getItem('pokedex-theme-color') || 'kanto'
     setActiveColor(savedColor)
   }, [])
-
-  const handleLanguageChange = (newLocale: Locale) => {
-    if (newLocale === locale) {
-      return
-    }
-
-    startTransition(async () => {
-      await setUserLocale(newLocale)
-      const segments = pathname.split('/')
-      // Remove any existing locale segment if present
-      if (segments[1] === 'zh' || segments[1] === 'zh-Hant') {
-        segments.splice(1, 1)
-      }
-      // Prepend the new locale if it's Hant, otherwise default is zh-Hans (represented as root / empty segment)
-      if (newLocale !== 'zh') {
-        segments.splice(1, 0, newLocale)
-      }
-      const search = typeof window !== 'undefined' ? window.location.search : ''
-      const newPath = (segments.join('/') || '/') + search
-      window.location.href = newPath
-    })
-  }
 
   const handleColorChange = (newColor: string) => {
     setActiveColor(newColor)
@@ -89,7 +63,6 @@ export function SettingsDialog() {
 
   const languages: { code: Locale, name: string }[] = [
     { code: 'zh', name: '简体中文' },
-    { code: 'zh-Hant', name: '繁體中文' },
   ]
 
   const themes = [
@@ -138,14 +111,13 @@ export function SettingsDialog() {
                 return (
                   <button
                     key={lang.code}
-                    disabled={isPending}
-                    onClick={() => handleLanguageChange(lang.code)}
+                    disabled
                     className={cn(
                       'flex items-center justify-between p-3.5 rounded-2xl border text-sm font-bold transition-all cursor-pointer relative overflow-hidden',
                       isSelected
                         ? 'border-red-500/20 dark:border-red-500/30 bg-red-500/[0.04] dark:bg-red-500/[0.06] text-red-550'
                         : 'border-zinc-150/80 dark:border-zinc-850 hover:bg-zinc-50 dark:hover:bg-zinc-900/40 text-zinc-700 dark:text-zinc-300',
-                      isPending && 'opacity-60 cursor-not-allowed',
+                      'cursor-not-allowed',
                     )}
                   >
                     <span>{lang.name}</span>

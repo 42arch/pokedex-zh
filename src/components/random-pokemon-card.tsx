@@ -70,7 +70,7 @@ export function RandomPokemonCard({
     <div className="flex flex-col gap-5">
       <div className="flex items-center justify-between px-1">
         <h2 className="text-lg font-bold text-zinc-800 dark:text-zinc-300">
-          {locale === 'zh-Hant' ? '隨機寶可夢夥伴' : '随机宝可梦伙伴'}
+          随机宝可梦伙伴
         </h2>
         <Button
           variant="ghost"
@@ -80,7 +80,7 @@ export function RandomPokemonCard({
           className="h-8 rounded-lg gap-1.5 text-xs text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 hover:bg-red-500/5 dark:hover:bg-red-500/10 font-bold"
         >
           <ArrowsClockwiseIcon className={cn('w-4 h-4', isRandomizing && 'animate-spin')} />
-          {locale === 'zh-Hant' ? '換一隻' : '换一只'}
+          换一只
         </Button>
       </div>
 
@@ -137,13 +137,13 @@ export function RandomPokemonCard({
               <div className="grid grid-cols-2 gap-4 w-full px-4 py-3 rounded-xl bg-zinc-50/60 dark:bg-zinc-850/60 border border-zinc-200/30 dark:border-zinc-700/30 mb-5 text-left text-xs z-10 font-semibold text-zinc-500 dark:text-zinc-400">
                 <div>
                   <span className="text-[10px] text-zinc-400 dark:text-zinc-500 block mb-0.5 uppercase tracking-wider">
-                    {locale === 'zh-Hant' ? '身高' : '身高'}
+                    身高
                   </span>
                   <span className="text-zinc-800 dark:text-zinc-200 font-bold font-mono">{currentForm.height}</span>
                 </div>
                 <div>
                   <span className="text-[10px] text-zinc-400 dark:text-zinc-500 block mb-0.5 uppercase tracking-wider">
-                    {locale === 'zh-Hant' ? '體重' : '体重'}
+                    体重
                   </span>
                   <span className="text-zinc-800 dark:text-zinc-200 font-bold font-mono">{currentForm.weight}</span>
                 </div>
@@ -154,7 +154,7 @@ export function RandomPokemonCard({
             {randomPokeDetail && (
               <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-sm line-clamp-3 z-10 font-medium italic min-h-[54px]">
                 &ldquo;
-                {translateText(randomPokeDetail.description || (locale === 'zh-Hant' ? '暫無該寶可夢的圖鑑文字介紹。' : '暂无该宝可梦的图鉴文字介绍。'), locale)}
+                {translateText(randomPokeDetail.description || '暂无该宝可梦的图鉴文字介绍。', locale)}
                 &rdquo;
               </p>
             )}
@@ -167,7 +167,7 @@ export function RandomPokemonCard({
               <Button
                 className="w-full py-5 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-zinc-50 dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200 shadow-md font-bold text-sm transition-all duration-200"
               >
-                {locale === 'zh-Hant' ? '查看詳細圖鑑 →' : '查看详细图鉴 →'}
+                查看详细图鉴 →
               </Button>
             </Link>
 

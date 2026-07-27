@@ -3,11 +3,12 @@
 import type { NationalPokemon, RegionalPokedexMap } from '@/services/pokemon'
 import { FunnelIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useStaticDetailName } from '@/hooks/use-static-detail-name'
 import { translateText } from '@/lib/chinese'
 import { FILTER_LIST, POKEDEX_COLORS, POKEDEX_LIST, TYPE_COLORS } from '@/lib/constants'
 import { getTypeColor } from '@/lib/pokemon-helpers'
@@ -57,11 +58,8 @@ interface PokedexListProps {
 
 export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
   const router = useRouter()
-  const params = useParams()
   const locale = useLocale()
-
-  const rawParam = params?.name ? (Array.isArray(params.name) ? params.name[0] : params.name) : (params?.id ? (Array.isArray(params.id) ? params.id[0] : params.id) : '')
-  const activeName = rawParam ? decodeURIComponent(rawParam) : ''
+  const activeName = useStaticDetailName('pokemon')
 
   // Search and Filter States
   const [searchQuery, setSearchQuery] = React.useState('')
@@ -112,7 +110,6 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
       const matchesSearch = !q
         || pokemon.id.includes(q)
         || pokemon.name.toLowerCase().includes(q)
-        || translateText(pokemon.name, 'zh-Hant').toLowerCase().includes(q)
 
       // 2. Generation Match
       const matchesGen = selectedGen === 'all' || pokemon.gen === selectedGen
@@ -482,7 +479,7 @@ export function PokedexList({ pokemonList, regionalMap }: PokedexListProps) {
 
           {filteredList.length === 0 && (
             <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-              <span className="text-zinc-300 dark:text-zinc-700 text-4xl">🔍</span>
+              <MagnifyingGlassIcon className="w-10 h-10 text-muted-foreground/40" weight="duotone" />
               <p className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 mt-3">
                 {translateText('未找到匹配的宝可梦', locale)}
               </p>

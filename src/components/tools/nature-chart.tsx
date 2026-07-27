@@ -70,7 +70,6 @@ export function NatureChart() {
       const downLabel = nature.down ? translateText(STAT_LABELS[nature.down] || '', locale) : ''
       return (
         nature.name_zh.toLowerCase().includes(q)
-        || translateText(nature.name_zh, 'zh-Hant').toLowerCase().includes(q)
         || nature.name_en.toLowerCase().includes(q)
         || nature.name_ja.toLowerCase().includes(q)
         || upLabel.includes(q)

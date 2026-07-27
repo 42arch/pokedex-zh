@@ -211,11 +211,17 @@ async function readJsonFileWithRetry<T>(url: string, retries = 5, delay = 1000):
     try {
       const response = await fetch(url)
       if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error(`status ${response.status} ${response.statusText}`)
+        }
         throw new Error(`status ${response.status} ${response.statusText}`)
       }
       return await response.json() as T
     }
     catch (error) {
+      if (error instanceof Error && error.message.startsWith('status 404')) {
+        throw error
+      }
       if (i === retries - 1) {
         throw error
       }
@@ -252,6 +258,9 @@ let nationalPokedexCache: NationalPokemon[] | null = null
 let abilityListCache: SimpleAbility[] | null = null
 let moveListCache: SimpleMove[] | null = null
 let itemListCache: ItemNode[] | null = null
+const pokemonDetailCache = new Map<string, Promise<PokemonDetail | null>>()
+const abilityDetailCache = new Map<string, Promise<AbilityDetail | null>>()
+const moveDetailCache = new Map<string, Promise<MoveDetail | null>>()
 
 export async function getNationalPokedex(): Promise<NationalPokemon[]> {
   if (nationalPokedexCache)
@@ -338,6 +347,16 @@ export async function getRegionalPokedexMap(): Promise<RegionalPokedexMap> {
 let englishNameToIdCache: Record<string, string> | null = null
 
 export async function getPokemonDetail(index: string): Promise<PokemonDetail | null> {
+  if (pokemonDetailCache.has(index)) {
+    return pokemonDetailCache.get(index)!
+  }
+
+  const detailPromise = getPokemonDetailUncached(index)
+  pokemonDetailCache.set(index, detailPromise)
+  return detailPromise
+}
+
+async function getPokemonDetailUncached(index: string): Promise<PokemonDetail | null> {
   try {
     const list = await getNationalPokedex()
     const decoded = decodeURIComponent(index).trim()
@@ -386,8 +405,7 @@ export async function getPokemonDetail(index: string): Promise<PokemonDetail | n
 
     const baseName = pokemon.name.split('-')[0]
     const fileName = `${pokemon.id}-${baseName}.json`
-    const detail = await readJsonFile<PokemonDetail>(`pokemon/${fileName}`)
-    return detail
+    return await readJsonFile<PokemonDetail>(`pokemon/${fileName}`)
   }
   catch (error) {
     console.error(`Error loading pokemon detail for ${index}:`, error)
@@ -403,6 +421,16 @@ export async function getAbilityList(): Promise<SimpleAbility[]> {
 }
 
 export async function getAbilityDetail(name: string): Promise<AbilityDetail | null> {
+  if (abilityDetailCache.has(name)) {
+    return abilityDetailCache.get(name)!
+  }
+
+  const detailPromise = getAbilityDetailUncached(name)
+  abilityDetailCache.set(name, detailPromise)
+  return detailPromise
+}
+
+async function getAbilityDetailUncached(name: string): Promise<AbilityDetail | null> {
   try {
     const raw = await readJsonFile<any>(`abilities/${name}.json`)
 
@@ -439,6 +467,16 @@ export async function getMoveList(): Promise<SimpleMove[]> {
 }
 
 export async function getMoveDetail(name: string): Promise<MoveDetail | null> {
+  if (moveDetailCache.has(name)) {
+    return moveDetailCache.get(name)!
+  }
+
+  const detailPromise = getMoveDetailUncached(name)
+  moveDetailCache.set(name, detailPromise)
+  return detailPromise
+}
+
+async function getMoveDetailUncached(name: string): Promise<MoveDetail | null> {
   try {
     const raw = await readJsonFile<any>(`moves/${name}.json`)
 

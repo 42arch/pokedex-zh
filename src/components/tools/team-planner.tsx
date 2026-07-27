@@ -424,7 +424,6 @@ export function TeamPlanner({ pokemonList }: TeamPlannerProps) {
       return (
         pk.id.includes(q)
         || pk.name.toLowerCase().includes(q)
-        || translateText(pk.name, 'zh-Hant').toLowerCase().includes(q)
       )
     })
   }, [pokemonList, searchQuery])

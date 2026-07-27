@@ -1,10 +1,10 @@
 'use client'
 
 import type { NationalPokemon, RegionalPokedexMap } from '@/services/pokemon'
-import { useParams } from 'next/navigation'
 import * as React from 'react'
 import { PokedexList } from '@/components/pokedex-list'
 import { ResizableLayout } from '@/components/resizable-layout'
+import { useStaticDetailName } from '@/hooks/use-static-detail-name'
 
 export function PokemonLayoutClient({
   pokemonList,
@@ -15,11 +15,8 @@ export function PokemonLayoutClient({
   regionalMap: RegionalPokedexMap
   children: React.ReactNode
 }) {
-  const params = useParams()
-
-  // Resolve id param whether it is catch-all array or string
-  const activeId = params?.id ? (Array.isArray(params.id) ? params.id[0] : params.id) : ''
-  const isActiveDetail = !!activeId
+  const activeName = useStaticDetailName('pokemon')
+  const isActiveDetail = !!activeName
 
   return (
     <ResizableLayout

@@ -204,17 +204,17 @@ export const POKEMON_COLORS = {
 }
 
 export const POKEDEX_COLORS = {
-  关都: '#ffaaaa',
-  城都: '#FAE340',
-  丰缘: '#18DD39',
-  神奥: '#52A6D3',
-  合众: '#F4C0BB',
-  卡洛斯: '#E1E6E6',
-  阿罗拉: '#8AD8FB',
-  伽勒尔: '#C97DC0',
-  洗翠: '#38B48B',
-  帕底亚: '#E39091',
-  密阿雷: '#35b574',
+  关都: '#fb2c36',
+  城都: '#fe6e00',
+  丰缘: '#00a544',
+  神奥: '#3080ff',
+  合众: '#71717b',
+  卡洛斯: '#8d54ff',
+  阿罗拉: '#00b7d7',
+  伽勒尔: '#e12afb',
+  洗翠: '#00bb7f',
+  帕底亚: '#ff2357',
+  密阿雷: '#00bb7f',
 }
 
 export const STATS_COLORS = {

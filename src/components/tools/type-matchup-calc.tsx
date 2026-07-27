@@ -1,5 +1,6 @@
 'use client'
 
+import { ShieldIcon, SwordIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
 import * as React from 'react'
 import { translateText } from '@/lib/chinese'
@@ -594,7 +595,7 @@ export function TypeMatchupCalc() {
                     )
                   : (
                       <div className="text-center py-8">
-                        <span className="text-3xl">🛡️</span>
+                        <ShieldIcon className="mx-auto w-10 h-10 text-muted-foreground/45" weight="duotone" />
                         <p className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 mt-2.5">
                           {translateText('请在左侧选择防守宝可梦的属性来查看属性相克分析。', locale)}
                         </p>
@@ -698,7 +699,7 @@ export function TypeMatchupCalc() {
                     )
                   : (
                       <div className="text-center py-8">
-                        <span className="text-3xl">⚔️</span>
+                        <SwordIcon className="mx-auto w-10 h-10 text-muted-foreground/45" weight="duotone" />
                         <p className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 mt-2.5">
                           {translateText('请在左侧选择攻击招式的属性来查看属性打击效果分析。', locale)}
                         </p>

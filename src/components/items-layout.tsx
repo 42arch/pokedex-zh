@@ -3,15 +3,15 @@
 import type { ItemNode } from '@/services/pokemon'
 import { FunnelIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
-import { useParams, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useItemList } from '@/hooks/use-pokemon-queries'
+import { useStaticDetailName } from '@/hooks/use-static-detail-name'
 import { translateText } from '@/lib/chinese'
 import { ASSET_URL } from '@/lib/constants'
-import { cn, getLocalizedPath } from '@/lib/utils'
+import { cn, getLocalizedPath, navigateStaticPath } from '@/lib/utils'
 import { ResizableLayout } from './resizable-layout'
 
 export interface FlattenedItem {
@@ -94,9 +94,7 @@ export function ItemSprite({
 }
 
 export function ItemsLayout({ itemList: initialItemList, children }: ItemsLayoutProps) {
-  const router = useRouter()
   const locale = useLocale()
-  const params = useParams()
 
   const { data: fetchedItemList, isLoading } = useItemList()
   const itemList = fetchedItemList || initialItemList || []
@@ -104,7 +102,7 @@ export function ItemsLayout({ itemList: initialItemList, children }: ItemsLayout
   // Flatten once
   const allItems = React.useMemo(() => flattenItems(itemList), [itemList])
 
-  const activeName = params?.name ? (Array.isArray(params.name) ? decodeURIComponent(params.name[0]) : decodeURIComponent(params.name)) : ''
+  const activeName = useStaticDetailName('items')
   const activeItem = React.useMemo(() => {
     return allItems.find(item => item.name_zh === activeName) || null
   }, [allItems, activeName])
@@ -134,7 +132,6 @@ export function ItemsLayout({ itemList: initialItemList, children }: ItemsLayout
       const matchesSearch
         = !q
           || item.name_zh.toLowerCase().includes(q)
-          || translateText(item.name_zh, 'zh-Hant').toLowerCase().includes(q)
           || item.name_ja.toLowerCase().includes(q)
           || item.name_en.toLowerCase().includes(q)
           || (Array.isArray(item.description)
@@ -148,7 +145,7 @@ export function ItemsLayout({ itemList: initialItemList, children }: ItemsLayout
   }, [allItems, searchQuery, selectedCategory])
 
   const handleSelect = (name: string) => {
-    router.push(getLocalizedPath(`/items/${encodeURIComponent(name)}`, locale))
+    navigateStaticPath(getLocalizedPath(`/items/${encodeURIComponent(name)}`, locale))
   }
 
   const resetFilters = () => {

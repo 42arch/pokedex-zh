@@ -3,15 +3,15 @@
 import type { SimpleMove } from '@/services/pokemon'
 import { FunnelIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
-import { useParams, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useMoveList } from '@/hooks/use-pokemon-queries'
+import { useStaticDetailName } from '@/hooks/use-static-detail-name'
 import { translateText } from '@/lib/chinese'
 import { getTypeColor } from '@/lib/pokemon-helpers'
-import { cn, getLocalizedPath } from '@/lib/utils'
+import { cn, getLocalizedPath, navigateStaticPath } from '@/lib/utils'
 import { ResizableLayout } from './resizable-layout'
 
 import { CategoryBadge, TypeBadge } from './type-badge'
@@ -44,14 +44,12 @@ interface MovesLayoutProps {
 }
 
 export function MovesLayout({ moveList: initialMoveList, children }: MovesLayoutProps) {
-  const router = useRouter()
   const locale = useLocale()
-  const params = useParams()
 
   const { data: fetchedMoveList, isLoading } = useMoveList()
   const moveList = fetchedMoveList || initialMoveList || []
 
-  const activeName = params?.name ? (Array.isArray(params.name) ? decodeURIComponent(params.name[0]) : decodeURIComponent(params.name)) : ''
+  const activeName = useStaticDetailName('moves')
   const isActiveDetail = !!activeName
 
   // Filters
@@ -66,7 +64,6 @@ export function MovesLayout({ moveList: initialMoveList, children }: MovesLayout
       const q = searchQuery.toLowerCase().trim()
       const matchesSearch = !q
         || move.name_zh.toLowerCase().includes(q)
-        || translateText(move.name_zh, 'zh-Hant').toLowerCase().includes(q)
         || move.name_jp.toLowerCase().includes(q)
         || move.name_en.toLowerCase().includes(q)
         || move.id.includes(q)
@@ -79,7 +76,7 @@ export function MovesLayout({ moveList: initialMoveList, children }: MovesLayout
   }, [moveList, searchQuery, selectedType, selectedCategory])
 
   const handleSelect = (name: string) => {
-    router.push(getLocalizedPath(`/moves/${encodeURIComponent(name)}`, locale))
+    navigateStaticPath(getLocalizedPath(`/moves/${encodeURIComponent(name)}`, locale))
   }
 
   const resetFilters = () => {
@@ -304,7 +301,7 @@ export function MovesLayout({ moveList: initialMoveList, children }: MovesLayout
 
               {!isLoading && filteredMoves.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-                  <span className="text-zinc-300 dark:text-zinc-700 text-4xl">🔍</span>
+                  <MagnifyingGlassIcon className="w-10 h-10 text-muted-foreground/40" weight="duotone" />
                   <p className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 mt-3">
                     {translateText('未找到匹配的招式', locale)}
                   </p>

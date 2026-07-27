@@ -9,13 +9,9 @@ import { ItemSprite } from './items-layout'
 export function ItemDetailView({
   activeItem,
   locale,
-  setSelectedCategory,
-  setShowFilters,
 }: {
   activeItem: FlattenedItem
   locale: string
-  setSelectedCategory?: (cat: string) => void
-  setShowFilters?: (show: boolean) => void
 }) {
   return (
     <div className="relative h-full flex flex-col">
@@ -58,17 +54,9 @@ export function ItemDetailView({
                   const isLast = index === activeItem.categoryPath.length - 1
                   return (
                     <span key={pathName} className="flex items-center gap-1">
-                      <button
-                        onClick={() => {
-                          if (setSelectedCategory)
-                            setSelectedCategory(pathName)
-                          if (setShowFilters)
-                            setShowFilters(true)
-                        }}
-                        className="hover:underline hover:text-red-500 transition-colors cursor-pointer"
-                      >
+                      <span>
                         {translateText(pathName, locale)}
-                      </button>
+                      </span>
                       {!isLast && <span className="opacity-50">&gt;</span>}
                     </span>
                   )

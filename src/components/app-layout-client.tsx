@@ -1,7 +1,6 @@
 'use client'
 
-import { XIcon } from '@phosphor-icons/react'
-import { useLocale } from 'next-intl'
+import { MegaphoneIcon, XIcon } from '@phosphor-icons/react'
 import * as React from 'react'
 import { useDefaultLayout } from 'react-resizable-panels'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -17,7 +16,6 @@ function AppLayoutClientInner({ children, mobileHeader }: AppLayoutClientProps) 
   const [isCollapsed, setIsCollapsed] = React.useState(false)
   const [showBanner, setShowBanner] = React.useState(false)
   const [isModalOpen, setIsModalOpen] = React.useState(false)
-  const locale = useLocale()
 
   const { defaultLayout, onLayoutChanged } = useDefaultLayout({
     id: 'pokedex-sidebar',
@@ -30,9 +28,7 @@ function AppLayoutClientInner({ children, mobileHeader }: AppLayoutClientProps) 
     }
   }, [])
 
-  const announcementText = locale === 'zh-Hant'
-    ? '🎉 寶可夢中文圖鑑微信小程序「訓練家口袋圖鑑」現已上線！歡迎掃碼訪問或微信搜索訪問，功能更全，更新更及時！'
-    : '🎉 宝可梦中文图鉴微信小程序“训练家口袋图鉴”现已上线！欢迎扫码访问或微信搜索访问，功能更全，更新更及时！'
+  const announcementText = '宝可梦中文图鉴微信小程序“训练家口袋图鉴”现已上线！欢迎扫码访问或微信搜索访问，功能更全，更新更及时！'
 
   return (
     <div className="flex flex-col h-screen w-full overflow-hidden">
@@ -57,8 +53,9 @@ function AppLayoutClientInner({ children, mobileHeader }: AppLayoutClientProps) 
 
           <div
             onClick={() => setIsModalOpen(true)}
-            className="flex-1 overflow-hidden flex items-center pr-10 cursor-pointer"
+            className="flex-1 overflow-hidden flex items-center gap-2 pr-10 cursor-pointer"
           >
+            <MegaphoneIcon className="w-4 h-4 shrink-0" weight="fill" />
             <span className="animate-marquee-scroll font-medium tracking-wide">
               {announcementText}
             </span>
@@ -80,16 +77,16 @@ function AppLayoutClientInner({ children, mobileHeader }: AppLayoutClientProps) 
 
       {/* WeChat Mini Program Info Modal */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="max-w-xs sm:max-w-md bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md border border-zinc-200/80 dark:border-zinc-800/80 rounded-3xl shadow-xl overflow-hidden p-6 flex flex-col items-center text-center">
+        <DialogContent className="max-w-xs sm:max-w-md bg-card/95 backdrop-blur-md border border-border/80 rounded-2xl shadow-xl overflow-hidden p-6 flex flex-col items-center text-center">
           <DialogHeader className="w-full flex flex-col items-center gap-2">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-bold border border-emerald-500/20 shadow-sm">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               微信小程序版现已上线
             </div>
-            <DialogTitle className="text-lg font-extrabold text-zinc-900 dark:text-zinc-50 tracking-tight mt-2">
+            <DialogTitle className="text-lg font-extrabold text-card-foreground tracking-tight mt-2">
               训练家口袋图鉴
             </DialogTitle>
-            <DialogDescription className="text-xs text-zinc-500 dark:text-zinc-400 font-semibold max-w-xs mt-1">
+            <DialogDescription className="text-xs text-muted-foreground font-semibold max-w-xs mt-1">
               宝可梦中文图鉴微信小程序版，功能更全，更新更及时！
             </DialogDescription>
           </DialogHeader>
@@ -97,7 +94,7 @@ function AppLayoutClientInner({ children, mobileHeader }: AppLayoutClientProps) 
           {/* QR Code Container with Glowing Gradient */}
           <div className="relative group my-5 shrink-0 select-none">
             <div className="absolute -inset-1.5 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-3xl blur-md opacity-30 group-hover:opacity-45 transition duration-300 animate-pulse-slow" />
-            <div className="relative bg-white p-3 rounded-3xl shadow-md border border-zinc-200/50 hover:scale-[1.02] transition-transform duration-300">
+            <div className="relative bg-white p-3 rounded-2xl shadow-md border border-zinc-200/50 hover:scale-[1.02] transition-transform duration-300">
               <img
                 src="/images/wechat-qrcode.png"
                 alt="WeChat Mini Program QR Code"
@@ -107,23 +104,23 @@ function AppLayoutClientInner({ children, mobileHeader }: AppLayoutClientProps) 
           </div>
 
           {/* Prompt Instructions */}
-          <div className="w-full space-y-3.5 text-sm font-semibold text-zinc-650 dark:text-zinc-350">
-            <div className="p-3.5 rounded-2xl bg-zinc-50/50 dark:bg-zinc-850/50 border border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-1.5 text-left">
-              <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wider">
-                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-200 dark:bg-zinc-800 text-[9px] font-bold">1</span>
+          <div className="w-full space-y-3.5 text-sm font-semibold text-card-foreground">
+            <div className="p-3.5 rounded-2xl bg-muted/50 border border-border/50 flex flex-col gap-1.5 text-left">
+              <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-secondary text-[9px] font-bold">1</span>
                 <span>扫码方式</span>
               </div>
-              <p className="text-[11px] leading-relaxed text-zinc-600 dark:text-zinc-400">
+              <p className="text-[11px] leading-relaxed text-muted-foreground">
                 微信扫描上方小程序码，或保存二维码图片到相册后，在微信中“扫一扫”选择相册图片即可直接进入。
               </p>
             </div>
 
-            <div className="p-3.5 rounded-2xl bg-zinc-50/50 dark:bg-zinc-850/50 border border-zinc-100 dark:border-zinc-800/50 flex flex-col gap-1.5 text-left">
-              <div className="flex items-center gap-2 text-[10px] font-bold text-zinc-450 dark:text-zinc-500 uppercase tracking-wider">
-                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-200 dark:bg-zinc-800 text-[9px] font-bold">2</span>
+            <div className="p-3.5 rounded-2xl bg-muted/50 border border-border/50 flex flex-col gap-1.5 text-left">
+              <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
+                <span className="flex items-center justify-center w-4 h-4 rounded-full bg-secondary text-[9px] font-bold">2</span>
                 <span>搜索方式</span>
               </div>
-              <p className="text-[11px] leading-relaxed text-zinc-600 dark:text-zinc-400">
+              <p className="text-[11px] leading-relaxed text-muted-foreground">
                 微信搜索输入
                 <span className="text-emerald-600 dark:text-emerald-400 font-extrabold mx-1">
                   “训练家口袋图鉴”
@@ -190,7 +187,7 @@ export function AppLayoutClient({ children, mobileHeader }: AppLayoutClientProps
     return (
       <div className="flex flex-col md:flex-row h-screen w-full overflow-hidden">
         {/* Desktop Sidebar fallback */}
-        <aside className="hidden md:flex flex-col w-64 h-full border-r border-zinc-200/50 dark:border-zinc-800/50 bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md">
+        <aside className="hidden md:flex flex-col w-64 h-full border-r border-sidebar-border bg-sidebar/90 backdrop-blur-md">
           <SidebarNav isCollapsed={false} />
         </aside>
 

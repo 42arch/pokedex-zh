@@ -3,14 +3,14 @@
 import type { SimpleAbility } from '@/services/pokemon'
 import { FunnelIcon, MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
-import { useParams, useRouter } from 'next/navigation'
 import * as React from 'react'
 import { Button } from '@/components/ui/button'
 import { Input as UiInput } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useAbilityList } from '@/hooks/use-pokemon-queries'
+import { useStaticDetailName } from '@/hooks/use-static-detail-name'
 import { translateText } from '@/lib/chinese'
-import { cn, getLocalizedPath } from '@/lib/utils'
+import { cn, getLocalizedPath, navigateStaticPath } from '@/lib/utils'
 import { ResizableLayout } from './resizable-layout'
 
 interface AbilitiesLayoutProps {
@@ -19,14 +19,12 @@ interface AbilitiesLayoutProps {
 }
 
 export function AbilitiesLayout({ abilityList: initialAbilityList, children }: AbilitiesLayoutProps) {
-  const router = useRouter()
   const locale = useLocale()
-  const params = useParams()
 
   const { data: fetchedAbilityList, isLoading } = useAbilityList()
   const abilityList = fetchedAbilityList || initialAbilityList || []
 
-  const activeName = params?.name ? (Array.isArray(params.name) ? decodeURIComponent(params.name[0]) : decodeURIComponent(params.name)) : ''
+  const activeName = useStaticDetailName('abilities')
   const isActiveDetail = !!activeName
 
   // States
@@ -40,7 +38,6 @@ export function AbilitiesLayout({ abilityList: initialAbilityList, children }: A
       const q = searchQuery.toLowerCase().trim()
       const matchesSearch = !q
         || ability.name_zh.toLowerCase().includes(q)
-        || translateText(ability.name_zh, 'zh-Hant').toLowerCase().includes(q)
         || ability.name_ja.toLowerCase().includes(q)
         || ability.name_en.toLowerCase().includes(q)
         || ability.id.includes(q)
@@ -52,7 +49,7 @@ export function AbilitiesLayout({ abilityList: initialAbilityList, children }: A
   }, [abilityList, searchQuery, selectedGen])
 
   const handleSelect = (name: string) => {
-    router.push(getLocalizedPath(`/abilities/${encodeURIComponent(name)}`, locale))
+    navigateStaticPath(getLocalizedPath(`/abilities/${encodeURIComponent(name)}`, locale))
   }
 
   const resetFilters = () => {
@@ -234,7 +231,7 @@ export function AbilitiesLayout({ abilityList: initialAbilityList, children }: A
 
               {!isLoading && filteredAbilities.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-12 px-4 text-center">
-                  <span className="text-zinc-300 dark:text-zinc-700 text-4xl">🔍</span>
+                  <MagnifyingGlassIcon className="w-10 h-10 text-muted-foreground/40" weight="duotone" />
                   <p className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 mt-3">
                     {translateText('未找到匹配的特性', locale)}
                   </p>

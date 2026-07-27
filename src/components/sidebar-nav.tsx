@@ -65,9 +65,11 @@ export function SidebarLinks({ onItemClick, isCollapsed }: { onItemClick?: () =>
       <nav className={cn('space-y-1.5 px-3 py-4 flex-1', isCollapsed && 'px-1.5')}>
         {navItems.map((item) => {
           const normalizePath = (p: string) => p.replace(/\/$/, '') || '/'
+          const currentPath = normalizePath(pathname.replace(new RegExp(`^/${locale}(?=/|$)`), '') || '/')
+          const itemPath = normalizePath(item.href.replace(new RegExp(`^/${locale}(?=/|$)`), '') || '/')
           const isActive = item.href === getHref('/')
-            ? normalizePath(pathname) === normalizePath(item.href)
-            : pathname.startsWith(item.href)
+            ? currentPath === itemPath
+            : currentPath === itemPath || currentPath.startsWith(`${itemPath}/`)
           const Icon = item.icon
 
           const linkContent = (
@@ -76,23 +78,33 @@ export function SidebarLinks({ onItemClick, isCollapsed }: { onItemClick?: () =>
               href={item.href}
               onClick={onItemClick}
               className={cn(
-                'flex items-center rounded-2xl text-sm font-semibold transition-all duration-200 group relative',
+                'flex items-center rounded-xl text-sm font-semibold transition-all duration-200 group relative overflow-hidden border border-transparent',
                 isCollapsed ? 'justify-center w-11 h-11 p-0 mx-auto' : 'gap-3.5 px-4 py-3',
                 isActive
-                  ? 'bg-red-500 text-red-foreground shadow-md shadow-red-500/15'
-                  : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900/60 hover:text-zinc-900 dark:hover:text-zinc-100',
+                  ? 'bg-sidebar-accent/80 text-sidebar-accent-foreground border-sidebar-border shadow-sm'
+                  : 'text-sidebar-foreground/65 hover:bg-sidebar-accent/55 hover:text-sidebar-accent-foreground hover:border-sidebar-border/70',
               )}
             >
+              {isActive && (
+                <span
+                  className={cn(
+                    'absolute bg-red-500',
+                    isCollapsed
+                      ? 'bottom-1.5 left-1/2 h-1 w-4 -translate-x-1/2 rounded-full'
+                      : 'left-0 top-2 bottom-2 w-1 rounded-r-full',
+                  )}
+                />
+              )}
               <Icon
                 className={cn(
                   'w-5 h-5 transition-transform duration-200 group-hover:scale-110',
-                  isActive ? 'text-red-foreground' : 'text-zinc-400 group-hover:text-zinc-600 dark:group-hover:text-zinc-300',
+                  isActive ? 'text-red-500' : 'text-sidebar-foreground/45 group-hover:text-sidebar-accent-foreground',
                 )}
                 weight={isActive ? 'fill' : 'regular'}
               />
               {!isCollapsed && <span>{item.name}</span>}
               {!isCollapsed && isActive && (
-                <span className="absolute right-4 w-1.5 h-1.5 rounded-full bg-zinc-50 dark:bg-zinc-900 animate-pulse" />
+                <span className="absolute right-4 w-1.5 h-1.5 rounded-full bg-red-500" />
               )}
             </Link>
           )
@@ -121,7 +133,7 @@ export function SidebarNav({ isCollapsed }: { isCollapsed?: boolean }) {
   const locale = useLocale()
   return (
     <aside className={cn(
-      'flex flex-col h-full w-full bg-white/70 dark:bg-zinc-950/70 backdrop-blur-md z-30 transition-all duration-300',
+      'flex flex-col h-full w-full bg-sidebar/90 text-sidebar-foreground backdrop-blur-md z-30 transition-all duration-300',
     )}
     >
       {/* Brand Header */}
@@ -129,15 +141,15 @@ export function SidebarNav({ isCollapsed }: { isCollapsed?: boolean }) {
         prefetch={false}
         href={getLocalizedPath('/', locale)}
         className={cn(
-          'h-16 flex items-center border-b border-zinc-200/50 dark:border-zinc-800/50 hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30 transition-all duration-200',
+          'h-16 flex items-center border-b border-sidebar-border hover:bg-sidebar-accent/70 transition-all duration-200',
           isCollapsed ? 'justify-center w-full' : 'gap-3 px-6 w-full',
         )}
       >
-        <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-red-500/10 dark:bg-red-500/20 text-red-500 shadow-sm animate-pulse-slow">
+        <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-red-500/10 dark:bg-red-500/15 text-red-500 shadow-sm">
           <PokeballIcon className="w-5 h-5" />
         </div>
         {!isCollapsed && (
-          <span className="font-bold text-lg tracking-tight bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-zinc-50 dark:to-zinc-400 bg-clip-text text-transparent">
+          <span className="font-bold text-lg tracking-tight text-sidebar-foreground">
             宝可梦图鉴
           </span>
         )}
@@ -148,13 +160,13 @@ export function SidebarNav({ isCollapsed }: { isCollapsed?: boolean }) {
 
       {/* Footer Controls */}
       <div className={cn(
-        'p-4 border-t border-zinc-200/50 dark:border-zinc-800/50 flex flex-col gap-3',
+        'p-4 border-t border-sidebar-border flex flex-col gap-3',
         isCollapsed ? 'items-center px-2' : 'flex-row items-center justify-between',
       )}
       >
         <SettingsDialog />
         {!isCollapsed && (
-          <span className="text-[10px] text-zinc-400 dark:text-zinc-500 font-mono font-medium">
+          <span className="text-[10px] text-sidebar-foreground/45 font-mono font-medium">
             v1.0.0
           </span>
         )}

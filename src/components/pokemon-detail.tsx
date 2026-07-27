@@ -1,6 +1,7 @@
 'use client'
 
 import type { PokemonDetail } from '@/services/pokemon'
+import { WarningCircleIcon } from '@phosphor-icons/react'
 import { useLocale } from 'next-intl'
 import * as React from 'react'
 import { usePokemonDetail } from '@/hooks/use-pokemon-queries'
@@ -40,7 +41,7 @@ export function PokemonDetailQueryView({ activeId }: { activeId: string }) {
   if (!detail) {
     return (
       <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-        <span className="text-zinc-300 dark:text-zinc-700 text-5xl">⚠️</span>
+        <WarningCircleIcon className="w-12 h-12 text-muted-foreground/45" weight="duotone" />
         <p className="text-sm font-semibold text-zinc-400 dark:text-zinc-500 mt-4">
           {translateText('未找到该宝可梦的详细资料', locale)}
         </p>
